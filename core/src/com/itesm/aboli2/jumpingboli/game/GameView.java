@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.itesm.aboli2.jumpingboli.Boli;
+import com.itesm.aboli2.jumpingboli.EstadoBoli;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
 import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
@@ -17,6 +18,10 @@ import com.itesm.aboli2.jumpingboli.menu.MenuView;
 public class GameView extends Pantalla {
 
   private Stage gameStage;
+
+  private int speedCamera = 2;
+
+  //Boli
   private Boli boli;
 
 
@@ -43,12 +48,18 @@ public class GameView extends Pantalla {
   @Override
   public void render(float delta) {
     cleanScreen();
+    moverCamara();
     batch.setProjectionMatrix(camera.combined);
     batch.begin();
     batch.draw(new Texture("fondos/Nivel1.jpeg"), 0, 0);
     boli.render(batch);
     batch.end();
     gameStage.draw();
+  }
+
+  private void moverCamara() {
+
+    camera.position.x = camera.position.x + speedCamera;
   }
 
   @Override
@@ -68,6 +79,17 @@ public class GameView extends Pantalla {
   private class  ProcesadorEntrada implements InputProcessor {
 
     @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+      Vector3 v = new Vector3(screenX, screenY, 0);
+      camera.unproject(v);
+
+      if (v.x<=ANCHO_PANTALLA/2 && boli.getEstado() == EstadoBoli.RODANDO) {
+        boli.saltar();
+      }
+      return true;    //////////////////////  **********   ///////////////////
+    }
+
+    @Override
     public boolean keyDown(int keycode) {
       return false;
     }
@@ -82,18 +104,7 @@ public class GameView extends Pantalla {
       return false;
     }
 
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-      Vector3 v = new Vector3(screenX, screenY, 0);
-      camera.unproject(v);
 
-      if (v.x<=ANCHO_PANTALLA/2) {
-        boli.moverIzquierda();
-      } else {
-        boli.moverDerecha();
-      }
-      return true;    //////////////////////  **********   ///////////////////
-    }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
