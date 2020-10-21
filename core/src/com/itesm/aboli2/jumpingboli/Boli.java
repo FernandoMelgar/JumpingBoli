@@ -44,7 +44,6 @@ public class Boli extends GameObject {
     float delta  = Gdx.graphics.getDeltaTime();
 
     if(estado == EstadoBoli.SALTANDO){
-      Gdx.app.log("SALTA", "tAire:" + tAire);
       tAire += delta;
       float y = yBase + V0*tAire - 0.5f*G*tAire*tAire;
       sprite.setY(y);

@@ -2,6 +2,8 @@ package com.itesm.aboli2.jumpingboli.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -24,6 +26,12 @@ public class GameView extends Pantalla {
   //Boli
   private Boli boli;
 
+  //Fondo
+  private Texture texturaFondo;
+
+  // musica
+  private Music musicaFondo;
+
 
   public GameView(GdXGame game) {
     super(game);
@@ -32,6 +40,8 @@ public class GameView extends Pantalla {
 
   @Override
   public void show() {
+    crearFondo();
+    crearAudio();
     gameStage = new Stage(super.viewport);
     gameStage.addActor(ButtonFactory.getReturnBtn(game, new MenuView(game)));
     boli = new Boli(new Texture("characters/Boli_50.png"), 200,200);
@@ -45,13 +55,28 @@ public class GameView extends Pantalla {
 
   }
 
+  private void crearAudio() {
+    AssetManager manager = new AssetManager();
+    manager.load("music/MusicaFondoNivel1.mp3", Music.class);
+    manager.finishLoading(); //Espera
+    musicaFondo = manager.get("music/MusicaFondoNivel1.mp3");
+    musicaFondo.setVolume(0.1f);
+    musicaFondo.setLooping(true);
+    musicaFondo.play();
+  }
+
+  private void crearFondo() {
+    texturaFondo = new Texture("fondos/Nivel1.jpeg");
+  }
+
   @Override
   public void render(float delta) {
     cleanScreen();
     moverCamara();
     batch.setProjectionMatrix(camera.combined);
+
     batch.begin();
-    batch.draw(new Texture("fondos/Nivel1.jpeg"), 0, 0);
+    batch.draw(texturaFondo, 0, 0);
     boli.render(batch);
     batch.end();
     gameStage.draw();
@@ -60,6 +85,7 @@ public class GameView extends Pantalla {
   private void moverCamara() {
 
     camera.position.x = camera.position.x + speedCamera;
+    camera.update();
   }
 
   @Override
@@ -83,7 +109,7 @@ public class GameView extends Pantalla {
       Vector3 v = new Vector3(screenX, screenY, 0);
       camera.unproject(v);
 
-      if (v.x<=ANCHO_PANTALLA/2 && boli.getEstado() == EstadoBoli.RODANDO) {
+      if (v.x<=ANCHO_PANTALLA/2 + camera.position.x && boli.getEstado() == EstadoBoli.RODANDO) {
         boli.saltar();
       }
       return true;    //////////////////////  **********   ///////////////////
