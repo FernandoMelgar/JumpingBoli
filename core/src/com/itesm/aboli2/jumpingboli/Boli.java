@@ -8,13 +8,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class Boli extends GameObject {
 
   private float yBase;
-  private final float V0 = 600;
-  private final float G = 1000;
+  private final float V0 = 850;
+  private final float G = 2000;
   private float tVuelo;
   private float tAire; // tiempo de simulacion < tvuelo
   private EstadoBoli estado;
   private EstadoBuff estadoBuff;
-  private float DX = 2;
+  private float DX = 4.5f;
 
   public Boli(Texture textura, float x, float y) {
     super(textura, x, y);
@@ -25,6 +25,10 @@ public class Boli extends GameObject {
 
   private void actualizar(){
     sprite.setX(sprite.getX() + DX);
+  }
+
+  public float getDX(){
+    return DX;
   }
 
 

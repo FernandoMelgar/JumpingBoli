@@ -42,7 +42,6 @@ public class GameView extends Pantalla {
     super(game);
   }
 
-
   @Override
   public void show() {
     crearAudio();
@@ -100,7 +99,7 @@ public class GameView extends Pantalla {
 
   private void moverCamara() {
 
-    camera.position.x = camera.position.x + speedCamera;
+    camera.position.x = camera.position.x + boli.getDX();
     camera.update();
   }
 
