@@ -3,8 +3,12 @@ package com.itesm.aboli2.jumpingboli.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -26,8 +30,9 @@ public class GameView extends Pantalla {
   //Boli
   private Boli boli;
 
-  //Fondo
-  private Texture texturaFondo;
+  //Mapa
+  private TiledMap mapa;
+  private OrthogonalTiledMapRenderer rendererMapa;
 
   // musica
   private Music musicaFondo;
@@ -40,8 +45,8 @@ public class GameView extends Pantalla {
 
   @Override
   public void show() {
-    crearFondo();
     crearAudio();
+    crearMapa();
     gameStage = new Stage(super.viewport);
     gameStage.addActor(ButtonFactory.getReturnBtn(game, new MenuView(game)));
     boli = new Boli(new Texture("characters/Boli_50.png"), 200,200);
@@ -55,6 +60,16 @@ public class GameView extends Pantalla {
 
   }
 
+  private void crearMapa() {
+    AssetManager manager = new AssetManager();
+    manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+    manager.load("mapas/NivelUno.tmx", TiledMap.class);
+    manager.finishLoading();
+    mapa = manager.get("mapas/NivelUno.tmx");
+    rendererMapa = new OrthogonalTiledMapRenderer(mapa);
+
+  }
+
   private void crearAudio() {
     AssetManager manager = new AssetManager();
     manager.load("music/MusicaFondoNivel1.mp3", Music.class);
@@ -65,9 +80,6 @@ public class GameView extends Pantalla {
     musicaFondo.play();
   }
 
-  private void crearFondo() {
-    texturaFondo = new Texture("fondos/Nivel1.jpeg");
-  }
 
   @Override
   public void render(float delta) {
@@ -75,10 +87,13 @@ public class GameView extends Pantalla {
     moverCamara();
     batch.setProjectionMatrix(camera.combined);
 
+    rendererMapa.setView(camera);
+    rendererMapa.render();
+
     batch.begin();
-    batch.draw(texturaFondo, 0, 0);
     boli.render(batch);
     batch.end();
+
     gameStage.draw();
   }
 
