@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -12,6 +13,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.itesm.aboli2.jumpingboli.Boli;
 import com.itesm.aboli2.jumpingboli.EstadoBoli;
 import com.itesm.aboli2.jumpingboli.GdXGame;
@@ -19,7 +22,6 @@ import com.itesm.aboli2.jumpingboli.Pantalla;
 import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
 import com.itesm.aboli2.jumpingboli.menu.MenuView;
-
 
 public class GameView extends Pantalla {
 
@@ -34,8 +36,18 @@ public class GameView extends Pantalla {
   private TiledMap mapa;
   private OrthogonalTiledMapRenderer rendererMapa;
 
+  //Cámara/vista HUD.
+  private OrthographicCamera camaraHUD;
+  private Viewport vistaHUD;
+
   // musica
   private Music musicaFondo;
+
+  //Manager
+  private AssetManager manager;
+
+  //Inicia el juego
+  private EstadoJuego estado = EstadoJuego.JUGANDO;
 
 
   public GameView(GdXGame game) {
@@ -44,24 +56,38 @@ public class GameView extends Pantalla {
 
   @Override
   public void show() {
+    manager = new AssetManager();
     crearAudio();
     crearMapa();
+    crearHUD();
+    crearBoli();
+
     gameStage = new Stage(super.viewport);
     gameStage.addActor(ButtonFactory.getReturnBtn(game, new MenuView(game)));
     boli = new Boli(new Texture("characters/Boli_50.png"), 200,200);
 
-
+    /*
     ImageButton btnAjustes = new GameButton("buttons/ajustes.png");
     btnAjustes.setPosition(ANCHO_PANTALLA - btnAjustes.getWidth() * 1.5f, ALTO_PANTALLA - btnAjustes.getHeight() * 1.5f);
-    gameStage.addActor(btnAjustes);
+    gameStage.addActor(btnAjustes);*/
 
     Gdx.input.setInputProcessor(new ProcesadorEntrada());
 
   }
 
+  private void crearBoli() {
+
+  }
+
+  private void crearHUD() {
+    camaraHUD = new OrthographicCamera(ANCHO_PANTALLA, ALTO_PANTALLA);
+    camaraHUD.position.set(ANCHO_PANTALLA/2, ALTO_PANTALLA/2, 0);
+    camaraHUD.update();
+    vistaHUD = new StretchViewport(ANCHO_PANTALLA, ALTO_PANTALLA, camaraHUD);
+  }
+
   private void crearMapa() {
-    //Se crea el asset manager para manejar el mapa...
-    AssetManager manager = new AssetManager();
+    //Se crea el asset manager para manejar el mapa.
     manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
     manager.load("mapas/NivelUno.tmx", TiledMap.class);
     manager.finishLoading();
@@ -71,7 +97,6 @@ public class GameView extends Pantalla {
   }
 
   private void crearAudio() {
-    AssetManager manager = new AssetManager();
     manager.load("music/MusicaFondoNivel1.mp3", Music.class);
     manager.finishLoading(); //Espera
     musicaFondo = manager.get("music/MusicaFondoNivel1.mp3");
@@ -98,7 +123,6 @@ public class GameView extends Pantalla {
   }
 
   private void moverCamara() {
-
     camera.position.x = camera.position.x + boli.getDX();
     camera.update();
   }
@@ -117,15 +141,17 @@ public class GameView extends Pantalla {
   public void dispose() {
   }
 
-  private class  ProcesadorEntrada implements InputProcessor {
+  class  ProcesadorEntrada implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
       Vector3 v = new Vector3(screenX, screenY, 0);
-      camera.unproject(v);
+      camaraHUD.unproject(v);
 
-      if (v.x<=ANCHO_PANTALLA/2 + camera.position.x && boli.getEstado() == EstadoBoli.RODANDO) {
-        boli.saltar();
+      if(estado == EstadoJuego.JUGANDO){
+        if (v.x<=ANCHO_PANTALLA/2 + camera.position.x && boli.getEstado() == EstadoBoli.RODANDO) {
+          boli.saltar();
+        }
       }
       return true;    //////////////////////  **********   ///////////////////
     }
@@ -144,8 +170,6 @@ public class GameView extends Pantalla {
     public boolean keyTyped(char character) {
       return false;
     }
-
-
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
@@ -166,6 +190,13 @@ public class GameView extends Pantalla {
     public boolean scrolled(int amount) {
       return false;
     }
+  }
+
+  private enum EstadoJuego{
+    JUGANDO,
+    PAUSADO,
+    INICIANDO,
+    TERMINADO
   }
 
 }
