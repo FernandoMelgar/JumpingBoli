@@ -2,15 +2,23 @@ package com.itesm.aboli2.jumpingboli.configuration;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
-import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
 import com.itesm.aboli2.jumpingboli.menu.MenuView;
 
 public class ConfigurationView extends Pantalla {
 
-  private Stage stage;
+  //Fondo
+  private Texture texturaFondo;
+
+  private Stage configurationStage;
 
   public ConfigurationView(GdXGame game) {
     super(game);
@@ -19,9 +27,33 @@ public class ConfigurationView extends Pantalla {
 
   @Override
   public void show() {
-    stage = new Stage(super.viewport);
-    stage.addActor(ButtonFactory.getReturnBtn(game, new MenuView(game)));
-    Gdx.input.setInputProcessor(stage);
+    configurationStage = new Stage(super.viewport);
+    texturaFondo = new Texture("fondos/fondoExtra.png");
+    createConfigView();
+    Gdx.input.setInputProcessor(configurationStage);
+  }
+
+  private void createConfigView() {
+    createBackBtn();
+  }
+
+  private void createBackBtn() {
+    //Botón back
+    Texture texturaBtnBack = new Texture("buttons/btnBack.png");
+    TextureRegionDrawable trdBtnBack = new TextureRegionDrawable(new TextureRegion(texturaBtnBack));
+    //Botón cómo back picado
+    Texture btnBackPicado = new Texture("buttons/btnBackPicado.png");
+    TextureRegionDrawable trdBtnBackPicado = new TextureRegionDrawable(new TextureRegion(btnBackPicado));
+    ImageButton btnBack = new ImageButton(trdBtnBack, trdBtnBackPicado);
+    btnBack.setPosition(ANCHO_PANTALLA*0.10f, ALTO_PANTALLA*0.88f, Align.center);
+    //Acción botón
+    btnBack.addListener(new ClickListener() {
+      public void clicked(InputEvent event, float x, float y){
+        super.clicked(event, x, y);
+        game.setScreen(new MenuView(game));
+      }
+    });
+    configurationStage.addActor(btnBack);
   }
 
   @Override
@@ -30,10 +62,10 @@ public class ConfigurationView extends Pantalla {
     batch.setProjectionMatrix(camera.combined);
 
     batch.begin();
-    batch.draw(new Texture("fondos/PrototipoAjustes.png"), 0, 0);
+    batch.draw(texturaFondo, 0, 0);
     batch.end();
 
-    stage.draw();
+    configurationStage.draw();
   }
 
   @Override
@@ -48,6 +80,7 @@ public class ConfigurationView extends Pantalla {
 
   @Override
   public void dispose() {
-
+    texturaFondo.dispose();
+    batch.dispose();
   }
 }

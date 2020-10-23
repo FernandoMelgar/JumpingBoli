@@ -11,9 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
-import com.itesm.aboli2.jumpingboli.SkinsView;
+import com.itesm.aboli2.jumpingboli.howTo.howToView;
+import com.itesm.aboli2.jumpingboli.skins.SkinsView;
 import com.itesm.aboli2.jumpingboli.about.AboutView;
-import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
 import com.itesm.aboli2.jumpingboli.configuration.ConfigurationView;
 import com.itesm.aboli2.jumpingboli.game.GameView;
@@ -58,33 +58,33 @@ public class MenuView extends Pantalla {
   private void crearBtnAjustes() {
     //Botón ajustes
     Texture texturaBtnAjustes = new Texture("buttons/btnAjustes.png");
-    TextureRegionDrawable trdBtnJugar = new TextureRegionDrawable(new TextureRegion(texturaBtnAjustes));
-    ImageButton btnComo = new ImageButton(trdBtnJugar);
-    btnComo.setPosition(ANCHO_PANTALLA*0.95f, ALTO_PANTALLA*0.90f, Align.center);
+    TextureRegionDrawable trdBtnAjustes = new TextureRegionDrawable(new TextureRegion(texturaBtnAjustes));
+    ImageButton btnAjustes = new ImageButton(trdBtnAjustes);
+    btnAjustes.setPosition(ANCHO_PANTALLA*0.95f, ALTO_PANTALLA*0.90f, Align.center);
     //Acción botón
-    btnComo.addListener(new ClickListener() {
+    btnAjustes.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
         game.setScreen(new ConfigurationView(game));
       }
     });
-    menuStage.addActor(btnComo);
+    menuStage.addActor(btnAjustes);
   }
 
   private void crearBtnComo() {
     //Botón cómo jugar
     Texture texturaBtnComo = new Texture("buttons/btnComo.png");
-    TextureRegionDrawable trdBtnJugar = new TextureRegionDrawable(new TextureRegion(texturaBtnComo));
+    TextureRegionDrawable trdBtnComo = new TextureRegionDrawable(new TextureRegion(texturaBtnComo));
     //Botón cómo jugar picado
     Texture btnComoPicado = new Texture("buttons/btnComoPicado.png");
-    TextureRegionDrawable trdBtnAcercaPicado = new TextureRegionDrawable(new TextureRegion(btnComoPicado));
-    ImageButton btnComo = new ImageButton(trdBtnJugar, trdBtnAcercaPicado);
+    TextureRegionDrawable trdBtnComoPicado = new TextureRegionDrawable(new TextureRegion(btnComoPicado));
+    ImageButton btnComo = new ImageButton(trdBtnComo, trdBtnComoPicado);
     btnComo.setPosition(ANCHO_PANTALLA/2, ALTO_PANTALLA/5, Align.center);
     //Acción botón
     btnComo.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
-        game.setScreen(new GameView(game));
+        game.setScreen(new howToView(game));
       }
     });
     menuStage.addActor(btnComo);
@@ -93,11 +93,11 @@ public class MenuView extends Pantalla {
   private void crearBtnSkins() {
     //Botón skins
     Texture texturaBtnSkins = new Texture("buttons/btnSkins.png");
-    TextureRegionDrawable trdBtnJugar = new TextureRegionDrawable(new TextureRegion(texturaBtnSkins));
+    TextureRegionDrawable trdBtnSkins = new TextureRegionDrawable(new TextureRegion(texturaBtnSkins));
     //Botón skins picado
     Texture btnSkinsPicado = new Texture("buttons/btnSkinsPicado.png");
-    TextureRegionDrawable trdBtnAcercaPicado = new TextureRegionDrawable(new TextureRegion(btnSkinsPicado));
-    ImageButton btnSkins = new ImageButton(trdBtnJugar, trdBtnAcercaPicado);
+    TextureRegionDrawable trdBtnSkinsPicado = new TextureRegionDrawable(new TextureRegion(btnSkinsPicado));
+    ImageButton btnSkins = new ImageButton(trdBtnSkins, trdBtnSkinsPicado);
     btnSkins.setPosition(ANCHO_PANTALLA/4, ALTO_PANTALLA/5, Align.center);
     //Acción botón
     btnSkins.addListener(new ClickListener() {
@@ -112,11 +112,11 @@ public class MenuView extends Pantalla {
   private void crearBtnAcerca() {
     //Botón acerca
     Texture texturaBtnAcerca = new Texture("buttons/btnAcerca.png");
-    TextureRegionDrawable trdBtnJugar = new TextureRegionDrawable(new TextureRegion(texturaBtnAcerca));
+    TextureRegionDrawable trdBtnAcerca = new TextureRegionDrawable(new TextureRegion(texturaBtnAcerca));
     //Botón acerca picado
     Texture btnAcercaPicado = new Texture("buttons/btnAcercaPicado.png");
     TextureRegionDrawable trdBtnAcercaPicado = new TextureRegionDrawable(new TextureRegion(btnAcercaPicado));
-    ImageButton btnAcerca = new ImageButton(trdBtnJugar, trdBtnAcercaPicado);
+    ImageButton btnAcerca = new ImageButton(trdBtnAcerca, trdBtnAcercaPicado);
     btnAcerca.setPosition(ANCHO_PANTALLA*0.75f, ALTO_PANTALLA/5, Align.center);
     //Acción botón
     btnAcerca.addListener(new ClickListener() {
