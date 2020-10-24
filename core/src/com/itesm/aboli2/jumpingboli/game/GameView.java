@@ -89,9 +89,9 @@ public class GameView extends Pantalla {
   private void crearMapa() {
     //Se crea el asset manager para manejar el mapa.
     manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-    manager.load("mapas/NivelUno.tmx", TiledMap.class);
+    manager.load("mapas/platNivel1.tmx", TiledMap.class);
     manager.finishLoading();
-    mapa = manager.get("mapas/NivelUno.tmx");
+    mapa = manager.get("mapas/platNivel1.tmx");
     rendererMapa = new OrthogonalTiledMapRenderer(mapa);
 
   }
