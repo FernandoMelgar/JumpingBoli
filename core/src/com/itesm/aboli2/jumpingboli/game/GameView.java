@@ -8,6 +8,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
@@ -19,7 +20,6 @@ import com.itesm.aboli2.jumpingboli.Boli;
 import com.itesm.aboli2.jumpingboli.EstadoBoli;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
-import com.itesm.aboli2.jumpingboli.Texto;
 import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
 import com.itesm.aboli2.jumpingboli.menu.MenuView;
@@ -29,6 +29,8 @@ public class GameView extends Pantalla {
   private Stage gameStage;
 
   private int speedCamera = 2;
+
+  private final int TAM_CELDA = 32;
 
   //Boli
   private Boli boli;
@@ -47,14 +49,8 @@ public class GameView extends Pantalla {
   //Manager
   private AssetManager manager;
 
-  // timer
-  private float timerPausa;   // 5 seg
-
-  // INTRO
-  private Texto texto;
-
   //Inicia el juego
-  private EstadoJuego estado = EstadoJuego.INICIANDO;
+  private EstadoJuego estado = EstadoJuego.JUGANDO;
 
 
   public GameView(GdXGame game) {
@@ -71,14 +67,12 @@ public class GameView extends Pantalla {
 
     gameStage = new Stage(super.viewport);
     gameStage.addActor(ButtonFactory.getReturnBtn(game, new MenuView(game)));
-    boli = new Boli(new Texture("characters/Boli_50.png"), 200,200);
+    boli = new Boli(new Texture("characters/Boli_50.png"), 200,300);
 
     /*
     ImageButton btnAjustes = new GameButton("buttons/ajustes.png");
     btnAjustes.setPosition(ANCHO_PANTALLA - btnAjustes.getWidth() * 1.5f, ALTO_PANTALLA - btnAjustes.getHeight() * 1.5f);
     gameStage.addActor(btnAjustes);*/
-
-    texto = new Texto("Fonts/game.fnt");
 
     Gdx.input.setInputProcessor(new ProcesadorEntrada());
 
@@ -114,10 +108,38 @@ public class GameView extends Pantalla {
     musicaFondo.play();
   }
 
+  public void colisionPlataforma(){
+    // Prueba si debe caer por llegar a un espacio vacío
+      // Calcula la celda donde estaría después de moverlo
+      int celdaX = (int) (boli.getX() / TAM_CELDA);
+      int celdaY = (int) ((boli.getY() + boli.DY) / TAM_CELDA);
+
+      // Recuperamos la celda en esta posición
+      // La capa 0 es el fondo
+      TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get(0);
+      TiledMapTileLayer.Cell celdaAbajo = capa.getCell(celdaX, celdaY);
+      TiledMapTileLayer.Cell celdaDerecha = capa.getCell(celdaX + 1, celdaY);
+      // probar si la celda está ocupada
+      if (celdaAbajo == null && celdaDerecha == null && boli.getEstado() != EstadoBoli.SALTANDO){
+        if(boli.getEstado() != EstadoBoli.CAYENDO){
+          boli.setyBase(boli.getY());
+          boli.cayendo();
+        }
+      } else if(boli.getEstado() != EstadoBoli.SALTANDO) {
+        // Dejarlo sobre la celda que lo detiene
+        boli.setPosicion(boli.getX(),(celdaY + 1) * TAM_CELDA);
+        boli.setEstadoBoli(EstadoBoli.RODANDO);
+      }
+
+
+  }
+
 
   @Override
   public void render(float delta) {
     cleanScreen();
+    moverCamara();
+    colisionPlataforma();
     batch.setProjectionMatrix(camera.combined);
 
     rendererMapa.setView(camera);
@@ -127,26 +149,7 @@ public class GameView extends Pantalla {
     boli.render(batch);
     batch.end();
 
-    actualizarTimer(delta);
-
-    // INICIANDO
-    if (estado == EstadoJuego.INICIANDO) {
-      Gdx.app.log("INICIANDO", "Tiempo: " + (int)timerPausa);
-      batch.begin();
-      texto.mostrarMensaje(batch, ""+(int)(3-timerPausa), Pantalla.ANCHO_PANTALLA/2, Pantalla.ALTO_PANTALLA/2);
-      batch.end();
-    } else moverCamara();
-
-
-
     gameStage.draw();
-  }
-
-  private void actualizarTimer(float delta) {
-    timerPausa += delta;
-    if (estado == EstadoJuego.INICIANDO && timerPausa>=3) {
-      estado = EstadoJuego.JUGANDO;
-    }
   }
 
   private void moverCamara() {
@@ -177,7 +180,13 @@ public class GameView extends Pantalla {
 
       if(estado == EstadoJuego.JUGANDO){
         if (v.x<=ANCHO_PANTALLA/2 + camera.position.x && boli.getEstado() == EstadoBoli.RODANDO) {
+          boli.setyBase(boli.getY());
           boli.saltar();
+        }
+        if (v.x<=ANCHO_PANTALLA/2 + camera.position.x && boli.getEstado() == EstadoBoli.CAYENDO) {
+          boli.setPosicion(boli.getX(), 500);
+          boli.cayendo();
+
         }
       }
       return true;    //////////////////////  **********   ///////////////////
@@ -219,7 +228,7 @@ public class GameView extends Pantalla {
     }
   }
 
-  public enum EstadoJuego{
+  private enum EstadoJuego{
     JUGANDO,
     PAUSADO,
     INICIANDO,

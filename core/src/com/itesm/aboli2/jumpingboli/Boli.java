@@ -3,23 +3,20 @@ package com.itesm.aboli2.jumpingboli;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.itesm.aboli2.jumpingboli.game.GameView;
+import com.sun.org.apache.xerces.internal.impl.ExternalSubsetResolver;
 
 public class Boli extends GameObject {
 
   private float yBase;
-  private final float V0 = 850;
+  private float V0 = 850;
   private final float G = 2000;
   private float tVuelo;
   private float tAire; // tiempo de simulacion < tvuelo
-  private EstadoBoli estado = EstadoBoli.INICIANDO;
+  private EstadoBoli estado;
   private EstadoBuff estadoBuff;
-  private GameView.EstadoJuego estadoJuego;
   private float DX = 4.5f;
-  private float timer;
-
-
+  public float DY = -8f;
+  private float V;
 
   public Boli(Texture textura, float x, float y) {
     super(textura, x, y);
@@ -44,37 +41,52 @@ public class Boli extends GameObject {
 
   }
 
+  public void cayendo(){
+    tAire = 0;
+    yBase = sprite.getY();
+    estado = EstadoBoli.CAYENDO;
+
+  }
+
+  public double getV(){
+    return V;
+  }
+
+
+
+
   public EstadoBoli getEstado(){
     return estado;
   }
 
   public void render(SpriteBatch batch){
-    float delta  = Gdx.graphics.getDeltaTime();
-    actualizarTimer(delta);
+    actualizar();
 
-    if (timer >= 3){
-      actualizar();
-    }
+    float delta  = Gdx.graphics.getDeltaTime();
 
     if(estado == EstadoBoli.SALTANDO){
       tAire += delta;
       float y = yBase + V0*tAire - 0.5f*G*tAire*tAire;
       sprite.setY(y);
-      Gdx.app.log("SALTA", "tAire:" + tAire);
+      if(tAire >= tVuelo/2){
+        yBase = sprite.getY();
+        tAire = 0;
+        estado = EstadoBoli.CAYENDO;
+      }
+      /*
       if (tAire>=tVuelo){
         sprite.setY(yBase);
         estado = EstadoBoli.RODANDO;
       }
 
+       */
+    }
+    if(estado == EstadoBoli.CAYENDO){
+      tAire += delta;
+      V = yBase -0.5f*G*tAire*tAire;
+       sprite.setY(V);
     }
     super.render(batch);
-  }
-
-  private void actualizarTimer(float delta) {
-    timer += delta;
-    if (estado == EstadoBoli.INICIANDO && timer>=3) {
-      estado = EstadoBoli.RODANDO;
-    }
   }
 
   public void setEstadoBoli(EstadoBoli nuevoEstado){
@@ -84,4 +96,23 @@ public class Boli extends GameObject {
     estadoBuff = nuevoEstado;
   }
 
+  public float getX() {
+    return sprite.getX();
+  }
+
+  public float getY() {
+    return sprite.getY();
+  }
+
+  public void setVi(float i) {
+    V0 = i;
+  }
+
+  public void setyBase(float i) {
+    yBase = i;
+  }
+
+  public void setPosicion(float x, int i) {
+    sprite.setPosition(x,i);
+  }
 }
