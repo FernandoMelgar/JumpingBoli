@@ -8,6 +8,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
@@ -28,6 +29,8 @@ public class GameView extends Pantalla {
   private Stage gameStage;
 
   private int speedCamera = 2;
+
+  private final int TAM_CELDA = 32;
 
   //Boli
   private Boli boli;
@@ -64,7 +67,7 @@ public class GameView extends Pantalla {
 
     gameStage = new Stage(super.viewport);
     gameStage.addActor(ButtonFactory.getReturnBtn(game, new MenuView(game)));
-    boli = new Boli(new Texture("characters/Boli_50.png"), 200,200);
+    boli = new Boli(new Texture("characters/Boli_50.png"), 200,300);
 
     /*
     ImageButton btnAjustes = new GameButton("buttons/ajustes.png");
@@ -105,11 +108,38 @@ public class GameView extends Pantalla {
     musicaFondo.play();
   }
 
+  public void colisionPlataforma(){
+    // Prueba si debe caer por llegar a un espacio vacío
+      // Calcula la celda donde estaría después de moverlo
+      int celdaX = (int) (boli.getX() / TAM_CELDA);
+      int celdaY = (int) ((boli.getY() + boli.DY) / TAM_CELDA);
+
+      // Recuperamos la celda en esta posición
+      // La capa 0 es el fondo
+      TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get(0);
+      TiledMapTileLayer.Cell celdaAbajo = capa.getCell(celdaX, celdaY);
+      TiledMapTileLayer.Cell celdaDerecha = capa.getCell(celdaX + 1, celdaY);
+      // probar si la celda está ocupada
+      if (celdaAbajo == null && celdaDerecha == null && boli.getEstado() != EstadoBoli.SALTANDO){
+        if(boli.getEstado() != EstadoBoli.CAYENDO){
+          boli.setyBase(boli.getY());
+          boli.cayendo();
+        }
+      } else if(boli.getEstado() != EstadoBoli.SALTANDO) {
+        // Dejarlo sobre la celda que lo detiene
+        boli.setPosicion(boli.getX(),(celdaY + 1) * TAM_CELDA);
+        boli.setEstadoBoli(EstadoBoli.RODANDO);
+      }
+
+
+  }
+
 
   @Override
   public void render(float delta) {
     cleanScreen();
     moverCamara();
+    colisionPlataforma();
     batch.setProjectionMatrix(camera.combined);
 
     rendererMapa.setView(camera);
@@ -150,7 +180,13 @@ public class GameView extends Pantalla {
 
       if(estado == EstadoJuego.JUGANDO){
         if (v.x<=ANCHO_PANTALLA/2 + camera.position.x && boli.getEstado() == EstadoBoli.RODANDO) {
+          boli.setyBase(boli.getY());
           boli.saltar();
+        }
+        if (v.x<=ANCHO_PANTALLA/2 + camera.position.x && boli.getEstado() == EstadoBoli.CAYENDO) {
+          boli.setPosicion(boli.getX(), 500);
+          boli.cayendo();
+
         }
       }
       return true;    //////////////////////  **********   ///////////////////

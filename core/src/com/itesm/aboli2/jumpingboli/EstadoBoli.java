@@ -4,5 +4,6 @@ public enum EstadoBoli {
     SALTANDO,
     MUERTO,
     RODANDO,
-    HERIDO
+    HERIDO,
+    CAYENDO
 }
