@@ -67,7 +67,7 @@ public class GameView extends Pantalla {
 
     gameStage = new Stage(super.viewport);
     gameStage.addActor(ButtonFactory.getReturnBtn(game, new MenuView(game)));
-    boli = new Boli(new Texture("characters/Boli_50.png"), 200,300);
+    boli = new Boli(new Texture("characters/Boli_50.png"), 200,600);
 
     /*
     ImageButton btnAjustes = new GameButton("buttons/ajustes.png");
@@ -182,11 +182,6 @@ public class GameView extends Pantalla {
         if (v.x<=ANCHO_PANTALLA/2 + camera.position.x && boli.getEstado() == EstadoBoli.RODANDO) {
           boli.setyBase(boli.getY());
           boli.saltar();
-        }
-        if (v.x<=ANCHO_PANTALLA/2 + camera.position.x && boli.getEstado() == EstadoBoli.CAYENDO) {
-          boli.setPosicion(boli.getX(), 500);
-          boli.cayendo();
-
         }
       }
       return true;    //////////////////////  **********   ///////////////////
