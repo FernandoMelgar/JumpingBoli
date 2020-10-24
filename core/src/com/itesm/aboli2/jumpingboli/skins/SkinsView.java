@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
+import com.itesm.aboli2.jumpingboli.Texto;
 import com.itesm.aboli2.jumpingboli.game.GameView;
 import com.itesm.aboli2.jumpingboli.menu.MenuView;
 
@@ -28,6 +29,10 @@ public class SkinsView extends Pantalla {
   //Textura plataforma
   private Texture texturaPlataforma;
 
+  //Texto
+  private Texto texto;
+  private float puntos;
+
   public SkinsView(GdXGame game) {
     super(game);
   }
@@ -38,7 +43,12 @@ public class SkinsView extends Pantalla {
    texturaFondo = new Texture("fondos/fondoExtra.png");
    texturaPlataforma = new Texture("characters/plataformaFondo.png");
    createSkinsView();
+   createText();
    Gdx.input.setInputProcessor(skinsStage);
+  }
+
+  private void createText() {
+    texto = new Texto("fuentes/exoFont.fnt");
   }
 
   private void createSkinsView() {
@@ -153,9 +163,14 @@ public class SkinsView extends Pantalla {
     batch.begin();
     batch.draw(texturaFondo, 0, 0);
     batch.draw(texturaPlataforma, ANCHO_PANTALLA*0.15f, ALTO_PANTALLA/6);
+    //dibujarTexto();
     batch.end();
 
     skinsStage.draw();
+  }
+
+  private void dibujarTexto() {
+    texto.mostrarMensaje(batch, "SKINS", ANCHO_PANTALLA/2, ALTO_PANTALLA*0.9f);
   }
 
   @Override
