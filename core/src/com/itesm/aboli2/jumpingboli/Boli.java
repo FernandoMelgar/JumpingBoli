@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.itesm.aboli2.jumpingboli.game.GameView;
 
 public class Boli extends GameObject {
 
@@ -12,9 +13,13 @@ public class Boli extends GameObject {
   private final float G = 2000;
   private float tVuelo;
   private float tAire; // tiempo de simulacion < tvuelo
-  private EstadoBoli estado;
+  private EstadoBoli estado = EstadoBoli.INICIANDO;
   private EstadoBuff estadoBuff;
+  private GameView.EstadoJuego estadoJuego;
   private float DX = 4.5f;
+  private float timer;
+
+
 
   public Boli(Texture textura, float x, float y) {
     super(textura, x, y);
@@ -44,9 +49,12 @@ public class Boli extends GameObject {
   }
 
   public void render(SpriteBatch batch){
-    actualizar();
-
     float delta  = Gdx.graphics.getDeltaTime();
+    actualizarTimer(delta);
+
+    if (timer >= 3){
+      actualizar();
+    }
 
     if(estado == EstadoBoli.SALTANDO){
       tAire += delta;
@@ -60,6 +68,13 @@ public class Boli extends GameObject {
 
     }
     super.render(batch);
+  }
+
+  private void actualizarTimer(float delta) {
+    timer += delta;
+    if (estado == EstadoBoli.INICIANDO && timer>=3) {
+      estado = EstadoBoli.RODANDO;
+    }
   }
 
   public void setEstadoBoli(EstadoBoli nuevoEstado){

@@ -19,6 +19,7 @@ import com.itesm.aboli2.jumpingboli.Boli;
 import com.itesm.aboli2.jumpingboli.EstadoBoli;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
+import com.itesm.aboli2.jumpingboli.Texto;
 import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
 import com.itesm.aboli2.jumpingboli.menu.MenuView;
@@ -46,8 +47,14 @@ public class GameView extends Pantalla {
   //Manager
   private AssetManager manager;
 
+  // timer
+  private float timerPausa;   // 5 seg
+
+  // INTRO
+  private Texto texto;
+
   //Inicia el juego
-  private EstadoJuego estado = EstadoJuego.JUGANDO;
+  private EstadoJuego estado = EstadoJuego.INICIANDO;
 
 
   public GameView(GdXGame game) {
@@ -70,6 +77,8 @@ public class GameView extends Pantalla {
     ImageButton btnAjustes = new GameButton("buttons/ajustes.png");
     btnAjustes.setPosition(ANCHO_PANTALLA - btnAjustes.getWidth() * 1.5f, ALTO_PANTALLA - btnAjustes.getHeight() * 1.5f);
     gameStage.addActor(btnAjustes);*/
+
+    texto = new Texto("Fonts/game.fnt");
 
     Gdx.input.setInputProcessor(new ProcesadorEntrada());
 
@@ -109,7 +118,6 @@ public class GameView extends Pantalla {
   @Override
   public void render(float delta) {
     cleanScreen();
-    moverCamara();
     batch.setProjectionMatrix(camera.combined);
 
     rendererMapa.setView(camera);
@@ -119,7 +127,26 @@ public class GameView extends Pantalla {
     boli.render(batch);
     batch.end();
 
+    actualizarTimer(delta);
+
+    // INICIANDO
+    if (estado == EstadoJuego.INICIANDO) {
+      Gdx.app.log("INICIANDO", "Tiempo: " + (int)timerPausa);
+      batch.begin();
+      texto.mostrarMensaje(batch, ""+(int)(3-timerPausa), Pantalla.ANCHO_PANTALLA/2, Pantalla.ALTO_PANTALLA/2);
+      batch.end();
+    } else moverCamara();
+
+
+
     gameStage.draw();
+  }
+
+  private void actualizarTimer(float delta) {
+    timerPausa += delta;
+    if (estado == EstadoJuego.INICIANDO && timerPausa>=3) {
+      estado = EstadoJuego.JUGANDO;
+    }
   }
 
   private void moverCamara() {
@@ -192,7 +219,7 @@ public class GameView extends Pantalla {
     }
   }
 
-  private enum EstadoJuego{
+  public enum EstadoJuego{
     JUGANDO,
     PAUSADO,
     INICIANDO,
