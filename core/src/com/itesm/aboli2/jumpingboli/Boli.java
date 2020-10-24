@@ -36,6 +36,7 @@ public class Boli extends GameObject {
     estado = EstadoBoli.SALTANDO;
     tAire = 0;
     tVuelo = 2*V0/G;
+
   }
 
   public EstadoBoli getEstado(){
@@ -51,6 +52,7 @@ public class Boli extends GameObject {
       tAire += delta;
       float y = yBase + V0*tAire - 0.5f*G*tAire*tAire;
       sprite.setY(y);
+      Gdx.app.log("SALTA", "tAire:" + tAire);
       if (tAire>=tVuelo){
         sprite.setY(yBase);
         estado = EstadoBoli.RODANDO;
