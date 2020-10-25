@@ -34,6 +34,7 @@ public class AboutView extends Pantalla {
   private OrthographicCamera camaraHUD;
   private Viewport vistaHUD;
 
+
   private Stage aboutStage;
   BitmapFont font = new BitmapFont();
 
@@ -46,9 +47,12 @@ public class AboutView extends Pantalla {
     aboutStage = new Stage(super.viewport);
     texturaFondo = new Texture("fondos/fondoExtra.png");
     createAboutView();
+    createText();
     crearHUD();
     Gdx.input.setInputProcessor(escenaHUD);
   }
+
+  private void createText() {texto = new Texto("fuentes/exoFont.fnt");}
 
   private void crearHUD() {
     camaraHUD = new OrthographicCamera(ANCHO_PANTALLA, ALTO_PANTALLA);
@@ -75,7 +79,6 @@ public class AboutView extends Pantalla {
     });
     escenaHUD.addActor(btnBack);
 
-
   }
 
   private void createAboutView() {
@@ -90,10 +93,23 @@ public class AboutView extends Pantalla {
 
     batch.begin();
     batch.draw(texturaFondo, 0, 0);
+    dibujarTexto();
     batch.end();
 
     aboutStage.draw();
     escenaHUD.draw();
+
+  }
+
+  private void dibujarTexto() {
+    texto.mostrarMensaje(batch, "About us:", ANCHO_PANTALLA/2, ALTO_PANTALLA*0.9f);
+    texto.mostrarMensaje(batch, "Creators", ANCHO_PANTALLA/2, ALTO_PANTALLA*0.85f);
+    texto.mostrarMensaje(batch, "Fernando Manuel Melgar Fuentes - A01748354\n" +
+            "Alex Fernando Leyva Martínez - A01747078\n" +
+            "Arturo Márquez Olivar - A01376086\n" +
+            "Claudio Mayoral García - A01747749", ANCHO_PANTALLA/2, ALTO_PANTALLA*0.8f);
+
+
 
   }
 
