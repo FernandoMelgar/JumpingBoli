@@ -1,10 +1,13 @@
 package com.itesm.aboli2.jumpingboli.about;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -24,10 +27,10 @@ public class AboutView extends Pantalla {
 
   //Fondo
   private Texture texturaFondo;
+  private Texture texturaFondo2;
 
   //Texto
   private Texto texto;
-  private float puntos;
 
   //HUD
   private Stage escenaHUD;
@@ -46,10 +49,12 @@ public class AboutView extends Pantalla {
   public void show() {
     aboutStage = new Stage(super.viewport);
     texturaFondo = new Texture("fondos/fondoExtra.png");
+    texturaFondo2 = new Texture("fondos/fondoExtra2.png");
     createAboutView();
     createText();
     crearHUD();
-    Gdx.input.setInputProcessor(escenaHUD);
+    Gdx.input.setInputProcessor(new ProcesadorEntrada());
+    //Gdx.input.setInputProcessor(escenaHUD);
   }
 
   private void createText() {texto = new Texto("fuentes/exoFont.fnt");}
@@ -89,15 +94,21 @@ public class AboutView extends Pantalla {
   @Override
   public void render(float delta) {
     cleanScreen();
+    actualizar();
     batch.setProjectionMatrix(camera.combined);
 
     batch.begin();
     batch.draw(texturaFondo, 0, 0);
+    batch.draw(texturaFondo2, 0, -ALTO_PANTALLA);
     dibujarTexto();
     batch.end();
 
     aboutStage.draw();
     escenaHUD.draw();
+
+  }
+
+  private void actualizar() {
 
   }
 
@@ -127,5 +138,55 @@ public class AboutView extends Pantalla {
   public void dispose() {
     texturaFondo.dispose();
     batch.dispose();
+  }
+
+  class ProcesadorEntrada implements InputProcessor {
+    @Override
+    public boolean keyDown(int keycode) {
+      return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+      return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+      return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+      return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+      return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+      Vector3 v = new Vector3(screenX, screenY, 0);
+      camaraHUD.unproject(v);
+      if(v.y > ALTO_PANTALLA/2){
+        camaraHUD.position.set(screenX, screenY, ALTO_PANTALLA/2);
+      }
+      /*
+      if (total != 0) setScrollPercentY(1 - ((scrollV - vScrollBounds.y) / total));
+      lastPoint.set(x, y);*/
+      return true;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+      return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+      return false;
+    }
   }
 }
