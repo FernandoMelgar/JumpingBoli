@@ -1,5 +1,6 @@
 package com.itesm.aboli2.jumpingboli.game;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
@@ -15,6 +16,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -27,6 +30,7 @@ import com.itesm.aboli2.jumpingboli.EstadoBoli;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
 import com.itesm.aboli2.jumpingboli.Texto;
+import com.itesm.aboli2.jumpingboli.button.GameButton;
 import com.itesm.aboli2.jumpingboli.menu.MenuView;
 
 public class GameView extends Pantalla {
@@ -104,22 +108,35 @@ public class GameView extends Pantalla {
     camaraHUD.position.set(ANCHO_PANTALLA/2, ALTO_PANTALLA/2, 0);
     camaraHUD.update();
     vistaHUD = new StretchViewport(ANCHO_PANTALLA, ALTO_PANTALLA, camaraHUD);
-
     escenaHUD = new Stage(vistaHUD);
 
+
     //Creamos el botón de pausa (configuración va dentro de pausa).
-    Texture texturaBtnPause = new Texture("buttons/btnPause.png");
-    TextureRegionDrawable trdBtnPause = new TextureRegionDrawable(new TextureRegion(texturaBtnPause));
-    ImageButton btnPause = new ImageButton(trdBtnPause);
-    btnPause.setPosition(ANCHO_PANTALLA*0.95f, ALTO_PANTALLA*0.90f, Align.center);
+    ImageButton btnGPause = new GameButton("buttons/btnPause.png");
+    btnGPause.setPosition(ANCHO_PANTALLA*0.95f, ALTO_PANTALLA*0.90f, Align.center);
     //Acción botón
-    btnPause.addListener(new ClickListener() {
+    btnGPause.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
+        musicaFondo.dispose();
         game.setScreen(new MenuView(game));
       }
     });
-    escenaHUD.addActor(btnPause);
+    ImageButton bntSalto = new GameButton("buttons/boton_128.png");
+    bntSalto.setPosition(ANCHO_PANTALLA * .9f, ALTO_PANTALLA * .1f, Align.center);
+    bntSalto.addListener(new ClickListener(){
+
+      public void clicked(InputEvent event, float x, float y) {
+        super.clicked(event, x, y);
+          if (boli.getEstado() == EstadoBoli.RODANDO) {
+            boli.setyBase(boli.getY());
+            boli.saltar();
+          }
+      }
+    });
+
+    escenaHUD.addActor(bntSalto);
+    escenaHUD.addActor(btnGPause);
   }
 
   private void crearEscudos() {
