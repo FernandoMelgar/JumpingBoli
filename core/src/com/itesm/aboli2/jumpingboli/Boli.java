@@ -3,6 +3,8 @@ package com.itesm.aboli2.jumpingboli;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Null;
+import com.itesm.aboli2.jumpingboli.game.GameView;
 import com.sun.org.apache.xerces.internal.impl.ExternalSubsetResolver;
 
 public class Boli extends GameObject {
@@ -17,6 +19,8 @@ public class Boli extends GameObject {
   private float DX = 4.5f;
   public float DY = -8f;
   private float V;
+  private float timerPausa;
+
 
   public Boli(Texture textura, float x, float y) {
     super(textura, x, y);
@@ -25,7 +29,7 @@ public class Boli extends GameObject {
     yBase = y;
   }
 
-  private void actualizar(){
+  public void actualizar(){
     sprite.setX(sprite.getX() + DX);
   }
 
@@ -48,6 +52,7 @@ public class Boli extends GameObject {
 
   }
 
+
   public double getV(){
     return V;
   }
@@ -59,10 +64,21 @@ public class Boli extends GameObject {
     return estado;
   }
 
-  public void render(SpriteBatch batch){
-    actualizar();
 
+
+  public void render(SpriteBatch batch){
     float delta  = Gdx.graphics.getDeltaTime();
+    actualizarTimer(delta);
+    Gdx.app.log("ESTADO", String.valueOf((estado)));
+    //actualizar();
+
+    /*
+    if (estado == EstadoBoli.INICIANDO){
+      iniciando();
+    }else{
+      actualizar();
+    }
+     */
 
     if(estado == EstadoBoli.SALTANDO){
       tAire += delta;
@@ -87,6 +103,17 @@ public class Boli extends GameObject {
        sprite.setY(V);
     }
     super.render(batch);
+  }
+
+  private void actualizarTimer(float delta) {
+    timerPausa += delta;
+    if (estado == EstadoBoli.INICIANDO && timerPausa>=3) {
+      estado = EstadoBoli.RODANDO;
+    }
+    // ESPERA 3 SEGUNDOS PARA INICIAR EL MOVIMIENTO DE BOLI
+    if (timerPausa > 3){
+      actualizar();
+    }
   }
 
   public void setEstadoBoli(EstadoBoli nuevoEstado){

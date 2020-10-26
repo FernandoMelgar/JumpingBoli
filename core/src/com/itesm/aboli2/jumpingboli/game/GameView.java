@@ -68,7 +68,11 @@ public class GameView extends Pantalla {
   private float puntos;
 
   //Inicia el juego
-  private EstadoJuego estado = EstadoJuego.JUGANDO;
+  private EstadoJuego estado = EstadoJuego.INICIANDO;
+
+
+  //TIMER
+  float timerPausa;
 
 
   public GameView(GdXGame game) {
@@ -193,12 +197,21 @@ public class GameView extends Pantalla {
 
   }
 
+  public boolean boliVivo(){
+    if (boli.getY() < 0) {
+      camera.position.x = ANCHO_PANTALLA / 2;
+      Gdx.app.log("MUERTO", "F");
+      return false;
+    }
+    return true;
+  }
+
 
   @Override
   public void render(float delta) {
-    actualizar();
+    //actualizar();
     cleanScreen();
-    moverCamara();
+    //moverCamara();
     colisionPlataforma();
     batch.setProjectionMatrix(camera.combined);
 
@@ -208,6 +221,23 @@ public class GameView extends Pantalla {
     batch.begin();
     boli.render(batch);
     batch.end();
+
+    actualizarTimer(delta);
+    boliVivo();
+
+    // INICIANDO
+    if (estado == EstadoJuego.INICIANDO){
+      Gdx.app.log("INICIANDO", "Tiempo: " + (int)(timerPausa));
+      batch.begin();
+      texto.mostrarMensaje(batch, ""+(int)(3-timerPausa),
+              ANCHO_PANTALLA/2, ALTO_PANTALLA/2);
+      batch.end();
+    } else {
+      // DETIENE EL  PUNTAJE Y EL MOVIMIENTO DEL MAPA
+      moverCamara();
+      actualizar();
+    }
+
 
     gameStage.draw();
     //HUD
@@ -219,14 +249,24 @@ public class GameView extends Pantalla {
     escenaHUD.draw();
   }
 
+  private void actualizarTimer(float delta) {
+    timerPausa += delta;
+    if (estado == EstadoJuego.INICIANDO && timerPausa>=3) {
+      estado = EstadoJuego.JUGANDO;
+    }
+    boliVivo();
+  }
+
   private void dibujarPuntaje() {
     int intPuntos = (int)puntos;
     texto.mostrarMensaje(batch, "" + intPuntos, ANCHO_PANTALLA*0.12f, ALTO_PANTALLA*0.915f);
   }
 
   private void actualizar() {
+    if (boliVivo()){
+      actualizarPuntos();
+    }
     actualizarEscudo();
-    actualizarPuntos();
   }
 
   private void actualizarPuntos() {
