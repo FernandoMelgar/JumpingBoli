@@ -104,7 +104,7 @@ public class GameView extends Pantalla {
   }
 
   private void crearBoli() {
-    boli = new Boli(new Texture("characters/Boli_50.png"), 200,600);
+    boli = new Boli(new Texture("characters/boli_morado.png"), 200,600);
   }
 
   private void crearHUD() {
