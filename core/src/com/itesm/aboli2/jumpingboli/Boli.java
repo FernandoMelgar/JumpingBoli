@@ -3,6 +3,7 @@ package com.itesm.aboli2.jumpingboli;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.itesm.aboli2.jumpingboli.game.GameView;
 import com.sun.org.apache.xerces.internal.impl.ExternalSubsetResolver;
 
 public class Boli extends GameObject {
@@ -17,6 +18,7 @@ public class Boli extends GameObject {
   private float DX = 4.5f;
   public float DY = -8f;
   private float V;
+  private float timerPausa;
 
   public Boli(Texture textura, float x, float y) {
     super(textura, x, y);
@@ -60,9 +62,9 @@ public class Boli extends GameObject {
   }
 
   public void render(SpriteBatch batch){
-    actualizar();
-
     float delta  = Gdx.graphics.getDeltaTime();
+    actualizarTimer(delta);
+    actualizar();
 
     if(estado == EstadoBoli.SALTANDO){
       tAire += delta;
@@ -87,6 +89,13 @@ public class Boli extends GameObject {
        sprite.setY(V);
     }
     super.render(batch);
+  }
+
+  private void actualizarTimer(float delta) {
+    timerPausa += delta;
+    if (estado == EstadoBoli.INICIANDO && timerPausa>=3) {
+      estado = EstadoBoli.RODANDO;
+    }
   }
 
   public void setEstadoBoli(EstadoBoli nuevoEstado){

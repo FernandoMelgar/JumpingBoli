@@ -68,7 +68,10 @@ public class GameView extends Pantalla {
   private float puntos;
 
   //Inicia el juego
-  private EstadoJuego estado = EstadoJuego.JUGANDO;
+  private EstadoJuego estado = EstadoJuego.INICIANDO;
+
+  //TIMER
+  float timerPausa;
 
 
   public GameView(GdXGame game) {
@@ -209,6 +212,17 @@ public class GameView extends Pantalla {
     boli.render(batch);
     batch.end();
 
+    actualizarTimer(delta);
+
+    // INICIANDO
+    if (estado == EstadoJuego.INICIANDO){
+      Gdx.app.log("INICIANDO", "Tiempo: " + (int)(timerPausa));
+      batch.begin();
+      texto.mostrarMensaje(batch, ""+(int)(3-timerPausa),
+              ANCHO_PANTALLA/2, ALTO_PANTALLA/2);
+      batch.end();
+    }
+
     gameStage.draw();
     //HUD
     batch.setProjectionMatrix(camaraHUD.combined);
@@ -217,6 +231,13 @@ public class GameView extends Pantalla {
     dibujarPuntaje();
     batch.end();
     escenaHUD.draw();
+  }
+
+  private void actualizarTimer(float delta) {
+    timerPausa += delta;
+    if (estado == EstadoJuego.INICIANDO && timerPausa>=3) {
+      estado = EstadoJuego.JUGANDO;
+    }
   }
 
   private void dibujarPuntaje() {
