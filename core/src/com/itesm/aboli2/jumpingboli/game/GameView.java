@@ -70,6 +70,7 @@ public class GameView extends Pantalla {
   //Inicia el juego
   private EstadoJuego estado = EstadoJuego.INICIANDO;
 
+
   //TIMER
   float timerPausa;
 
@@ -199,9 +200,9 @@ public class GameView extends Pantalla {
 
   @Override
   public void render(float delta) {
-    actualizar();
+    //actualizar();
     cleanScreen();
-    moverCamara();
+    //moverCamara();
     colisionPlataforma();
     batch.setProjectionMatrix(camera.combined);
 
@@ -221,7 +222,12 @@ public class GameView extends Pantalla {
       texto.mostrarMensaje(batch, ""+(int)(3-timerPausa),
               ANCHO_PANTALLA/2, ALTO_PANTALLA/2);
       batch.end();
+    } else {
+      // DETIENE EL  PUNTAJE Y EL MOVIMIENTO DEL MAPA
+      moverCamara();
+      actualizar();
     }
+
 
     gameStage.draw();
     //HUD
