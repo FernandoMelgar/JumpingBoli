@@ -80,7 +80,6 @@ public class Boli extends GameObject {
     }
      */
 
-
     if(estado == EstadoBoli.SALTANDO){
       tAire += delta;
       float y = yBase + V0*tAire - 0.5f*G*tAire*tAire;

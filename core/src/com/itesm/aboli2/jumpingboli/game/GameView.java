@@ -197,6 +197,15 @@ public class GameView extends Pantalla {
 
   }
 
+  public boolean boliVivo(){
+    if (boli.getY() < 0) {
+      camera.position.x = ANCHO_PANTALLA / 2;
+      Gdx.app.log("MUERTO", "F");
+      return false;
+    }
+    return true;
+  }
+
 
   @Override
   public void render(float delta) {
@@ -214,6 +223,7 @@ public class GameView extends Pantalla {
     batch.end();
 
     actualizarTimer(delta);
+    boliVivo();
 
     // INICIANDO
     if (estado == EstadoJuego.INICIANDO){
@@ -244,6 +254,7 @@ public class GameView extends Pantalla {
     if (estado == EstadoJuego.INICIANDO && timerPausa>=3) {
       estado = EstadoJuego.JUGANDO;
     }
+    boliVivo();
   }
 
   private void dibujarPuntaje() {
@@ -252,8 +263,10 @@ public class GameView extends Pantalla {
   }
 
   private void actualizar() {
+    if (boliVivo()){
+      actualizarPuntos();
+    }
     actualizarEscudo();
-    actualizarPuntos();
   }
 
   private void actualizarPuntos() {
