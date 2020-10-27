@@ -1,17 +1,12 @@
 package com.itesm.aboli2.jumpingboli.game;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -19,23 +14,17 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.itesm.aboli2.jumpingboli.Boli;
-import com.itesm.aboli2.jumpingboli.EstadoBoli;
+import com.itesm.aboli2.jumpingboli.GameText;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
 import com.itesm.aboli2.jumpingboli.Pause.PauseView;
-import com.itesm.aboli2.jumpingboli.Texto;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
-import com.itesm.aboli2.jumpingboli.menu.MenuView;
 
 public class GameView extends Pantalla {
 
@@ -68,7 +57,7 @@ public class GameView extends Pantalla {
   private Array<Escudo> arrEscudos;
 
   //Texto
-  private Texto texto;
+  private GameText gameText;
   private float puntos;
 
   //Inicia el juego
@@ -100,7 +89,7 @@ public class GameView extends Pantalla {
   }
 
   private void crearTexto() {
-    texto = new Texto("fuentes/exoFont.fnt");
+    gameText = new GameText("fuentes/exoFont.fnt");
   }
 
   private void moverBoli() {
@@ -203,8 +192,9 @@ public class GameView extends Pantalla {
 
   public boolean boliVivo(){
     if (boli.getY() < 0) {
-      // LA PANTALLA SE DETIENE DONDE BOLI MUERE
       camera.position.x = ANCHO_PANTALLA;
+      musicaFondo.dispose();
+      game.setScreen(new DeathView(game, puntos));
       Gdx.app.log("MUERTO", "F");
       return false;
     }
@@ -228,15 +218,15 @@ public class GameView extends Pantalla {
     batch.end();
 
     actualizarTimer(delta);
-    // COMPRUEBA SI VOLI ESTÁ VIVO (FALTARÍA AGREGAR ESTADO)
+    // COMPRUEBA SI BOLI ESTÁ VIVO (FALTARÍA AGREGAR ESTADO)
     boliVivo();
 
     // INICIANDO
     if (estado == EstadoJuego.INICIANDO){
       Gdx.app.log("INICIANDO", "Tiempo: " + (int)(timerPausa));
       batch.begin();
-      texto.mostrarMensaje(batch, ""+(int)(3-timerPausa),
-              ANCHO_PANTALLA/2, ALTO_PANTALLA/2);
+      gameText.mostrarMensaje(batch, "" + (int) (3 - timerPausa),
+          ANCHO_PANTALLA / 2, ALTO_PANTALLA / 2);
       batch.end();
     } else {
       // DETIENE EL  PUNTAJE Y EL MOVIMIENTO DEL MAPA
@@ -276,7 +266,7 @@ public class GameView extends Pantalla {
 
   private void dibujarPuntaje() {
     int intPuntos = (int)puntos;
-    texto.mostrarMensaje(batch, "" + intPuntos, ANCHO_PANTALLA*0.12f, ALTO_PANTALLA*0.915f);
+    gameText.mostrarMensaje(batch, "" + intPuntos, ANCHO_PANTALLA * 0.12f, ALTO_PANTALLA * 0.915f);
   }
 
   // LOS PUNTOS SE DETIENEN SI BOLI ESTÁ MUERTO

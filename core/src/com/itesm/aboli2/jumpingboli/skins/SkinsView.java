@@ -2,17 +2,14 @@ package com.itesm.aboli2.jumpingboli.skins;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.itesm.aboli2.jumpingboli.GameText;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
-import com.itesm.aboli2.jumpingboli.Texto;
-import com.itesm.aboli2.jumpingboli.game.GameView;
+import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
+import com.itesm.aboli2.jumpingboli.button.GameButton;
 import com.itesm.aboli2.jumpingboli.menu.MenuView;
 
 public class SkinsView extends Pantalla {
@@ -30,7 +27,7 @@ public class SkinsView extends Pantalla {
   private Texture texturaPlataforma;
 
   //Texto
-  private Texto texto;
+  private GameText gameText;
   private float puntos;
 
   public SkinsView(GdXGame game) {
@@ -48,7 +45,7 @@ public class SkinsView extends Pantalla {
   }
 
   private void createText() {
-    texto = new Texto("fuentes/exoFont.fnt");
+    gameText = new GameText("fuentes/exoFont.fnt");
   }
 
   private void createSkinsView() {
@@ -61,98 +58,33 @@ public class SkinsView extends Pantalla {
   }
 
   private void crearBtnUnlock3() {
-    //Botón unlock
-    Texture texturaBtnUnlock = new Texture("buttons/btnUnlock3.png");
-    TextureRegionDrawable trdBtnUnlock = new TextureRegionDrawable(new TextureRegion(texturaBtnUnlock));
-    //Botón cómo unlock picado
-    Texture btnUnlockPicado = new Texture("buttons/btnUnlockPicado3.png");
-    TextureRegionDrawable trdBtnUnlockPicado = new TextureRegionDrawable(new TextureRegion(btnUnlockPicado));
-    ImageButton btnUnlock = new ImageButton(trdBtnUnlock, trdBtnUnlockPicado);
-    btnUnlock.setPosition(ANCHO_PANTALLA*0.69f, ALTO_PANTALLA*0.2f, Align.center);
-    //Acción botón
-    btnUnlock.addListener(new ClickListener() {
-      public void clicked(InputEvent event, float x, float y){
-        super.clicked(event, x, y);
-        //Acción
-      }
-    });
+    ImageButton btnUnlock = new GameButton("buttons/btnUnlock3.png", "buttons/btnUnlockPicado3.png");
+    btnUnlock.setPosition(ANCHO_PANTALLA * 0.69f, ALTO_PANTALLA * 0.35f, Align.center);
     skinsStage.addActor(btnUnlock);
   }
 
   private void crearBtnUnlock2() {
-    //Botón unlock
-    Texture texturaBtnUnlock = new Texture("buttons/btnUnlock2.png");
-    TextureRegionDrawable trdBtnUnlock = new TextureRegionDrawable(new TextureRegion(texturaBtnUnlock));
-    //Botón cómo unlock picado
-    Texture btnUnlockPicado = new Texture("buttons/btnUnlockPicado2.png");
-    TextureRegionDrawable trdBtnUnlockPicado = new TextureRegionDrawable(new TextureRegion(btnUnlockPicado));
-    ImageButton btnUnlock = new ImageButton(trdBtnUnlock, trdBtnUnlockPicado);
-    btnUnlock.setPosition(ANCHO_PANTALLA*0.69f, ALTO_PANTALLA*0.35f, Align.center);
-    //Acción botón
-    btnUnlock.addListener(new ClickListener() {
-      public void clicked(InputEvent event, float x, float y){
-        super.clicked(event, x, y);
-        //Acción
-      }
-    });
-    skinsStage.addActor(btnUnlock);
+    ImageButton bntUnlock = new GameButton("buttons/btnUnlock2.png", "buttons/btnUnlockPicado2.png");
+    bntUnlock.setPosition(ANCHO_PANTALLA * 0.69f, ALTO_PANTALLA * 0.5f, Align.center);
+    skinsStage.addActor(bntUnlock);
   }
 
   private void crearBtnUnlock() {
-    //Botón unlock
-    Texture texturaBtnUnlock = new Texture("buttons/btnUnlock.png");
-    TextureRegionDrawable trdBtnUnlock = new TextureRegionDrawable(new TextureRegion(texturaBtnUnlock));
-    //Botón cómo unlock picado
-    Texture btnUnlockPicado = new Texture("buttons/btnUnlockPicado.png");
-    TextureRegionDrawable trdBtnUnlockPicado = new TextureRegionDrawable(new TextureRegion(btnUnlockPicado));
-    ImageButton btnUnlock = new ImageButton(trdBtnUnlock, trdBtnUnlockPicado);
-    btnUnlock.setPosition(ANCHO_PANTALLA*0.69f, ALTO_PANTALLA/2, Align.center);
-    //Acción botón
-    btnUnlock.addListener(new ClickListener() {
-      public void clicked(InputEvent event, float x, float y){
-        super.clicked(event, x, y);
-        //Acción
-      }
-    });
+    ImageButton btnUnlock = new GameButton("buttons/btnUnlock.png", "buttons/btnUnlockPicado.png");
+    btnUnlock.setPosition(ANCHO_PANTALLA * 0.69f, ALTO_PANTALLA * .65f, Align.center);
     skinsStage.addActor(btnUnlock);
+
   }
 
   private void crearBtnSelect() {
-    //Botón select
-    Texture texturaBtnSelect = new Texture("buttons/btnSelect.png");
-    TextureRegionDrawable trdBtnSelect = new TextureRegionDrawable(new TextureRegion(texturaBtnSelect));
-    //Botón select picado
-    Texture btnSelectPicado = new Texture("buttons/btnSelectPicado.png");
-    TextureRegionDrawable trdBtnSelectPicado = new TextureRegionDrawable(new TextureRegion(btnSelectPicado));
-    ImageButton btnSelect = new ImageButton(trdBtnSelect, trdBtnSelectPicado);
-    btnSelect.setPosition(ANCHO_PANTALLA*0.5f, ALTO_PANTALLA*0.65f, Align.center);
-    //Acción botón
-    btnSelect.addListener(new ClickListener() {
-      public void clicked(InputEvent event, float x, float y){
-        super.clicked(event, x, y);
-        //Acción
-      }
-    });
+    ImageButton btnSelect = new GameButton("buttons/btnSelect.png", "buttons/btnSelectPicado.png");
+    btnSelect.setPosition(ANCHO_PANTALLA * 0.69f, ALTO_PANTALLA * 0.8f, Align.center);
     skinsStage.addActor(btnSelect);
   }
 
   private void crearBtnBack() {
-    //Botón back
-    Texture texturaBtnBack = new Texture("buttons/btnBack.png");
-    TextureRegionDrawable trdBtnBack = new TextureRegionDrawable(new TextureRegion(texturaBtnBack));
-    //Botón cómo back picado
-    Texture btnBackPicado = new Texture("buttons/btnBackPicado.png");
-    TextureRegionDrawable trdBtnBackPicado = new TextureRegionDrawable(new TextureRegion(btnBackPicado));
-    ImageButton btnBack = new ImageButton(trdBtnBack, trdBtnBackPicado);
-    btnBack.setPosition(ANCHO_PANTALLA*0.10f, ALTO_PANTALLA*0.88f, Align.center);
-    //Acción botón
-    btnBack.addListener(new ClickListener() {
-      public void clicked(InputEvent event, float x, float y){
-        super.clicked(event, x, y);
-        game.setScreen(new MenuView(game));
-      }
-    });
-    skinsStage.addActor(btnBack);
+    skinsStage.addActor(ButtonFactory.getReturnBtn(game, new MenuView(game)));
+
   }
 
   @Override
@@ -170,7 +102,7 @@ public class SkinsView extends Pantalla {
   }
 
   private void dibujarTexto() {
-    texto.mostrarMensaje(batch, "SKINS", ANCHO_PANTALLA/2, ALTO_PANTALLA*0.9f);
+    gameText.mostrarMensaje(batch, "SKINS", ANCHO_PANTALLA / 2, ALTO_PANTALLA * 0.9f);
   }
 
   @Override

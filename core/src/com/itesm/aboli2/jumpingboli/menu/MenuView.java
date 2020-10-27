@@ -1,6 +1,5 @@
 package com.itesm.aboli2.jumpingboli.menu;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,12 +11,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
-import com.itesm.aboli2.jumpingboli.howTo.howToView;
-import com.itesm.aboli2.jumpingboli.skins.SkinsView;
 import com.itesm.aboli2.jumpingboli.about.AboutView;
+import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
 import com.itesm.aboli2.jumpingboli.configuration.ConfigurationView;
 import com.itesm.aboli2.jumpingboli.game.GameView;
+import com.itesm.aboli2.jumpingboli.howTo.howToView;
+import com.itesm.aboli2.jumpingboli.skins.SkinsView;
 
 
 public class MenuView extends Pantalla {
@@ -125,27 +125,13 @@ public class MenuView extends Pantalla {
   }
 
   private void crearBtnJugar() {
-    //Botón jugar
-    Texture texturaBtnJugar = new Texture("buttons/btnPlay.png");
-    TextureRegionDrawable trdBtnJugar = new TextureRegionDrawable(new TextureRegion(texturaBtnJugar));
-    //Botón
-    ImageButton btnJugar = new ImageButton(trdBtnJugar);
-    btnJugar.setPosition(ANCHO_PANTALLA/2, ALTO_PANTALLA/2, Align.center);
-    //Acción botón jugar
-    btnJugar.addListener(new ClickListener() {
-      public void clicked(InputEvent event, float x, float y){
-        super.clicked(event, x, y);
-        game.setScreen(new GameView(game));
-      }
-    });
-    menuStage.addActor(btnJugar);
+    menuStage.addActor(ButtonFactory.getPlayBtn(game, new GameView(game)));
   }
 
   @Override
   public void render(float delta) {
     cleanScreen();
     batch.setProjectionMatrix(camera.combined);
-
     batch.begin();
     batch.draw(texturaFondo, 0, 0);
     batch.end();

@@ -1,11 +1,8 @@
-package com.itesm.aboli2.jumpingboli;
+package com.itesm.aboli2.jumpingboli.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Null;
-import com.itesm.aboli2.jumpingboli.game.GameView;
-import com.sun.org.apache.xerces.internal.impl.ExternalSubsetResolver;
 
 public class Boli extends GameObject {
 
