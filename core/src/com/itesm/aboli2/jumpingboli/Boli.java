@@ -70,6 +70,8 @@ public class Boli extends GameObject {
     float delta  = Gdx.graphics.getDeltaTime();
     actualizarTimer(delta);
     Gdx.app.log("ESTADO", String.valueOf((estado)));
+    sprite.rotate(10);
+
     //actualizar();
 
     /*

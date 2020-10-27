@@ -1,5 +1,6 @@
 package com.itesm.aboli2.jumpingboli.menu;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -73,12 +74,7 @@ public class MenuView extends Pantalla {
 
   private void crearBtnComo() {
     //Botón cómo jugar
-    Texture texturaBtnComo = new Texture("buttons/btnComo.png");
-    TextureRegionDrawable trdBtnComo = new TextureRegionDrawable(new TextureRegion(texturaBtnComo));
-    //Botón cómo jugar picado
-    Texture btnComoPicado = new Texture("buttons/btnComoPicado.png");
-    TextureRegionDrawable trdBtnComoPicado = new TextureRegionDrawable(new TextureRegion(btnComoPicado));
-    ImageButton btnComo = new ImageButton(trdBtnComo, trdBtnComoPicado);
+    ImageButton btnComo = new GameButton("buttons/btnComo.png","buttons/btnComoPicado.png" );
     btnComo.setPosition(ANCHO_PANTALLA/2, ALTO_PANTALLA/5, Align.center);
     //Acción botón
     btnComo.addListener(new ClickListener() {
