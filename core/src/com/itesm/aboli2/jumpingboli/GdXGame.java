@@ -1,6 +1,7 @@
 package com.itesm.aboli2.jumpingboli;
 
 import com.badlogic.gdx.Game;
+import com.itesm.aboli2.jumpingboli.Pause.PauseView;
 import com.itesm.aboli2.jumpingboli.menu.MenuView;
 
 
