@@ -105,9 +105,9 @@ public class AboutView extends Pantalla {
     texto.mostrarMensaje(batch, "About us:", ANCHO_PANTALLA/2, ALTO_PANTALLA*0.9f);
     texto.mostrarMensaje(batch, "Creators", ANCHO_PANTALLA/2, ALTO_PANTALLA*0.85f);
     texto.mostrarMensaje(batch, "Fernando Manuel Melgar Fuentes - A01748354\n" +
-            "Alex Fernando Leyva Martínez - A01747078\n" +
+            "Alex Fernando Leyva Martinez - A01747078\n" +
             "Arturo Márquez Olivar - A01376086\n" +
-            "Claudio Mayoral García - A01747749", ANCHO_PANTALLA/2, ALTO_PANTALLA*0.8f);
+            "Claudio Mayoral Garcia - A01747749", ANCHO_PANTALLA/2, ALTO_PANTALLA*0.8f);
 
 
 
