@@ -1,4 +1,4 @@
-package com.itesm.aboli2.jumpingboli;
+package com.itesm.aboli2.jumpingboli.game;
 
 public enum EstadoBuff {
     BUFFINMORTAL,

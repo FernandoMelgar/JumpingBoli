@@ -1,4 +1,4 @@
-package com.itesm.aboli2.jumpingboli;
+package com.itesm.aboli2.jumpingboli.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
