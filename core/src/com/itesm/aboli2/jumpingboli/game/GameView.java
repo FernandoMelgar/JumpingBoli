@@ -199,7 +199,8 @@ public class GameView extends Pantalla {
 
   public boolean boliVivo(){
     if (boli.getY() < 0) {
-      camera.position.x = ANCHO_PANTALLA / 2;
+      // LA PANTALLA SE DETIENE DONDE BOLI MUERE
+      camera.position.x = ANCHO_PANTALLA;
       Gdx.app.log("MUERTO", "F");
       return false;
     }
@@ -223,6 +224,7 @@ public class GameView extends Pantalla {
     batch.end();
 
     actualizarTimer(delta);
+    // COMPRUEBA SI VOLI ESTÁ VIVO (FALTARÍA AGREGAR ESTADO)
     boliVivo();
 
     // INICIANDO
@@ -262,6 +264,7 @@ public class GameView extends Pantalla {
     texto.mostrarMensaje(batch, "" + intPuntos, ANCHO_PANTALLA*0.12f, ALTO_PANTALLA*0.915f);
   }
 
+  // LOS PUNTOS SE DETIENEN SI BOLI ESTÁ MUERTO
   private void actualizar() {
     if (boliVivo()){
       actualizarPuntos();
