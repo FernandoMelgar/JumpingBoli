@@ -21,7 +21,7 @@ import com.itesm.aboli2.jumpingboli.game.GameView;
 
 public class MenuView extends Pantalla {
 
-  //Menú- botones.
+  //Menú-botones.
   private Stage menuStage;
 
   //Fondo

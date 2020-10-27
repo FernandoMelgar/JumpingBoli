@@ -3,11 +3,14 @@ package com.itesm.aboli2.jumpingboli.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -29,6 +32,7 @@ import com.itesm.aboli2.jumpingboli.Boli;
 import com.itesm.aboli2.jumpingboli.EstadoBoli;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
+import com.itesm.aboli2.jumpingboli.Pause.PauseView;
 import com.itesm.aboli2.jumpingboli.Texto;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
 import com.itesm.aboli2.jumpingboli.menu.MenuView;
@@ -123,7 +127,7 @@ public class GameView extends Pantalla {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
         musicaFondo.dispose();
-        game.setScreen(new MenuView(game));
+        game.setScreen(new PauseView(game));
       }
     });
     ImageButton bntSalto = new GameButton("buttons/boton_128.png");
@@ -239,7 +243,18 @@ public class GameView extends Pantalla {
       moverCamara();
       actualizar();
     }
+    /*
+    // USAR otra CÁMARA/VISTA
+    if (estado == EstadoJuego.PAUSANDO) {
+      batch.setProjectionMatrix(camaraHUD.combined);
+      escenaPausa.draw();
+      batch.begin();
+      escenaPausa.sprite.draw(batch);
+      batch.end();
 
+      escenaPausa.sprite.rotate(1);
+    }
+    */
 
     gameStage.draw();
     //HUD
@@ -311,7 +326,7 @@ public class GameView extends Pantalla {
     batch.dispose();
   }
 
-  class  ProcesadorEntrada implements InputProcessor {
+  class ProcesadorEntrada implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
@@ -325,6 +340,7 @@ public class GameView extends Pantalla {
         }
       }
       return true;    //////////////////////  **********   ///////////////////
+
     }
 
     @Override
@@ -365,7 +381,7 @@ public class GameView extends Pantalla {
 
   private enum EstadoJuego{
     JUGANDO,
-    PAUSADO,
+    PAUSANDO,
     INICIANDO,
     TERMINADO
   }
