@@ -2,6 +2,9 @@ package com.itesm.aboli2.jumpingboli.Pause;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -9,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
 import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
@@ -23,22 +27,28 @@ public class PauseView extends Pantalla {
 
     //Fondo
     private Texture texturaFondoPausa;
-    
+
+    //Botón moviéndose
+    //private MovBtnConfig movBtnConfig;
+    //private Viewport vista;
+
+
     public PauseView(GdXGame game) {
         super(game);
     }
 
+
     @Override
     public void show() {
         pauseStage = new Stage(super.viewport);
-        texturaFondoPausa = new Texture("fondos/pantallaPausa.png");
+        texturaFondoPausa = new Texture("fondos/fondoPausa.png");
         createPause();
-        pauseStage.addActor(ButtonFactory.getPlayBtn(game, new GameView(game)));
+        //pauseStage.addActor(ButtonFactory.getPlayBtn(game, new GameView(game)));
         Gdx.input.setInputProcessor(pauseStage);
     }
 
     private void createPause() {
-        //crearBtnPauJugar();
+        crearBtnPauJugar();
         crearBtnPauMenu();
         crearBtnPauRetry();
         crearBtnPauConfig();
@@ -60,55 +70,60 @@ public class PauseView extends Pantalla {
         pauseStage.addActor(btnPauConfig);
     }
 
+
+
     private void crearBtnPauRetry() {
         //Botón reintentar
         Texture texturaBtnPauRetry = new Texture("buttons/btn_Pausa_Retry.png");
         TextureRegionDrawable trdBtnPauRetry = new TextureRegionDrawable(new TextureRegion(texturaBtnPauRetry));
         ImageButton btnPauRetry = new ImageButton(trdBtnPauRetry);
-        btnPauRetry.setPosition(ANCHO_PANTALLA*0.95f, ALTO_PANTALLA*0.90f, Align.center);
+        btnPauRetry.setPosition(ANCHO_PANTALLA*0.80f, ALTO_PANTALLA*0.20f, Align.center);
         //Acción botón
         btnPauRetry.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y){
                 super.clicked(event, x, y);
-                game.setScreen(new ConfigurationView(game));
+                game.setScreen(new GameView(game));
             }
         });
         pauseStage.addActor(btnPauRetry);
     }
+
 
     private void crearBtnPauMenu() {
         //Botón regresar al Menu
         Texture texturaBtnPauMenu = new Texture("buttons/btn_Pausa_Menu.png");
         TextureRegionDrawable trdBtnPauMenu = new TextureRegionDrawable(new TextureRegion(texturaBtnPauMenu));
         ImageButton btnPauMenu = new ImageButton(trdBtnPauMenu);
-        btnPauMenu.setPosition(ANCHO_PANTALLA*0.95f, ALTO_PANTALLA*0.90f, Align.center);
+        btnPauMenu.setPosition(ANCHO_PANTALLA*0.20f, ALTO_PANTALLA*0.20f, Align.center);
         //Acción botón
         btnPauMenu.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y){
                 super.clicked(event, x, y);
-                game.setScreen(new ConfigurationView(game));
+                game.setScreen(new MenuView(game));
             }
         });
         pauseStage.addActor(btnPauMenu);
     }
 
-    /*
+
     private void crearBtnPauJugar() {
         //Botón reanudar
         Texture texturaBtnPauJugar = new Texture("buttons/btn_Pausa_Jugar.png");
         TextureRegionDrawable trdBtnPauJugar = new TextureRegionDrawable(new TextureRegion(texturaBtnPauJugar));
         ImageButton btnPauJugar = new ImageButton(trdBtnPauJugar);
-        btnPauJugar.setPosition(ANCHO_PANTALLA*0.95f, ALTO_PANTALLA*0.90f, Align.center);
+        btnPauJugar.setPosition(1280/2f, 720/2f, Align.center);
         //Acción botón
         btnPauJugar.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y){
                 super.clicked(event, x, y);
-                game.setScreen(new ConfigurationView(game));
+                game.setScreen(new GameView(game));
             }
         });
         pauseStage.addActor(btnPauJugar);
     }
-     */
+
+
+
 
     @Override
     public void render(float delta) {
@@ -117,6 +132,9 @@ public class PauseView extends Pantalla {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(texturaFondoPausa, 0, 0);
+        //movBtnConfig.draw();
+        //movBtnConfig.sprite.draw(batch);
+        //movBtnConfig.sprite.rotate(-10);
         batch.end();
         pauseStage.draw();
 
@@ -136,4 +154,19 @@ public class PauseView extends Pantalla {
     public void dispose() {
 
     }
+
+    /* INTENTO FALLIIDO DE QUE SE MUEVA UN BOTÓN
+    private class MovBtnConfig extends Stage {
+        Sprite sprite;
+
+        public MovBtnConfig(Viewport vista, SpriteBatch batch) {
+            super(vista, batch);
+
+            Texture texturaBtnPauConfig = new Texture("buttons/btn_Pausa_Config.png");
+            sprite = new Sprite(texturaBtnPauConfig);
+            sprite.setPosition(ANCHO_PANTALLA*0.95f, ALTO_PANTALLA*0.90f);
+        }
+    }
+
+     */
 }

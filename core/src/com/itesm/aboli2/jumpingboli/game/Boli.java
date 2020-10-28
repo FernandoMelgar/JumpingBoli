@@ -84,6 +84,7 @@ public class Boli extends GameObject {
      */
 
     if(estado == EstadoBoli.SALTANDO){
+      sprite.rotate(-100);
       tAire += delta;
       float y = yBase + V0*tAire - 0.5f*G*tAire*tAire;
       sprite.setY(y);
@@ -101,6 +102,7 @@ public class Boli extends GameObject {
        */
     }
     if(estado == EstadoBoli.CAYENDO){
+      sprite.rotate(-100);
       tAire += delta;
       V = yBase -0.5f*G*tAire*tAire;
        sprite.setY(V);
@@ -116,7 +118,7 @@ public class Boli extends GameObject {
     // ESPERA 3 SEGUNDOS PARA INICIAR EL MOVIMIENTO DE BOLI
     if (timerPausa > 3) {
       actualizar();
-      sprite.rotate(-15);
+      sprite.rotate(-20);
     }
   }
 
