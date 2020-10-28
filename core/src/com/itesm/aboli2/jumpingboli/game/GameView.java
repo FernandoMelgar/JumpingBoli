@@ -31,9 +31,10 @@ public class GameView extends Pantalla {
 
   private Stage gameStage;
 
-  private int speedCamera = 2;
+  private float velocidadCamara = 1;
 
   private final int TAM_CELDA = 32;
+  private float contadorFondo = 0;
 
   //Boli
   private Boli boli;
@@ -41,6 +42,10 @@ public class GameView extends Pantalla {
   //Mapa
   private TiledMap mapa;
   private OrthogonalTiledMapRenderer rendererMapa;
+
+  //fondo
+  private Texture texturaFondo;
+
 
   //Cámara/vista HUD.
   private Stage escenaHUD;
@@ -84,8 +89,18 @@ public class GameView extends Pantalla {
     crearHUD();
     crearEscudos();
     crearTexto();
-    moverBoli();
+    crearFondo();
+
+
     Gdx.input.setInputProcessor(escenaHUD);
+
+  }
+
+  private void crearFondo() {
+    texturaFondo = new Texture("mapas/NivelUno.png");
+  }
+
+  private void moverFondo(){
 
   }
 
@@ -203,18 +218,31 @@ public class GameView extends Pantalla {
   }
 
 
+
   @Override
   public void render(float delta) {
     //actualizar();
     cleanScreen();
     //moverCamara();
     colisionPlataforma();
-    batch.setProjectionMatrix(camera.combined);
+    moverFondo();
 
+    batch.begin();
+
+
+    if(estado == EstadoJuego.JUGANDO){
+      contadorFondo = contadorFondo - velocidadCamara;
+      if(contadorFondo <= -texturaFondo.getWidth()){
+        contadorFondo = 0;
+      }
+    }
+    batch.draw(texturaFondo, contadorFondo,0);
+    batch.draw(texturaFondo, texturaFondo.getWidth() + contadorFondo,0);
+
+    batch.setProjectionMatrix(camera.combined);
     rendererMapa.setView(camera);
     rendererMapa.render();
 
-    batch.begin();
     boli.render(batch);
     batch.end();
 
