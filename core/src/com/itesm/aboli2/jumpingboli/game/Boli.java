@@ -67,7 +67,11 @@ public class Boli extends GameObject {
     float delta  = Gdx.graphics.getDeltaTime();
     actualizarTimer(delta);
     Gdx.app.log("ESTADO", String.valueOf((estado)));
-    sprite.rotate(10);
+    if (delta < 3){
+      sprite.rotate(0);
+    }
+
+
 
     //actualizar();
 
@@ -110,8 +114,9 @@ public class Boli extends GameObject {
       estado = EstadoBoli.RODANDO;
     }
     // ESPERA 3 SEGUNDOS PARA INICIAR EL MOVIMIENTO DE BOLI
-    if (timerPausa > 3){
+    if (timerPausa > 3) {
       actualizar();
+      sprite.rotate(-15);
     }
   }
 
