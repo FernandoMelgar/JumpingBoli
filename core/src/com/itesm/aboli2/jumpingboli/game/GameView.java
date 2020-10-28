@@ -397,7 +397,7 @@ public class GameView extends Pantalla {
     }
   }
 
-  private enum EstadoJuego{
+  public enum EstadoJuego{
     JUGANDO,
     PAUSANDO,
     INICIANDO,
