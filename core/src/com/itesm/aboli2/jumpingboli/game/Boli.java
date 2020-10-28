@@ -69,7 +69,7 @@ public class Boli extends GameObject {
     actualizarTimer(delta);
 
     if (timerPausa>=3) {
-      sprite.rotate(-10);
+      sprite.rotate(-30);
     }
     //actualizar();
 
@@ -82,6 +82,7 @@ public class Boli extends GameObject {
      */
 
     if(estado == EstadoBoli.SALTANDO){
+      sprite.rotate(-100);
       tAire += delta;
       float y = yBase + V0*tAire - 0.5f*G*tAire*tAire;
       sprite.setY(y);
@@ -99,6 +100,7 @@ public class Boli extends GameObject {
        */
     }
     if(estado == EstadoBoli.CAYENDO){
+      sprite.rotate(-100);
       tAire += delta;
       V = yBase -0.5f*G*tAire*tAire;
        sprite.setY(V);
