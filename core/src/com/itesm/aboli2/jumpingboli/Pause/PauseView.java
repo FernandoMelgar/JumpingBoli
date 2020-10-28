@@ -11,7 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
+import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
 import com.itesm.aboli2.jumpingboli.configuration.ConfigurationView;
+import com.itesm.aboli2.jumpingboli.game.GameView;
+import com.itesm.aboli2.jumpingboli.menu.MenuView;
 
 public class PauseView extends Pantalla {
     
@@ -30,13 +33,12 @@ public class PauseView extends Pantalla {
         pauseStage = new Stage(super.viewport);
         texturaFondoPausa = new Texture("fondos/pantallaPausa.png");
         createPause();
+        pauseStage.addActor(ButtonFactory.getPlayBtn(game, new GameView(game)));
         Gdx.input.setInputProcessor(pauseStage);
-        
     }
 
-
     private void createPause() {
-        crearBtnPauJugar();
+        //crearBtnPauJugar();
         crearBtnPauMenu();
         crearBtnPauRetry();
         crearBtnPauConfig();
@@ -90,6 +92,7 @@ public class PauseView extends Pantalla {
         pauseStage.addActor(btnPauMenu);
     }
 
+    /*
     private void crearBtnPauJugar() {
         //Botón reanudar
         Texture texturaBtnPauJugar = new Texture("buttons/btn_Pausa_Jugar.png");
@@ -105,9 +108,17 @@ public class PauseView extends Pantalla {
         });
         pauseStage.addActor(btnPauJugar);
     }
+     */
 
     @Override
     public void render(float delta) {
+        cleanScreen();
+        // rgb(180,19,1)
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+        batch.draw(texturaFondoPausa, 0, 0);
+        batch.end();
+        pauseStage.draw();
 
     }
 
