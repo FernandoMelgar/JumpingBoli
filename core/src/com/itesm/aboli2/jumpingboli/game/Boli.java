@@ -3,6 +3,7 @@ package com.itesm.aboli2.jumpingboli.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.itesm.aboli2.jumpingboli.menu.MenuView;
 
 public class Boli extends GameObject {
 
@@ -66,13 +67,10 @@ public class Boli extends GameObject {
   public void render(SpriteBatch batch){
     float delta  = Gdx.graphics.getDeltaTime();
     actualizarTimer(delta);
-    Gdx.app.log("ESTADO", String.valueOf((estado)));
-    if (delta < 3){
-      sprite.rotate(0);
+
+    if (timerPausa>=3) {
+      sprite.rotate(-10);
     }
-
-
-
     //actualizar();
 
     /*
@@ -84,7 +82,6 @@ public class Boli extends GameObject {
      */
 
     if(estado == EstadoBoli.SALTANDO){
-      sprite.rotate(-100);
       tAire += delta;
       float y = yBase + V0*tAire - 0.5f*G*tAire*tAire;
       sprite.setY(y);
@@ -102,7 +99,6 @@ public class Boli extends GameObject {
        */
     }
     if(estado == EstadoBoli.CAYENDO){
-      sprite.rotate(-100);
       tAire += delta;
       V = yBase -0.5f*G*tAire*tAire;
        sprite.setY(V);
@@ -116,9 +112,8 @@ public class Boli extends GameObject {
       estado = EstadoBoli.RODANDO;
     }
     // ESPERA 3 SEGUNDOS PARA INICIAR EL MOVIMIENTO DE BOLI
-    if (timerPausa > 3) {
+    if (timerPausa > 3){
       actualizar();
-      sprite.rotate(-20);
     }
   }
 
