@@ -1,5 +1,6 @@
 package com.itesm.aboli2.jumpingboli.Pause;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -17,6 +18,7 @@ import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
 import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
 import com.itesm.aboli2.jumpingboli.configuration.ConfigurationView;
+import com.itesm.aboli2.jumpingboli.configuration.ConfigurationViewPause;
 import com.itesm.aboli2.jumpingboli.game.GameView;
 import com.itesm.aboli2.jumpingboli.menu.MenuView;
 
@@ -64,7 +66,7 @@ public class PauseView extends Pantalla {
         btnPauConfig.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y){
                 super.clicked(event, x, y);
-                game.setScreen(new ConfigurationView(game));
+                game.setScreen(new ConfigurationViewPause(game));
             }
         });
         pauseStage.addActor(btnPauConfig);
@@ -121,8 +123,6 @@ public class PauseView extends Pantalla {
         });
         pauseStage.addActor(btnPauJugar);
     }
-
-
 
 
     @Override
