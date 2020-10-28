@@ -25,6 +25,7 @@ import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
 import com.itesm.aboli2.jumpingboli.Pause.PauseView;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
+import com.itesm.aboli2.jumpingboli.menu.MenuView;
 
 public class GameView extends Pantalla {
 
