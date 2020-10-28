@@ -217,6 +217,7 @@ public class GameView extends Pantalla {
   }
 
 
+
   @Override
   public void render(float delta) {
     //actualizar();
@@ -224,9 +225,6 @@ public class GameView extends Pantalla {
     //moverCamara();
     colisionPlataforma();
     moverFondo();
-
-
-
 
     batch.begin();
 

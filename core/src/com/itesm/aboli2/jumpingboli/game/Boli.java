@@ -3,6 +3,7 @@ package com.itesm.aboli2.jumpingboli.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.itesm.aboli2.jumpingboli.menu.MenuView;
 
 public class Boli extends GameObject {
 
@@ -66,9 +67,10 @@ public class Boli extends GameObject {
   public void render(SpriteBatch batch){
     float delta  = Gdx.graphics.getDeltaTime();
     actualizarTimer(delta);
-    Gdx.app.log("ESTADO", String.valueOf((estado)));
-    sprite.rotate(10);
 
+    if (timerPausa>=3) {
+      sprite.rotate(-10);
+    }
     //actualizar();
 
     /*
