@@ -18,7 +18,7 @@ public class howToView extends Pantalla {
     @Override
     public void show() {
         howToStage = new Stage(super.viewport);
-        texturaFondo = new Texture("fondos/fondoExtra.png");
+        texturaFondo = new Texture("fondos/fondoHow.png");
         createHowToView();
         Gdx.input.setInputProcessor(howToStage);
     }

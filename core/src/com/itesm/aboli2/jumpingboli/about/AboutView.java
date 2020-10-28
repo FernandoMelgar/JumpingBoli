@@ -82,8 +82,8 @@ public class AboutView extends Pantalla {
     btnFlechaArriba.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
-        if(texturaFondo.getHeight()-alturaFondo <= ALTO_PANTALLA){
-          alturaFondo -= 15;
+        if(alturaFondo +720 > 0){
+          alturaFondo -= 30;
         }
       }
     });
@@ -101,8 +101,8 @@ public class AboutView extends Pantalla {
     btnFlecha.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
-        if(alturaFondo <= 0){
-          alturaFondo += 15;
+        if(alturaFondo < 0){
+          alturaFondo += 30;
         }
       }
     });
