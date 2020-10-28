@@ -41,12 +41,12 @@ public class DeathView extends Pantalla {
   public void render(float delta) {
     cleanScreen();
     // rgb(180,19,1)
-    paintScreen(180 / 255f, 19 / 255f, 1 / 255f);
+    //paintScreen(180 / 255f, 19 / 255f, 1 / 255f);
     batch.setProjectionMatrix(camera.combined);
     batch.begin();
     batch.draw(texturaFondoMuerte,0,0);
     //gameText.mostrarMensaje(batch, "You are Dead", ANCHO_PANTALLA * .5f, ALTO_PANTALLA * .8f, 200f);
-    gameText.mostrarMensaje(batch, "Score:" + " " + puntos + " pts", ANCHO_PANTALLA * .5f, ALTO_PANTALLA * .90f, 300f);
+    gameText.mostrarMensaje(batch, "Score:" + " " + puntos + " pts", ANCHO_PANTALLA * .535f, ALTO_PANTALLA * .665f, 300f);
     batch.end();
     deathStage.draw();
   }
