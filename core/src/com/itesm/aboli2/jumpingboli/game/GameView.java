@@ -137,6 +137,7 @@ public class GameView extends Pantalla {
     btnGPause.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
+        timerReanudacion = 0;
         estado = EstadoJuego.REANUDANDO;
         musicaFondo.pause();
         game.setScreen(new PauseView(game, gameView));
