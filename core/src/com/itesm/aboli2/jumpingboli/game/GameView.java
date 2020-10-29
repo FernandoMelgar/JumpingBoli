@@ -194,7 +194,13 @@ public class GameView extends Pantalla {
       TiledMapTileLayer.Cell celdaAbajo = capa.getCell(celdaX, celdaY);
       TiledMapTileLayer.Cell celdaDerecha = capa.getCell(celdaX + 1, celdaY);
       // probar si la celda está ocupada
-      if (celdaAbajo == null && celdaDerecha == null && boli.getEstado() != EstadoBoli.SALTANDO){
+
+    if ( esBuffMultiplicador(capa.getCell(celdaX,celdaY)) ) {
+      // Borrar esta estrella y contabilizar
+      capa.setCell(celdaX,celdaY,null);
+      boli.setEstadoBuff(EstadoBuff.BUFFDOBLEPUNTOS);
+    }
+      if ((celdaAbajo == null && celdaDerecha == null && boli.getEstado() != EstadoBoli.SALTANDO) || (esBuffMultiplicador(celdaAbajo) && boli.getEstado() != EstadoBoli.SALTANDO) || (esBuffMultiplicador(celdaDerecha) && boli.getEstado() != EstadoBoli.SALTANDO)){
         if(boli.getEstado() != EstadoBoli.CAYENDO){
           boli.setyBase(boli.getY());
           boli.cayendo();
@@ -219,6 +225,14 @@ public class GameView extends Pantalla {
     return true;
   }
 
+
+  private boolean esBuffMultiplicador(TiledMapTileLayer.Cell celda) {
+    if (celda==null) {
+      return false;
+    }
+    Object propiedad = celda.getTile().getProperties().get("tipo");
+    return "BuffMultiplicador".equals(propiedad);
+  }
 
 
   @Override
