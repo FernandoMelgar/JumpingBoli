@@ -58,6 +58,10 @@ public class Boli extends GameObject {
     return estado;
   }
 
+  public EstadoBuff getEstadoBuff(){
+    return estadoBuff;
+  }
+
   public void render(SpriteBatch batch){
     float delta  = Gdx.graphics.getDeltaTime();
     actualizarTimer(delta);

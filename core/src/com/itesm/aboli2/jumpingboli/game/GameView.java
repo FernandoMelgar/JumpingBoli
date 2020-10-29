@@ -72,7 +72,6 @@ public class GameView extends Pantalla {
 
   //TIMER
   float timerPausa;
-  float timerReanudar;
 
 
   public GameView(GdXGame game) {
@@ -133,7 +132,6 @@ public class GameView extends Pantalla {
     final Screen gameView = this;
     btnGPause.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
-        estado = EstadoJuego.REANUDANDO;
         super.clicked(event, x, y);
         musicaFondo.pause();
         game.setScreen(new PauseView(game, gameView));
@@ -196,7 +194,13 @@ public class GameView extends Pantalla {
       TiledMapTileLayer.Cell celdaAbajo = capa.getCell(celdaX, celdaY);
       TiledMapTileLayer.Cell celdaDerecha = capa.getCell(celdaX + 1, celdaY);
       // probar si la celda está ocupada
-      if (celdaAbajo == null && celdaDerecha == null && boli.getEstado() != EstadoBoli.SALTANDO){
+
+    if ( esBuffMultiplicador(capa.getCell(celdaX,celdaY)) ) {
+      // Borrar esta estrella y contabilizar
+      capa.setCell(celdaX,celdaY,null);
+      boli.setEstadoBuff(EstadoBuff.BUFFDOBLEPUNTOS);
+    }
+      if ((celdaAbajo == null && celdaDerecha == null && boli.getEstado() != EstadoBoli.SALTANDO) || (esBuffMultiplicador(celdaAbajo) && boli.getEstado() != EstadoBoli.SALTANDO) || (esBuffMultiplicador(celdaDerecha) && boli.getEstado() != EstadoBoli.SALTANDO)){
         if(boli.getEstado() != EstadoBoli.CAYENDO){
           boli.setyBase(boli.getY());
           boli.cayendo();
@@ -222,6 +226,15 @@ public class GameView extends Pantalla {
   }
 
 
+  private boolean esBuffMultiplicador(TiledMapTileLayer.Cell celda) {
+    if (celda==null) {
+      return false;
+    }
+    Object propiedad = celda.getTile().getProperties().get("tipo");
+    return "BuffMultiplicador".equals(propiedad);
+  }
+
+
   @Override
   public void render(float delta) {
     //actualizar();
@@ -231,6 +244,9 @@ public class GameView extends Pantalla {
     moverFondo();
 
     batch.begin();
+    boliVivo();
+
+
 
     if(estado == EstadoJuego.JUGANDO){
       contadorFondo = contadorFondo - velocidadCamara;
@@ -249,7 +265,6 @@ public class GameView extends Pantalla {
     batch.end();
 
     actualizarTimer(delta);
-
     // COMPRUEBA SI BOLI ESTÁ VIVO (FALTARÍA AGREGAR ESTADO)
     boliVivo();
 
@@ -264,15 +279,6 @@ public class GameView extends Pantalla {
       // DETIENE EL  PUNTAJE Y EL MOVIMIENTO DEL MAPA
       moverCamara();
       actualizar();
-    }
-
-    if (estado == EstadoJuego.REANUDANDO){
-      Gdx.app.log("PAUSANDO", "Tiempo: " + (int)(timerReanudar));
-      batch.begin();
-      //gameText.mostrarMensaje(batch, "" + (int) (3 - timerReanudar),
-              //ANCHO_PANTALLA / 2, ALTO_PANTALLA / 2);
-      batch.end();
-      actualizarTimerPausa(delta);
     }
     /*
     // USAR otra CÁMARA/VISTA
@@ -305,14 +311,6 @@ public class GameView extends Pantalla {
 
   }
 
-  private void actualizarTimerPausa(float delta) {
-    timerReanudar = 0;
-    timerReanudar += delta;
-    if (estado == EstadoJuego.REANUDANDO && delta >= delta+3) {
-      estado = EstadoJuego.JUGANDO;
-    }
-  }
-
   private void dibujarPuntaje() {
     int intPuntos = (int)puntos;
     gameText.mostrarMensaje(batch, "" + intPuntos, ANCHO_PANTALLA * 0.12f, ALTO_PANTALLA * 0.915f);
@@ -327,7 +325,12 @@ public class GameView extends Pantalla {
   }
 
   private void actualizarPuntos() {
-    puntos+= 1;
+    if(boli.getEstadoBuff() == EstadoBuff.BUFFDOBLEPUNTOS){
+      puntos+= 2;
+    }else{
+      puntos+= 1;
+    }
+
   }
 
   private void actualizarEscudo() {
