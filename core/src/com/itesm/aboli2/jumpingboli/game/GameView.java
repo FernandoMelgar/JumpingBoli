@@ -135,6 +135,7 @@ public class GameView extends Pantalla {
     btnGPause.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
+        estado = EstadoJuego.REANUDANDO;
         musicaFondo.pause();
         game.setScreen(new PauseView(game, gameView));
       }
@@ -239,6 +240,13 @@ public class GameView extends Pantalla {
     return "BuffMultiplicador".equals(propiedad);
   }
 
+  /*
+  public int fijarDelta(float delta){
+    static int tiempo = delta;
+  }
+
+   */
+
 
   @Override
   public void render(float delta) {
@@ -269,9 +277,11 @@ public class GameView extends Pantalla {
     boli.render(batch);
     batch.end();
 
+
     actualizarTimer(delta);
     // COMPRUEBA SI BOLI ESTÁ VIVO (FALTARÍA AGREGAR ESTADO)
     boliVivo();
+      Gdx.app.log("TIEMPO", "Tiempo: " + (int)(timerPausa));
 
     // INICIANDO
     if (estado == EstadoJuego.INICIANDO){
@@ -306,6 +316,8 @@ public class GameView extends Pantalla {
     batch.end();
     escenaHUD.draw();
   }
+
+
 
   private void actualizarTimer(float delta) {
     timerPausa += delta;
