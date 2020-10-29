@@ -230,6 +230,8 @@ public class GameView extends Pantalla {
     moverFondo();
 
     batch.begin();
+    boliVivo();
+
 
 
     if(estado == EstadoJuego.JUGANDO){
@@ -292,7 +294,7 @@ public class GameView extends Pantalla {
     if (estado == EstadoJuego.INICIANDO && timerPausa>=3) {
       estado = EstadoJuego.JUGANDO;
     }
-    boliVivo();
+
   }
 
   private void dibujarPuntaje() {
@@ -404,6 +406,7 @@ public class GameView extends Pantalla {
     JUGANDO,
     PAUSANDO,
     INICIANDO,
+    REANUDANDO,
     TERMINADO
   }
 
