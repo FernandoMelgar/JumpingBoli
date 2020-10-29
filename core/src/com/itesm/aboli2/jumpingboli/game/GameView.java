@@ -95,7 +95,7 @@ public class GameView extends Pantalla {
       crearTexto();
       crearFondo();
     }else {
-      musicaFondo.play();
+
     }
     Gdx.input.setInputProcessor(escenaHUD);
 
@@ -343,6 +343,7 @@ public class GameView extends Pantalla {
   private void actualizarTimerReanudacion() {
     if (timerReanudacion / 60 > segundosReanudación) {
       estado = EstadoJuego.JUGANDO;
+      musicaFondo.play();
       boli.setEstadoBoli(EstadoBoli.RODANDO);
     }
   }
