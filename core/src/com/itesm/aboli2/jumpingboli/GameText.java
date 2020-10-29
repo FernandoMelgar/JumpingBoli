@@ -26,7 +26,7 @@ public class GameText {
     GlyphLayout glyp = new GlyphLayout();
     glyp.setText(font, mensaje);
     float anchoTexto = fontSize;
-    glyp.setText(font, mensaje, Color.BLACK, glyp.width, Align.center, false);
+    glyp.setText(font, mensaje, Color.WHITE, glyp.width, Align.center, false);
     font.draw(batch, glyp, x - anchoTexto / 2, y);
   }
 }
