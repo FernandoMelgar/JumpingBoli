@@ -137,7 +137,7 @@ public class GameView extends Pantalla {
     btnGPause.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
-        estado = EstadoJuego.JUGANDO;
+        estado = EstadoJuego.REANUDANDO;
         musicaFondo.pause();
         game.setScreen(new PauseView(game, gameView));
       }
@@ -281,9 +281,11 @@ public class GameView extends Pantalla {
       batch.end();
     }
 
-    /*
+
     if (estado == EstadoJuego.REANUDANDO){
-      boli.setEstadoBoli(EstadoBoli.QUIETO);
+      //boli.setEstadoBoli(EstadoBoli.QUIETO);
+      boli.setDX(0);
+      boli.sprite.rotate(30);
       batch.begin();
       Gdx.app.log("TIEMPO", "Tiempo: " + (int)(timerReanudacion/60));
       gameText.mostrarMensaje(batch, "" + (int) (3 - timerReanudacion/60),
@@ -292,10 +294,12 @@ public class GameView extends Pantalla {
       batch.end();
       actualizarTimerReanudacion();
     }
-    */
+
 
     if (estado == EstadoJuego.JUGANDO) {
       // DETIENE EL  PUNTAJE Y EL MOVIMIENTO DEL MAPA
+      boli.setDX(4.5f);
+
       moverCamara();
       actualizar();
     }

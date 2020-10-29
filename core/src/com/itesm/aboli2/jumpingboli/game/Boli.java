@@ -18,6 +18,7 @@ public class Boli extends GameObject {
   public float DY = -8f;
   private float V;
   private float timerPausa;
+  private float timerReanudacion;
 
 
   public Boli(Texture textura, float x, float y) {
@@ -34,6 +35,11 @@ public class Boli extends GameObject {
   public float getDX() {
     return DX;
   }
+
+  public void setDX(float DX){
+    this.DX = DX;
+  }
+
 
 
   public void saltar() {
@@ -74,14 +80,20 @@ public class Boli extends GameObject {
     float delta = Gdx.graphics.getDeltaTime();
     actualizarTimer(delta);
     estado = getEstado();
+    DX = getDX();
+    Gdx.app.log("EstadoBoli", "Boli: " + getEstado());
 
     if (estado == EstadoBoli.RODANDO && timerPausa >= 3) {
       sprite.rotate(-30);
     }
-
-    if (estado == EstadoBoli.QUIETO) {
-      sprite.rotate(0);
+/*
+    if (estado == EstadoBoli.QUIETO && timerReanudacion <= 3) {
+      DX = 0;
+      timerReanudacion++;
+      actualizarTimerReanudacion();
     }
+
+ */
 
     if (estado == EstadoBoli.SALTANDO) {
       sprite.rotate(-100);
@@ -128,6 +140,16 @@ public class Boli extends GameObject {
       actualizar();
     }
   }
+
+  /*
+  private void actualizarTimerReanudacion() {
+    if (timerReanudacion / 60 <= 3) {
+      estado = EstadoBoli.QUIETO;
+    }
+    estado = EstadoBoli.RODANDO;
+  }
+
+   */
 
 
   public float getX() {
