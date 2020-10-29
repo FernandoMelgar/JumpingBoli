@@ -72,6 +72,8 @@ public class GameView extends Pantalla {
 
   //TIMER
   float timerPausa;
+  float timerBuffMultiplicador = 0;
+  final float segundosBuff = 5;
 
 
   public GameView(GdXGame game) {
@@ -195,9 +197,9 @@ public class GameView extends Pantalla {
       TiledMapTileLayer.Cell celdaDerecha = capa.getCell(celdaX + 1, celdaY);
       // probar si la celda está ocupada
 
-    if ( esBuffMultiplicador(capa.getCell(celdaX,celdaY)) ) {
-      // Borrar esta estrella y contabilizar
-      capa.setCell(celdaX,celdaY,null);
+    if ( esBuffMultiplicador(capa.getCell(celdaX+1,celdaY+1)) ) {
+      Gdx.app.log("MUERTO", "F");      // Borrar esta estrella y contabilizar
+      capa.setCell(celdaX+1,celdaY+1,null);
       boli.setEstadoBuff(EstadoBuff.BUFFDOBLEPUNTOS);
     }
       if ((celdaAbajo == null && celdaDerecha == null && boli.getEstado() != EstadoBoli.SALTANDO) || (esBuffMultiplicador(celdaAbajo) && boli.getEstado() != EstadoBoli.SALTANDO) || (esBuffMultiplicador(celdaDerecha) && boli.getEstado() != EstadoBoli.SALTANDO)){
@@ -219,7 +221,6 @@ public class GameView extends Pantalla {
       camera.position.x = ANCHO_PANTALLA;
       musicaFondo.dispose();
       game.setScreen(new DeathView(game, puntos));
-      Gdx.app.log("MUERTO", "F");
       return false;
     }
     return true;
@@ -230,7 +231,11 @@ public class GameView extends Pantalla {
     if (celda==null) {
       return false;
     }
+
     Object propiedad = celda.getTile().getProperties().get("tipo");
+    if("BuffMultiplicador".equals(propiedad)){
+      Gdx.app.log("MUERTO", "todo bien");
+    }
     return "BuffMultiplicador".equals(propiedad);
   }
 
@@ -270,7 +275,6 @@ public class GameView extends Pantalla {
 
     // INICIANDO
     if (estado == EstadoJuego.INICIANDO){
-      Gdx.app.log("INICIANDO", "Tiempo: " + (int)(timerPausa));
       batch.begin();
       gameText.mostrarMensaje(batch, "" + (int) (3 - timerPausa),
           ANCHO_PANTALLA / 2, ALTO_PANTALLA / 2);
@@ -326,9 +330,14 @@ public class GameView extends Pantalla {
 
   private void actualizarPuntos() {
     if(boli.getEstadoBuff() == EstadoBuff.BUFFDOBLEPUNTOS){
-      puntos+= 2;
+      timerBuffMultiplicador++;
+      puntos+= 0.2f;
+      if(timerBuffMultiplicador/60 > segundosBuff){
+        timerBuffMultiplicador = 0;
+        boli.setEstadoBuff(EstadoBuff.NORMAL);
+      }
     }else{
-      puntos+= 1;
+      puntos+= 0.1f;
     }
 
   }
