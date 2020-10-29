@@ -114,7 +114,6 @@ public class AboutView extends Pantalla {
 
     aboutStage.draw();
     escenaHUD.draw();
-
   }
 
   @Override
