@@ -46,7 +46,7 @@ public class DeathView extends Pantalla {
     batch.begin();
     batch.draw(texturaFondoMuerte,0,0);
     //gameText.mostrarMensaje(batch, "You are Dead", ANCHO_PANTALLA * .5f, ALTO_PANTALLA * .8f, 200f);
-    gameText.mostrarMensaje(batch, "Score:" + " " + puntos + " pts", ANCHO_PANTALLA * .535f, ALTO_PANTALLA * .665f, 300f);
+    gameText.mostrarMensaje(batch, "Score:" + " " + (int)puntos + " pts", ANCHO_PANTALLA * .535f, ALTO_PANTALLA * .665f, 300f);
     batch.end();
     deathStage.draw();
   }
