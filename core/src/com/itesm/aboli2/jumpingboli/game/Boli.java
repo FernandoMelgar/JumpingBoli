@@ -121,6 +121,7 @@ public class Boli extends GameObject {
       sprite.rotate(-10);
     }
 
+
     super.render(batch);
   }
 

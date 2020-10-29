@@ -284,7 +284,8 @@ public class GameView extends Pantalla {
 
 
     if (estado == EstadoJuego.REANUDANDO){
-      //boli.setEstadoBoli(EstadoBoli.QUIETO);
+      boli.sprite.setX(boli.getX());
+      boli.sprite.setY(boli.getY());
       boli.setDX(0);
       boli.sprite.rotate(30);
       batch.begin();
@@ -294,13 +295,16 @@ public class GameView extends Pantalla {
       timerReanudacion++;
       batch.end();
       actualizarTimerReanudacion();
+    } if (boli.getEstado() == EstadoBoli.CAYENDO){
+      boli.sprite.setX(boli.getX());
+      boli.sprite.setY(boli.getY());
+      boli.setDX(4.5f);
     }
 
 
     if (estado == EstadoJuego.JUGANDO) {
       // DETIENE EL  PUNTAJE Y EL MOVIMIENTO DEL MAPA
       boli.setDX(4.5f);
-
       moverCamara();
       actualizar();
     }
