@@ -91,9 +91,7 @@ public class GameView extends Pantalla {
     crearTexto();
     crearFondo();
 
-
     Gdx.input.setInputProcessor(escenaHUD);
-
   }
 
   private void crearFondo() {

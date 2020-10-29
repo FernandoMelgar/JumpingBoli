@@ -18,6 +18,7 @@ import com.itesm.aboli2.jumpingboli.GameText;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
 import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
+import com.itesm.aboli2.jumpingboli.button.GameButton;
 import com.itesm.aboli2.jumpingboli.menu.MenuView;
 import com.itesm.aboli2.jumpingboli.skins.SkinsView;
 
@@ -71,12 +72,7 @@ public class AboutView extends Pantalla {
 
     //Creamos los botones para subir y bajar.
     //Botón flecha arriba
-    Texture texturaBtnFlechaArriba = new Texture("buttons/btnFlechaArriba.png");
-    TextureRegionDrawable trdBtnFlechaArriba = new TextureRegionDrawable(new TextureRegion(texturaBtnFlechaArriba));
-    //Botón flecha picado
-    Texture btnFlechaArribaPicado = new Texture("buttons/btnFlechaArribaPicado.png");
-    TextureRegionDrawable trdBtnFlechaArribaPicado = new TextureRegionDrawable(new TextureRegion(btnFlechaArribaPicado));
-    ImageButton btnFlechaArriba = new ImageButton(trdBtnFlechaArriba, trdBtnFlechaArribaPicado);
+    ImageButton btnFlechaArriba = new GameButton("buttons/btnFlechaArriba.png", "buttons/btnFlechaArribaPicado.png");
     btnFlechaArriba.setPosition(ANCHO_PANTALLA*0.92f, ALTO_PANTALLA*0.9f, Align.center);
     //Acción botón
     btnFlechaArriba.addListener(new ClickListener() {
@@ -90,15 +86,10 @@ public class AboutView extends Pantalla {
 
 
     //Botón flecha abajo
-    Texture texturaBtnFlecha = new Texture("buttons/btnFlecha.png");
-    TextureRegionDrawable trdBtnFlecha = new TextureRegionDrawable(new TextureRegion(texturaBtnFlecha));
-    //Botón flecha picado
-    Texture btnFlechaPicado = new Texture("buttons/btnFlechaPicado.png");
-    TextureRegionDrawable trdBtnFlechaPicado = new TextureRegionDrawable(new TextureRegion(btnFlechaPicado));
-    ImageButton btnFlecha = new ImageButton(trdBtnFlecha, trdBtnFlechaPicado);
-    btnFlecha.setPosition(ANCHO_PANTALLA*0.92f, ALTO_PANTALLA*0.1f, Align.center);
+    ImageButton btnFlechaAbajo = new GameButton("buttons/btnFlecha.png", "buttons/btnFlechaPicado.png");
+    btnFlechaAbajo.setPosition(ANCHO_PANTALLA*0.92f, ALTO_PANTALLA*0.1f, Align.center);
     //Acción botón
-    btnFlecha.addListener(new ClickListener() {
+    btnFlechaAbajo.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
         if(alturaFondo < 0){
@@ -107,10 +98,8 @@ public class AboutView extends Pantalla {
       }
     });
     escenaHUD.addActor(btnFlechaArriba); //Botón flecha arriba
-    escenaHUD.addActor(btnFlecha); //Botón flecha abajo.
+    escenaHUD.addActor(btnFlechaAbajo); //Botón flecha abajo.
     escenaHUD.addActor(ButtonFactory.getReturnBtn(game, new MenuView(game))); //Botón back.
-
-
   }
 
 
