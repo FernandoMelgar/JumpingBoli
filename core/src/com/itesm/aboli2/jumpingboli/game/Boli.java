@@ -40,20 +40,16 @@ public class Boli extends GameObject {
     this.DX = DX;
   }
 
-
-
   public void saltar() {
     estado = EstadoBoli.SALTANDO;
     tAire = 0;
     tVuelo = 2 * V0 / G;
-
   }
 
   public void cayendo() {
     tAire = 0;
     yBase = sprite.getY();
     estado = EstadoBoli.CAYENDO;
-
   }
 
   public double getV() {
@@ -120,12 +116,10 @@ public class Boli extends GameObject {
       sprite.setY(V);
     }
 
-    /*
     if(estado == EstadoBoli.QUIETO){
-      timerPausa = 0;
-      estado = EstadoBoli.RODANDO;
+      DX = 0;
+      sprite.rotate(-10);
     }
-     */
 
     super.render(batch);
   }

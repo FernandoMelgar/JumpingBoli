@@ -143,7 +143,6 @@ public class SkinsView extends Pantalla {
   public void render(float delta) {
     cleanScreen();
     hacerSaltarBoli(delta);
-    //regresarBoli(delta);
     batch.setProjectionMatrix(camera.combined);
 
     batch.begin();
@@ -159,18 +158,9 @@ public class SkinsView extends Pantalla {
     skinsStage.draw();
   }
 
-  private void regresarBoli(float tiempo) {
-    timerRegreso += tiempo;
-    if(timerRegreso>=3){
-      //boliCentral.setEstadoBoli(EstadoBoli.QUIETO);
-      //boliCentral.setPosicion(ANCHO_PANTALLA*0.17f, ALTO_PANTALLA*0.21f);
-      timerRegreso = 0;
-    }
-  }
-
   private void hacerSaltarBoli(float tiempo) {
     timerSalto += tiempo;
-    if (timerSalto >= 8){
+    if (timerSalto >= 10){
       boliCentral.setEstadoBoli(EstadoBoli.SALTANDO);
       boliCentral.saltar();
       timerSalto = 0;
