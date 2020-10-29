@@ -325,7 +325,12 @@ public class GameView extends Pantalla {
   }
 
   private void actualizarPuntos() {
-    puntos+= 1;
+    if(boli.getEstadoBuff() == EstadoBuff.BUFFDOBLEPUNTOS){
+      puntos+= 2;
+    }else{
+      puntos+= 1;
+    }
+
   }
 
   private void actualizarEscudo() {
