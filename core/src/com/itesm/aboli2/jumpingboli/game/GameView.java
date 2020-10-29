@@ -74,6 +74,8 @@ public class GameView extends Pantalla {
   float timerPausa;
   float timerBuffMultiplicador = 0;
   final float segundosBuff = 5;
+  float timerReanudacion = 0;
+  final float segundosReanudación = 3;
 
 
   public GameView(GdXGame game) {
@@ -235,31 +237,30 @@ public class GameView extends Pantalla {
 
     Object propiedad = celda.getTile().getProperties().get("tipo");
     if("BuffMultiplicador".equals(propiedad)){
-      Gdx.app.log("MUERTO", "todo bien");
+      Gdx.app.log("BUFF", "todo bien");
     }
     return "BuffMultiplicador".equals(propiedad);
   }
 
-  /*
-  public int fijarDelta(float delta){
-    static int tiempo = delta;
+/*
+  public float get(float delta){
+    final float tiempo = delta;
+    Gdx.app.log("TIEMPOFIJO", "Tiempofijo: " + (int)(tiempo));
   }
+ */
 
-   */
 
 
   @Override
   public void render(float delta) {
-    //actualizar();
     cleanScreen();
-    //moverCamara();
     colisionPlataforma();
     moverFondo();
 
     batch.begin();
     boliVivo();
 
-
+    Gdx.app.log("ESTADO", "estado: " + estado);
 
     if(estado == EstadoJuego.JUGANDO){
       contadorFondo = contadorFondo - velocidadCamara;
@@ -281,19 +282,21 @@ public class GameView extends Pantalla {
     actualizarTimer(delta);
     // COMPRUEBA SI BOLI ESTÁ VIVO (FALTARÍA AGREGAR ESTADO)
     boliVivo();
-      Gdx.app.log("TIEMPO", "Tiempo: " + (int)(timerPausa));
 
     // INICIANDO
-    if (estado == EstadoJuego.INICIANDO){
+    if (estado == EstadoJuego.INICIANDO && timerPausa < 4){
       batch.begin();
       gameText.mostrarMensaje(batch, "" + (int) (3 - timerPausa),
           ANCHO_PANTALLA / 2, ALTO_PANTALLA / 2);
       batch.end();
-    } else {
+    } else if (estado == EstadoJuego.REANUDANDO){
+      actualizarTimerReanudacion();
+    } else if (estado == EstadoJuego.JUGANDO) {
       // DETIENE EL  PUNTAJE Y EL MOVIMIENTO DEL MAPA
       moverCamara();
       actualizar();
     }
+
     /*
     // USAR otra CÁMARA/VISTA
     if (estado == EstadoJuego.PAUSANDO) {
@@ -324,7 +327,20 @@ public class GameView extends Pantalla {
     if (estado == EstadoJuego.INICIANDO && timerPausa>=3) {
       estado = EstadoJuego.JUGANDO;
     }
+  }
 
+  private void actualizarTimerReanudacion() {
+    boli.setEstadoBoli(EstadoBoli.QUIETO);
+    batch.begin();
+    Gdx.app.log("TIEMPO", "Tiempo: " + (int)(timerReanudacion/60));
+    gameText.mostrarMensaje(batch, "" + (int) (3 - timerReanudacion/60),
+            ANCHO_PANTALLA / 2, ALTO_PANTALLA / 2);
+    timerReanudacion++;
+    batch.end();
+    if (timerReanudacion / 60 > segundosReanudación) {
+      boli.setEstadoBoli(EstadoBoli.RODANDO);
+      estado = EstadoJuego.JUGANDO;
+    }
   }
 
   private void dibujarPuntaje() {
@@ -353,6 +369,7 @@ public class GameView extends Pantalla {
     }
 
   }
+
 
   private void actualizarEscudo() {
     for(int i = arrEscudos.size-1; i>= 0; i--){

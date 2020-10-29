@@ -58,13 +58,22 @@ public class Boli extends GameObject {
     return estado;
   }
 
+  public void setEstadoBoli(EstadoBoli nuevoEstado){
+    estado = nuevoEstado;
+  }
+
   public EstadoBuff getEstadoBuff(){
     return estadoBuff;
+  }
+
+  public void setEstadoBuff(EstadoBuff nuevoEstado){
+    estadoBuff = nuevoEstado;
   }
 
   public void render(SpriteBatch batch){
     float delta  = Gdx.graphics.getDeltaTime();
     actualizarTimer(delta);
+    estado = getEstado();
 
     if (timerPausa>=3 && estado == EstadoBoli.RODANDO) {
       sprite.rotate(-30);
@@ -103,8 +112,9 @@ public class Boli extends GameObject {
       V = yBase -0.5f*G*tAire*tAire;
        sprite.setY(V);
     }
+
     if(estado == EstadoBoli.QUIETO){
-      sprite.rotate(-10);
+      sprite.rotate(0);
       sprite.setX(getX());
       sprite.setY(getY());
     }
@@ -122,12 +132,8 @@ public class Boli extends GameObject {
     }
   }
 
-  public void setEstadoBoli(EstadoBoli nuevoEstado){
-    estado = nuevoEstado;
-  }
-  public void setEstadoBuff(EstadoBuff nuevoEstado){
-    estadoBuff = nuevoEstado;
-  }
+
+
 
   public float getX() {
     return sprite.getX();
