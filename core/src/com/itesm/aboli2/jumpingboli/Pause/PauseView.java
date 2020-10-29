@@ -41,7 +41,7 @@ public class PauseView extends Pantalla {
         fromScreen = gameView;
     }
 
-    public PauseView(GdXGame game, ClickListener clickListener) {
+    public PauseView(GdXGame game) {
         super(game);
 
     }
