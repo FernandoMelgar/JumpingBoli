@@ -60,7 +60,7 @@ public class PauseView extends Pantalla {
         crearBtnPauJugar();
         crearBtnPauMenu();
         crearBtnPauRetry();
-        crearBtnPauConfig();
+        //crearBtnPauConfig();
     }
 
     private void crearBtnPauConfig() {
