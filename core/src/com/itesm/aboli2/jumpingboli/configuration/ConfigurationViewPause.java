@@ -51,7 +51,7 @@ public class ConfigurationViewPause extends Pantalla {
     btnBack.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
-        game.setScreen(new PauseView(game));
+//        game.setScreen(new PauseView(game));
       }
     });
     configurationStage.addActor(btnBack);

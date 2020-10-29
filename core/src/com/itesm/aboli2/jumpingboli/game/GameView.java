@@ -2,6 +2,7 @@ package com.itesm.aboli2.jumpingboli.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
@@ -66,7 +67,7 @@ public class GameView extends Pantalla {
   private float puntos;
 
   //Inicia el juego
-  private EstadoJuego estado = EstadoJuego.INICIANDO;
+   public EstadoJuego estado = EstadoJuego.INICIANDO;
 
 
   //TIMER
@@ -79,18 +80,19 @@ public class GameView extends Pantalla {
 
   @Override
   public void show() {
-    gameStage = new Stage(super.viewport);
-
-    manager = new AssetManager();
-    crearAudio();
-    crearBoli();
-    crearMapa();
-    crearHUD();
-    crearEscudos();
-    crearTexto();
-    crearFondo();
-
-
+    if (estado == EstadoJuego.INICIANDO ){
+      gameStage = new Stage(super.viewport);
+      manager = new AssetManager();
+      crearAudio();
+      crearBoli();
+      crearMapa();
+      crearHUD();
+      crearEscudos();
+      crearTexto();
+      crearFondo();
+    }else {
+      musicaFondo.play();
+    }
     Gdx.input.setInputProcessor(escenaHUD);
 
   }
@@ -127,11 +129,12 @@ public class GameView extends Pantalla {
     ImageButton btnGPause = new GameButton("buttons/btnPause.png");
     btnGPause.setPosition(ANCHO_PANTALLA*0.95f, ALTO_PANTALLA*0.90f, Align.center);
     //Acción botón
+    final Screen gameView = this;
     btnGPause.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
-        musicaFondo.dispose();
-        game.setScreen(new PauseView(game));
+        musicaFondo.pause();
+        game.setScreen(new PauseView(game, gameView));
       }
     });
     ImageButton bntSalto = new GameButton("buttons/boton_128.png");
@@ -341,7 +344,7 @@ public class GameView extends Pantalla {
 
   @Override
   public void dispose() {
-    batch.dispose();
+
   }
 
   class ProcesadorEntrada implements InputProcessor {
