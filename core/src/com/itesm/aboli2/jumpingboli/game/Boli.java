@@ -50,25 +50,19 @@ public class Boli extends GameObject {
 
   }
 
-
   public double getV(){
     return V;
   }
-
-
-
 
   public EstadoBoli getEstado(){
     return estado;
   }
 
-
-
   public void render(SpriteBatch batch){
     float delta  = Gdx.graphics.getDeltaTime();
     actualizarTimer(delta);
 
-    if (timerPausa>=3) {
+    if (timerPausa>=3 && estado == EstadoBoli.RODANDO) {
       sprite.rotate(-30);
     }
     //actualizar();
@@ -105,6 +99,11 @@ public class Boli extends GameObject {
       V = yBase -0.5f*G*tAire*tAire;
        sprite.setY(V);
     }
+    if(estado == EstadoBoli.QUIETO){
+      sprite.rotate(-10);
+      sprite.setX(getX());
+      sprite.setY(getY());
+    }
     super.render(batch);
   }
 
@@ -114,7 +113,7 @@ public class Boli extends GameObject {
       estado = EstadoBoli.RODANDO;
     }
     // ESPERA 3 SEGUNDOS PARA INICIAR EL MOVIMIENTO DE BOLI
-    if (timerPausa > 3){
+    if (timerPausa > 3 && estado != EstadoBoli.QUIETO){
       actualizar();
     }
   }
@@ -144,5 +143,10 @@ public class Boli extends GameObject {
 
   public void setPosicion(float x, int i) {
     sprite.setPosition(x,i);
+  }
+
+  public void setPosicion(float x, float y){
+    sprite.setX(x);
+    sprite.setY(y);
   }
 }

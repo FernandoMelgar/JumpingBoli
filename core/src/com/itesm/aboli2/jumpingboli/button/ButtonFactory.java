@@ -25,7 +25,7 @@ public class ButtonFactory {
 
   public static ImageButton getReturnBtn(final GdXGame context, final Screen toScreen) {
     ImageButton btnReturn = new GameButton("buttons/btnBack.png", "buttons/btnBackPicado.png");
-    btnReturn.setPosition(1280 * .5f, 720 * .2f, Align.center);
+    btnReturn.setPosition(1280 * .1f, 720 * .9f, Align.center);
     btnReturn.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
@@ -35,6 +35,4 @@ public class ButtonFactory {
     });
     return btnReturn;
   }
-
-
 }

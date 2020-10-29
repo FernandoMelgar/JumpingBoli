@@ -4,20 +4,32 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Tree;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.itesm.aboli2.jumpingboli.GameText;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
 import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
+import com.itesm.aboli2.jumpingboli.button.GameButton;
 import com.itesm.aboli2.jumpingboli.menu.MenuView;
+import com.itesm.aboli2.jumpingboli.skins.SkinsView;
+
+import sun.font.TrueTypeFont;
 
 
 public class AboutView extends Pantalla {
 
   //Fondo
   private Texture texturaFondo;
+  private float alturaFondo;
 
   //Texto
   private GameText gameText;
@@ -39,7 +51,8 @@ public class AboutView extends Pantalla {
   @Override
   public void show() {
     aboutStage = new Stage(super.viewport);
-    texturaFondo = new Texture("fondos/fondoExtra.png");
+    texturaFondo = new Texture("fondos/fondoAbout.png");
+    alturaFondo = -ALTO_PANTALLA;
     createText();
     crearButtonLayer();
     Gdx.input.setInputProcessor(escenaHUD);
@@ -57,10 +70,36 @@ public class AboutView extends Pantalla {
 
     escenaHUD = new Stage(vistaHUD);
 
-    //Creamos el botón back
+    //Creamos los botones para subir y bajar.
+    //Botón flecha arriba
+    ImageButton btnFlechaArriba = new GameButton("buttons/btnFlechaArriba.png", "buttons/btnFlechaArribaPicado.png");
+    btnFlechaArriba.setPosition(ANCHO_PANTALLA*0.92f, ALTO_PANTALLA*0.9f, Align.center);
+    //Acción botón
+    btnFlechaArriba.addListener(new ClickListener() {
+      public void clicked(InputEvent event, float x, float y){
+        super.clicked(event, x, y);
+        if(alturaFondo +720 > 0){
+          alturaFondo -= 30;
+        }
+      }
+    });
 
-    escenaHUD.addActor(ButtonFactory.getReturnBtn(game, new MenuView(game)));
 
+    //Botón flecha abajo
+    ImageButton btnFlechaAbajo = new GameButton("buttons/btnFlecha.png", "buttons/btnFlechaPicado.png");
+    btnFlechaAbajo.setPosition(ANCHO_PANTALLA*0.92f, ALTO_PANTALLA*0.1f, Align.center);
+    //Acción botón
+    btnFlechaAbajo.addListener(new ClickListener() {
+      public void clicked(InputEvent event, float x, float y){
+        super.clicked(event, x, y);
+        if(alturaFondo < 0){
+          alturaFondo += 30;
+        }
+      }
+    });
+    escenaHUD.addActor(btnFlechaArriba); //Botón flecha arriba
+    escenaHUD.addActor(btnFlechaAbajo); //Botón flecha abajo.
+    escenaHUD.addActor(ButtonFactory.getReturnBtn(game, new MenuView(game))); //Botón back.
   }
 
 
@@ -70,24 +109,11 @@ public class AboutView extends Pantalla {
     batch.setProjectionMatrix(camera.combined);
 
     batch.begin();
-    batch.draw(texturaFondo, 0, 0);
-    dibujarTexto();
+    batch.draw(texturaFondo, 0, alturaFondo);
     batch.end();
 
     aboutStage.draw();
     escenaHUD.draw();
-
-  }
-
-  private void dibujarTexto() {
-    gameText.mostrarMensaje(batch, "About us:", ANCHO_PANTALLA / 2, ALTO_PANTALLA * 0.9f);
-    gameText.mostrarMensaje(batch, "Creators", ANCHO_PANTALLA / 2, ALTO_PANTALLA * 0.85f);
-    gameText.mostrarMensaje(batch, "Fernando Manuel Melgar Fuentes - A01748354\n" +
-        "Alex Fernando Leyva Martinez - A01747078\n" +
-        "Arturo Márquez Olivar - A01376086\n" +
-        "Claudio Mayoral Garcia - A01747749", ANCHO_PANTALLA / 2, ALTO_PANTALLA * 0.8f);
-
-
   }
 
   @Override
