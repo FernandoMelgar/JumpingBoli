@@ -84,7 +84,7 @@ public class GameView extends Pantalla {
 
   @Override
   public void show() {
-    if (estado == EstadoJuego.INICIANDO ){
+    if (estado == EstadoJuego.INICIANDO){
       gameStage = new Stage(super.viewport);
       manager = new AssetManager();
       crearAudio();
@@ -137,7 +137,7 @@ public class GameView extends Pantalla {
     btnGPause.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
-        estado = EstadoJuego.REANUDANDO;
+        estado = EstadoJuego.JUGANDO;
         musicaFondo.pause();
         game.setScreen(new PauseView(game, gameView));
       }
@@ -215,8 +215,6 @@ public class GameView extends Pantalla {
         boli.setPosicion(boli.getX(),(celdaY + 1) * TAM_CELDA);
         boli.setEstadoBoli(EstadoBoli.RODANDO);
       }
-
-
   }
 
   public boolean boliVivo(){
@@ -241,14 +239,6 @@ public class GameView extends Pantalla {
     }
     return "BuffMultiplicador".equals(propiedad);
   }
-
-/*
-  public float get(float delta){
-    final float tiempo = delta;
-    Gdx.app.log("TIEMPOFIJO", "Tiempofijo: " + (int)(tiempo));
-  }
- */
-
 
 
   @Override
@@ -278,20 +268,33 @@ public class GameView extends Pantalla {
     boli.render(batch);
     batch.end();
 
-
     actualizarTimer(delta);
     // COMPRUEBA SI BOLI ESTÁ VIVO (FALTARÍA AGREGAR ESTADO)
     boliVivo();
 
     // INICIANDO
-    if (estado == EstadoJuego.INICIANDO && timerPausa < 4){
+    if (estado == EstadoJuego.INICIANDO && timerPausa <= 3){
+      //boli.setEstadoBoli(EstadoBoli.QUIETO);
       batch.begin();
       gameText.mostrarMensaje(batch, "" + (int) (3 - timerPausa),
           ANCHO_PANTALLA / 2, ALTO_PANTALLA / 2);
       batch.end();
-    } else if (estado == EstadoJuego.REANUDANDO){
+    }
+
+    /*
+    if (estado == EstadoJuego.REANUDANDO){
+      boli.setEstadoBoli(EstadoBoli.QUIETO);
+      batch.begin();
+      Gdx.app.log("TIEMPO", "Tiempo: " + (int)(timerReanudacion/60));
+      gameText.mostrarMensaje(batch, "" + (int) (3 - timerReanudacion/60),
+              camera.position.x, camera.position.y);
+      timerReanudacion++;
+      batch.end();
       actualizarTimerReanudacion();
-    } else if (estado == EstadoJuego.JUGANDO) {
+    }
+    */
+
+    if (estado == EstadoJuego.JUGANDO) {
       // DETIENE EL  PUNTAJE Y EL MOVIMIENTO DEL MAPA
       moverCamara();
       actualizar();
@@ -321,7 +324,6 @@ public class GameView extends Pantalla {
   }
 
 
-
   private void actualizarTimer(float delta) {
     timerPausa += delta;
     if (estado == EstadoJuego.INICIANDO && timerPausa>=3) {
@@ -330,16 +332,9 @@ public class GameView extends Pantalla {
   }
 
   private void actualizarTimerReanudacion() {
-    boli.setEstadoBoli(EstadoBoli.QUIETO);
-    batch.begin();
-    Gdx.app.log("TIEMPO", "Tiempo: " + (int)(timerReanudacion/60));
-    gameText.mostrarMensaje(batch, "" + (int) (3 - timerReanudacion/60),
-            ANCHO_PANTALLA / 2, ALTO_PANTALLA / 2);
-    timerReanudacion++;
-    batch.end();
     if (timerReanudacion / 60 > segundosReanudación) {
-      boli.setEstadoBoli(EstadoBoli.RODANDO);
       estado = EstadoJuego.JUGANDO;
+      boli.setEstadoBoli(EstadoBoli.RODANDO);
     }
   }
 

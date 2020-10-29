@@ -27,73 +27,68 @@ public class Boli extends GameObject {
     yBase = y;
   }
 
-  public void actualizar(){
+  public void actualizar() {
     sprite.setX(sprite.getX() + DX);
   }
 
-  public float getDX(){
+  public float getDX() {
     return DX;
   }
 
 
-  public void saltar(){
+  public void saltar() {
     estado = EstadoBoli.SALTANDO;
     tAire = 0;
-    tVuelo = 2*V0/G;
+    tVuelo = 2 * V0 / G;
 
   }
 
-  public void cayendo(){
+  public void cayendo() {
     tAire = 0;
     yBase = sprite.getY();
     estado = EstadoBoli.CAYENDO;
 
   }
 
-  public double getV(){
+  public double getV() {
     return V;
   }
 
-  public EstadoBoli getEstado(){
+  public EstadoBoli getEstado() {
     return estado;
   }
 
-  public void setEstadoBoli(EstadoBoli nuevoEstado){
+  public void setEstadoBoli(EstadoBoli nuevoEstado) {
     estado = nuevoEstado;
   }
 
-  public EstadoBuff getEstadoBuff(){
+  public EstadoBuff getEstadoBuff() {
     return estadoBuff;
   }
 
-  public void setEstadoBuff(EstadoBuff nuevoEstado){
+  public void setEstadoBuff(EstadoBuff nuevoEstado) {
     estadoBuff = nuevoEstado;
   }
 
-  public void render(SpriteBatch batch){
-    float delta  = Gdx.graphics.getDeltaTime();
+  public void render(SpriteBatch batch) {
+    float delta = Gdx.graphics.getDeltaTime();
     actualizarTimer(delta);
     estado = getEstado();
 
-    if (timerPausa>=3 && estado == EstadoBoli.RODANDO) {
+    if (estado == EstadoBoli.RODANDO && timerPausa >= 3) {
       sprite.rotate(-30);
     }
-    //actualizar();
 
-    /*
-    if (estado == EstadoBoli.INICIANDO){
-      iniciando();
-    }else{
-      actualizar();
+    if (estado == EstadoBoli.QUIETO) {
+      sprite.rotate(0);
     }
-     */
 
-    if(estado == EstadoBoli.SALTANDO){
+    if (estado == EstadoBoli.SALTANDO) {
       sprite.rotate(-100);
       tAire += delta;
-      float y = yBase + V0*tAire - 0.5f*G*tAire*tAire;
+      float y = yBase + V0 * tAire - 0.5f * G * tAire * tAire;
       sprite.setY(y);
-      if(tAire >= tVuelo/2){
+      if (tAire >= tVuelo / 2) {
         yBase = sprite.getY();
         tAire = 0;
         estado = EstadoBoli.CAYENDO;
@@ -106,33 +101,33 @@ public class Boli extends GameObject {
 
        */
     }
-    if(estado == EstadoBoli.CAYENDO){
+    if (estado == EstadoBoli.CAYENDO) {
       sprite.rotate(-100);
       tAire += delta;
-      V = yBase -0.5f*G*tAire*tAire;
-       sprite.setY(V);
+      V = yBase - 0.5f * G * tAire * tAire;
+      sprite.setY(V);
     }
 
+    /*
     if(estado == EstadoBoli.QUIETO){
-      sprite.rotate(0);
-      sprite.setX(getX());
-      sprite.setY(getY());
+      timerPausa = 0;
+      estado = EstadoBoli.RODANDO;
     }
+     */
+
     super.render(batch);
   }
 
   private void actualizarTimer(float delta) {
     timerPausa += delta;
-    if (estado == EstadoBoli.INICIANDO && timerPausa>=3) {
+    if (estado == EstadoBoli.INICIANDO && timerPausa >= 3) {
       estado = EstadoBoli.RODANDO;
     }
     // ESPERA 3 SEGUNDOS PARA INICIAR EL MOVIMIENTO DE BOLI
-    if (timerPausa > 3 && estado != EstadoBoli.QUIETO){
+    if (timerPausa > 3 && estado != EstadoBoli.QUIETO) {
       actualizar();
     }
   }
-
-
 
 
   public float getX() {
@@ -152,11 +147,7 @@ public class Boli extends GameObject {
   }
 
   public void setPosicion(float x, int i) {
-    sprite.setPosition(x,i);
+    sprite.setPosition(x, i);
   }
 
-  public void setPosicion(float x, float y){
-    sprite.setX(x);
-    sprite.setY(y);
-  }
 }
