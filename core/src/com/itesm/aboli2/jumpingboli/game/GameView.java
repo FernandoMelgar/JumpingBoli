@@ -84,38 +84,25 @@ public class GameView extends Pantalla {
 
   @Override
   public void show() {
-    if (estado == EstadoJuego.INICIANDO){
+    if (estado == EstadoJuego.INICIANDO) {
       gameStage = new Stage(super.viewport);
       manager = new AssetManager();
-      crearAudio();
-      crearBoli();
-      crearMapa();
-      crearHUD();
-      crearEscudos();
-      crearTexto();
-      crearFondo();
-    }else {
+      boli = new Boli(new Texture("characters/boli_morado.png"), 200, 600);
+      gameText = new GameText("fuentes/exoFont.fnt");
+      texturaFondo = new Texture("mapas/NivelUno.png");
 
+      initAudio();
+      initMaps();
+      initHUD();
+      initShields();
     }
     Gdx.input.setInputProcessor(escenaHUD);
 
   }
 
-  private void crearFondo() {
-    texturaFondo = new Texture("mapas/NivelUno.png");
-  }
-
-  private void crearTexto() {
-    gameText = new GameText("fuentes/exoFont.fnt");
-  }
-
-  private void crearBoli() {
-    boli = new Boli(new Texture("characters/boli_morado.png"), 200,600);
-  }
-
-  private void crearHUD() {
+  private void initHUD() {
     camaraHUD = new OrthographicCamera(ANCHO_PANTALLA, ALTO_PANTALLA);
-    camaraHUD.position.set(ANCHO_PANTALLA/2, ALTO_PANTALLA/2, 0);
+    camaraHUD.position.set(ANCHO_PANTALLA / 2, ALTO_PANTALLA / 2, 0);
     camaraHUD.update();
     vistaHUD = new StretchViewport(ANCHO_PANTALLA, ALTO_PANTALLA, camaraHUD);
     escenaHUD = new Stage(vistaHUD);
@@ -123,7 +110,7 @@ public class GameView extends Pantalla {
 
     //Creamos el botón de pausa (configuración va dentro de pausa).
     ImageButton btnGPause = new GameButton("buttons/btnPause.png");
-    btnGPause.setPosition(ANCHO_PANTALLA*0.95f, ALTO_PANTALLA*0.90f, Align.center);
+    btnGPause.setPosition(ANCHO_PANTALLA * 0.95f, ALTO_PANTALLA * 0.90f, Align.center);
     //Acción botón
     final Screen gameView = this;
     btnGPause.addListener(new ClickListener() {
@@ -152,16 +139,16 @@ public class GameView extends Pantalla {
     escenaHUD.addActor(btnGPause);
   }
 
-  private void crearEscudos() {
+  private void initShields() {
     texturaEscudo = new Texture("characters/escudo.png");
     arrEscudos = new Array<>();
-    for(int i = 1; i <= 3; i++){
-      Escudo escudo = new Escudo(texturaEscudo, i*30, ALTO_PANTALLA*0.88f);
+    for (int i = 1; i <= 3; i++) {
+      Escudo escudo = new Escudo(texturaEscudo, i * 30, ALTO_PANTALLA * 0.88f);
       arrEscudos.add(escudo);
     }
   }
 
-  private void crearMapa() {
+  private void initMaps() {
     //Se crea el asset manager para manejar el mapa.
     manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
     manager.load("mapas/platNivel1.tmx", TiledMap.class);
@@ -171,7 +158,7 @@ public class GameView extends Pantalla {
 
   }
 
-  private void crearAudio() {
+  private void initAudio() {
     manager.load("music/MusicaFondoNivel1.mp3", Music.class);
     manager.finishLoading(); //Espera
     musicaFondo = manager.get("music/MusicaFondoNivel1.mp3");
