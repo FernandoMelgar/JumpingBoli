@@ -1,12 +1,8 @@
 package com.itesm.aboli2.jumpingboli.Pause;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -14,11 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
-import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
-import com.itesm.aboli2.jumpingboli.configuration.ConfigurationView;
 import com.itesm.aboli2.jumpingboli.configuration.ConfigurationViewPause;
 import com.itesm.aboli2.jumpingboli.game.GameView;
 import com.itesm.aboli2.jumpingboli.menu.MenuView;
@@ -125,7 +118,7 @@ public class PauseView extends Pantalla {
         btnPauJugar.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y){
                 super.clicked(event, x, y);
-                GameView gameView = (GameView) fromScreen;
+                Pantalla gameView = (Pantalla) fromScreen;
                 game.setScreen(gameView);
             }
         });

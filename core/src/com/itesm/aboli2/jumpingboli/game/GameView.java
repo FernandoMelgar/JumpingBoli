@@ -84,6 +84,7 @@ public class GameView extends Pantalla {
 
   @Override
   public void show() {
+
     if (estado == EstadoJuego.INICIANDO) {
       gameStage = new Stage(super.viewport);
       manager = new AssetManager();
@@ -96,6 +97,7 @@ public class GameView extends Pantalla {
       initHUD();
       initShields();
     }
+
     Gdx.input.setInputProcessor(escenaHUD);
 
   }
@@ -442,7 +444,7 @@ public class GameView extends Pantalla {
     }
   }
 
-  private enum EstadoJuego{
+  public enum EstadoJuego {
     JUGANDO,
     PAUSANDO,
     INICIANDO,

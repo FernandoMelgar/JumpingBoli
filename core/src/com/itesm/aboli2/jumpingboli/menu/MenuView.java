@@ -15,7 +15,7 @@ import com.itesm.aboli2.jumpingboli.about.AboutView;
 import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
 import com.itesm.aboli2.jumpingboli.configuration.ConfigurationView;
-import com.itesm.aboli2.jumpingboli.game.GameView;
+import com.itesm.aboli2.jumpingboli.game.LevelOne;
 import com.itesm.aboli2.jumpingboli.howTo.howToView;
 import com.itesm.aboli2.jumpingboli.skins.SkinsView;
 
@@ -125,7 +125,7 @@ public class MenuView extends Pantalla {
   }
 
   private void crearBtnJugar() {
-    menuStage.addActor(ButtonFactory.getPlayBtn(game, new GameView(game)));
+    menuStage.addActor(ButtonFactory.getPlayBtn(game, new LevelOne(game)));
   }
 
   @Override
