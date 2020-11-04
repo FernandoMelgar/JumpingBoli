@@ -219,7 +219,7 @@ public class GameView extends Pantalla {
   }
 
   public boolean boliVivo(){
-    if (boli.getY() < 0) {
+    if (boli.getY() + boli.sprite.getHeight() < 0) {
       camera.position.x = ANCHO_PANTALLA;
       musicaFondo.dispose();
       game.setScreen(new DeathView(game, puntos));
