@@ -105,16 +105,8 @@ public class GameView extends Pantalla {
     texturaFondo = new Texture("mapas/NivelUno.png");
   }
 
-  private void moverFondo(){
-
-  }
-
   private void crearTexto() {
     gameText = new GameText("fuentes/exoFont.fnt");
-  }
-
-  private void moverBoli() {
-
   }
 
   private void crearBoli() {
@@ -246,7 +238,6 @@ public class GameView extends Pantalla {
   public void render(float delta) {
     cleanScreen();
     colisionPlataforma();
-    moverFondo();
 
     batch.begin();
     boliVivo();
