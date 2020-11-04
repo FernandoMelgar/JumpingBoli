@@ -15,7 +15,8 @@ import com.itesm.aboli2.jumpingboli.about.AboutView;
 import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
 import com.itesm.aboli2.jumpingboli.configuration.ConfigurationView;
-import com.itesm.aboli2.jumpingboli.game.LevelOne;
+import com.itesm.aboli2.jumpingboli.game.GameLevel;
+import com.itesm.aboli2.jumpingboli.game.GameLevelImpl;
 import com.itesm.aboli2.jumpingboli.howTo.howToView;
 import com.itesm.aboli2.jumpingboli.skins.SkinsView;
 
@@ -125,7 +126,14 @@ public class MenuView extends Pantalla {
   }
 
   private void crearBtnJugar() {
-    menuStage.addActor(ButtonFactory.getPlayBtn(game, new LevelOne(game)));
+    GameLevel level1 = new GameLevelImpl
+        .Builder(game, "mapas/NivelUno.png", "mapas/platNivel1.tmx")
+        .audioPath("music/MusicaFondoNivel1.mp3")
+        .levelFont("fuentes/exoFont.fnt")
+        .boliTexurePath("characters/boli_morado.png")
+        .build();
+
+    menuStage.addActor(ButtonFactory.getPlayBtn(game, level1));
   }
 
   @Override
@@ -135,7 +143,6 @@ public class MenuView extends Pantalla {
     batch.begin();
     batch.draw(texturaFondo, 0, 0);
     batch.end();
-
     menuStage.draw();
   }
 

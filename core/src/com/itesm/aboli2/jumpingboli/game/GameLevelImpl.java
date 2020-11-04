@@ -10,21 +10,71 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.itesm.aboli2.jumpingboli.GameText;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 
-public class LevelOne extends GameLevel {
+public class GameLevelImpl extends GameLevel {
 
 
-  public LevelOne(GdXGame game) {
-    super(game);
+  private String boliTexturePath;
+  private String levelFontPath;
+  private String levelMapTmxPath;
+  private String audioPath;
+  private String backgroundPath;
+
+  private GameLevelImpl(Builder builder) {
+    super(builder.gdxGame);
+    boliTexturePath = builder.boliTexturePath;
+    levelFontPath = builder.levelFontPath;
+    levelMapTmxPath = builder.levelMapTmxPath;
+    audioPath = builder.audioPath;
+    backgroundPath = builder.backgroundPath;
+
   }
+
+  public static class Builder {
+
+    private final String backgroundPath;
+    private final String levelMapTmxPath;
+    private final GdXGame gdxGame;
+    private String boliTexturePath = "characters/boli_morado.png";
+    ;
+    private String levelFontPath = "fuentes/exoFont.fnt";
+    private String audioPath = "music/MusicaFondoNivel1.mp3";
+
+    public Builder(GdXGame gdxGame, String backgroundPath, String levelMapTmxPath) {
+      this.gdxGame = gdxGame;
+      this.backgroundPath = backgroundPath;
+      this.levelMapTmxPath = levelMapTmxPath;
+    }
+
+    public Builder boliTexurePath(String texture) {
+      this.boliTexturePath = texture;
+      return this;
+    }
+
+    public Builder levelFont(String fontPath) {
+      this.levelFontPath = fontPath;
+      return this;
+    }
+
+    public Builder audioPath(String audioPath) {
+      this.audioPath = audioPath;
+      return this;
+    }
+
+    public GameLevelImpl build() {
+      return new GameLevelImpl(this);
+    }
+
+  }
+
 
   @Override
   protected void show_onStartOnly_() {
-    boli = new Boli(new Texture("characters/boli_morado.png"), 200, 600);
+    boli = new Boli(new Texture(boliTexturePath), 200, 600);
   }
 
   @Override
   protected void onStartUp_initGameText() {
-    gameText = new GameText("fuentes/exoFont.fnt");
+    gameText = new GameText(levelFontPath);
   }
 
 
@@ -37,17 +87,17 @@ public class LevelOne extends GameLevel {
   @Override
   protected void onStartUp_initMaps() {
     assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-    assetManager.load("mapas/platNivel1.tmx", TiledMap.class);
+    assetManager.load(levelMapTmxPath, TiledMap.class);
     assetManager.finishLoading();
-    map = assetManager.get("mapas/platNivel1.tmx");
+    map = assetManager.get(levelMapTmxPath);
     mapRenderer = new OrthogonalTiledMapRenderer(map);
   }
 
   @Override
   protected void onStartUp_initAudio() {
-    assetManager.load("music/MusicaFondoNivel1.mp3", Music.class);
+    assetManager.load(audioPath, Music.class);
     assetManager.finishLoading();
-    backgroudMusic = assetManager.get("music/MusicaFondoNivel1.mp3");
+    backgroudMusic = assetManager.get(audioPath);
     backgroudMusic.setVolume(0.1f);
     backgroudMusic.setLooping(true);
     backgroudMusic.play();
@@ -55,7 +105,7 @@ public class LevelOne extends GameLevel {
 
   @Override
   protected void onStartUp_initBackground() {
-    backgroundTexture = new Texture("mapas/NivelUno.png");
+    backgroundTexture = new Texture(backgroundPath);
   }
 
 
