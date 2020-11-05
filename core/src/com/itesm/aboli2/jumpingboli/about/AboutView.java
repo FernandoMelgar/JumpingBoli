@@ -97,6 +97,7 @@ public class AboutView extends Pantalla {
         }
       }
     });
+
     escenaHUD.addActor(btnFlechaArriba); //Botón flecha arriba
     escenaHUD.addActor(btnFlechaAbajo); //Botón flecha abajo.
     escenaHUD.addActor(ButtonFactory.getReturnBtn(game, new MenuView(game))); //Botón back.
@@ -129,6 +130,11 @@ public class AboutView extends Pantalla {
   @Override
   public void dispose() {
     texturaFondo.dispose();
+    game.getManager().unload("fondos/fondoAbout.png");
+    game.getManager().unload("buttons/btnFlechaArriba.png");
+    game.getManager().unload("buttons/btnFlechaArribaPicado.png");
+    game.getManager().unload("buttons/btnFlecha.png");
+    game.getManager().unload("buttons/btnFlechaPicado.png");
     batch.dispose();
   }
 }
