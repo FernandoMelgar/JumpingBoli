@@ -11,23 +11,13 @@ import com.itesm.aboli2.jumpingboli.GameText;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 
 public class GameLevelImpl extends GameLevel {
-
-
   private String boliTexturePath;
   private String levelFontPath;
   private String levelMapTmxPath;
   private String audioPath;
   private String backgroundPath;
 
-  private GameLevelImpl(Builder builder) {
-    super(builder.gdxGame);
-    boliTexturePath = builder.boliTexturePath;
-    levelFontPath = builder.levelFontPath;
-    levelMapTmxPath = builder.levelMapTmxPath;
-    audioPath = builder.audioPath;
-    backgroundPath = builder.backgroundPath;
 
-  }
 
   public static class Builder {
 
@@ -67,13 +57,26 @@ public class GameLevelImpl extends GameLevel {
   }
 
 
+  private GameLevelImpl(Builder builder) {
+    super(builder.gdxGame);
+    boliTexturePath = builder.boliTexturePath;
+    levelFontPath = builder.levelFontPath;
+    levelMapTmxPath = builder.levelMapTmxPath;
+    audioPath = builder.audioPath;
+    backgroundPath = builder.backgroundPath;
+
+  }
+
+
   @Override
   protected void show_onStartOnly_() {
+    // Todo: las lineas de asset loader van en la nueva clase.
     boli = new Boli(new Texture(boliTexturePath), 200, 600);
   }
 
   @Override
   protected void onStartUp_initGameText() {
+    // Todo: las lineas de asset loader van en la nueva clase.
     gameText = new GameText(levelFontPath);
   }
 
@@ -86,6 +89,7 @@ public class GameLevelImpl extends GameLevel {
 
   @Override
   protected void onStartUp_initMaps() {
+    // Todo: las lineas de asset loader van en la nueva clase.
     assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
     assetManager.load(levelMapTmxPath, TiledMap.class);
     assetManager.finishLoading();
@@ -95,6 +99,7 @@ public class GameLevelImpl extends GameLevel {
 
   @Override
   protected void onStartUp_initAudio() {
+    // Todo: las lineas de asset loader van en la nueva clase.
     assetManager.load(audioPath, Music.class);
     assetManager.finishLoading();
     backgroudMusic = assetManager.get(audioPath);
@@ -105,6 +110,7 @@ public class GameLevelImpl extends GameLevel {
 
   @Override
   protected void onStartUp_initBackground() {
+    // Todo: las lineas de asset loader van en la nueva clase.
     backgroundTexture = new Texture(backgroundPath);
   }
 
@@ -176,5 +182,10 @@ public class GameLevelImpl extends GameLevel {
     drawScore();
     batch.end();
     stageHUD.draw();
+  }
+
+  @Override
+  public void dispose() {
+    // Todo: Hacer los dispose en el asset manager
   }
 }
