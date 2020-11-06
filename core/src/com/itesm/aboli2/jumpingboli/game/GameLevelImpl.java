@@ -1,77 +1,36 @@
 package com.itesm.aboli2.jumpingboli.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.itesm.aboli2.jumpingboli.GameText;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 
 public class GameLevelImpl extends GameLevel {
-  private String boliTexturePath;
-  private String levelFontPath;
-  private String levelMapTmxPath;
-  private String audioPath;
-  private String backgroundPath;
 
 
-
-  public static class Builder {
-
-    private final String backgroundPath;
-    private final String levelMapTmxPath;
-    private final GdXGame gdxGame;
-    private String boliTexturePath = "characters/boli_morado.png";
-    ;
-    private String levelFontPath = "fuentes/exoFont.fnt";
-    private String audioPath = "music/MusicaFondoNivel1.mp3";
-
-    public Builder(GdXGame gdxGame, String backgroundPath, String levelMapTmxPath) {
-      this.gdxGame = gdxGame;
-      this.backgroundPath = backgroundPath;
-      this.levelMapTmxPath = levelMapTmxPath;
-    }
-
-    public Builder boliTexurePath(String texture) {
-      this.boliTexturePath = texture;
-      return this;
-    }
-
-    public Builder levelFont(String fontPath) {
-      this.levelFontPath = fontPath;
-      return this;
-    }
-
-    public Builder audioPath(String audioPath) {
-      this.audioPath = audioPath;
-      return this;
-    }
-
-    public GameLevelImpl build() {
-      return new GameLevelImpl(this);
-    }
-
-  }
+  private String boliTexturePath = "characters/boli_morado.png";
+  private String levelFontPath = "fuentes/exoFont.fnt";
+  private String levelMapTmxPath = "mapas/NivelUno.tmx";
+  private String audioPath = "music/MusicaFondoNivel1.mp3";
+  private String backgroundPath = "mapas/NivelUno.png";
+  private String jumpBtnPath = "buttons/boton_128.png";
+  private String pauseBtnPath = "buttons/btnPause.png";
+  private AssetManager assetManager;
 
 
-  private GameLevelImpl(Builder builder) {
-    super(builder.gdxGame);
-    boliTexturePath = builder.boliTexturePath;
-    levelFontPath = builder.levelFontPath;
-    levelMapTmxPath = builder.levelMapTmxPath;
-    audioPath = builder.audioPath;
-    backgroundPath = builder.backgroundPath;
-
+  public GameLevelImpl(GdXGame game, AssetManager assetManager) {
+    super(game);
+    this.assetManager = assetManager;
   }
 
 
   @Override
   protected void show_onStartOnly_() {
     // Todo: las lineas de asset loader van en la nueva clase.
-    boli = new Boli(new Texture(boliTexturePath), 200, 600);
+    boli = new Boli((Texture) assetManager.get(boliTexturePath), 200, 600);
   }
 
   @Override
@@ -89,19 +48,12 @@ public class GameLevelImpl extends GameLevel {
 
   @Override
   protected void onStartUp_initMaps() {
-    // Todo: las lineas de asset loader van en la nueva clase.
-    assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-    assetManager.load(levelMapTmxPath, TiledMap.class);
-    assetManager.finishLoading();
     map = assetManager.get(levelMapTmxPath);
     mapRenderer = new OrthogonalTiledMapRenderer(map);
   }
 
   @Override
   protected void onStartUp_initAudio() {
-    // Todo: las lineas de asset loader van en la nueva clase.
-    assetManager.load(audioPath, Music.class);
-    assetManager.finishLoading();
     backgroudMusic = assetManager.get(audioPath);
     backgroudMusic.setVolume(0.1f);
     backgroudMusic.setLooping(true);
@@ -111,9 +63,17 @@ public class GameLevelImpl extends GameLevel {
   @Override
   protected void onStartUp_initBackground() {
     // Todo: las lineas de asset loader van en la nueva clase.
-    backgroundTexture = new Texture(backgroundPath);
+    backgroundTexture = assetManager.get(backgroundPath);
   }
 
+  @Override
+  protected void _initButtons() {
+    ImageButton btnGPause = getPauseBtn((Texture) assetManager.get(pauseBtnPath));
+    ImageButton bntSalto = getJumpBtn((Texture) assetManager.get(jumpBtnPath));
+
+    stageHUD.addActor(bntSalto);
+    stageHUD.addActor(btnGPause);
+  }
 
   @Override
   protected void render_(float delta) {
