@@ -21,9 +21,9 @@ public class GameLevelImpl extends GameLevel {
   private AssetManager assetManager;
 
 
-  public GameLevelImpl(GdXGame game, AssetManager assetManager) {
+  public GameLevelImpl(GdXGame game) {
     super(game);
-    this.assetManager = assetManager;
+    this.assetManager = game.getManager();
   }
 
 

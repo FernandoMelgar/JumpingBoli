@@ -12,15 +12,11 @@ import com.badlogic.gdx.utils.Align;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
 import com.itesm.aboli2.jumpingboli.Pantallas;
-import com.itesm.aboli2.jumpingboli.about.AboutView;
 import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
-import com.itesm.aboli2.jumpingboli.configuration.ConfigurationView;
 import com.itesm.aboli2.jumpingboli.game.GameLevel;
 import com.itesm.aboli2.jumpingboli.game.GameLevelImpl;
-import com.itesm.aboli2.jumpingboli.howTo.howToView;
 import com.itesm.aboli2.jumpingboli.loading.PantallaCargando;
-import com.itesm.aboli2.jumpingboli.skins.SkinsView;
 
 
 public class MenuView extends Pantalla {
@@ -129,12 +125,7 @@ public class MenuView extends Pantalla {
 
   private void crearBtnJugar() {
     //todo: Modificar la acción del botón en conjunto con el AssetManager.
-    GameLevel level1 = new GameLevelImpl
-        .Builder(game, "mapas/NivelUno.png", "mapas/platNivel1.tmx")
-        .audioPath("music/MusicaFondoNivel1.mp3")
-        .levelFont("fuentes/exoFont.fnt")
-        .boliTexurePath("characters/boli_morado.png")
-        .build();
+    GameLevel level1 = new GameLevelImpl(game);
 
     menuStage.addActor(ButtonFactory.getPlayBtn(game, level1));
   }
