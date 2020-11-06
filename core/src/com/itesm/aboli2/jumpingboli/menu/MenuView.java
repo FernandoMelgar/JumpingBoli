@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
+import com.itesm.aboli2.jumpingboli.Pantallas;
 import com.itesm.aboli2.jumpingboli.about.AboutView;
 import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
@@ -18,6 +19,7 @@ import com.itesm.aboli2.jumpingboli.configuration.ConfigurationView;
 import com.itesm.aboli2.jumpingboli.game.GameLevel;
 import com.itesm.aboli2.jumpingboli.game.GameLevelImpl;
 import com.itesm.aboli2.jumpingboli.howTo.howToView;
+import com.itesm.aboli2.jumpingboli.loading.PantallaCargando;
 import com.itesm.aboli2.jumpingboli.skins.SkinsView;
 
 
@@ -67,7 +69,7 @@ public class MenuView extends Pantalla {
     btnAjustes.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
-        game.setScreen(new ConfigurationView(game));
+        game.setScreen(new PantallaCargando(game, Pantallas.CONFIGURACION));
       }
     });
     menuStage.addActor(btnAjustes);
@@ -81,7 +83,7 @@ public class MenuView extends Pantalla {
     btnComo.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
-        game.setScreen(new howToView(game));
+        game.setScreen(new PantallaCargando(game, Pantallas.HOWTO));
       }
     });
     menuStage.addActor(btnComo);
@@ -100,7 +102,7 @@ public class MenuView extends Pantalla {
     btnSkins.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
-        game.setScreen(new SkinsView(game));
+        game.setScreen(new PantallaCargando(game, Pantallas.SKINS));
       }
     });
     menuStage.addActor(btnSkins);
@@ -119,13 +121,14 @@ public class MenuView extends Pantalla {
     btnAcerca.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
-        game.setScreen(new AboutView(game));
+        game.setScreen(new PantallaCargando(game, Pantallas.ABOUT));
       }
     });
     menuStage.addActor(btnAcerca);
   }
 
   private void crearBtnJugar() {
+    //todo: Modificar la acción del botón en conjunto con el AssetManager.
     GameLevel level1 = new GameLevelImpl
         .Builder(game, "mapas/NivelUno.png", "mapas/platNivel1.tmx")
         .audioPath("music/MusicaFondoNivel1.mp3")
@@ -159,6 +162,16 @@ public class MenuView extends Pantalla {
   @Override
   public void dispose() {
     texturaFondo.dispose();
+    game.getManager().unload("fondos/FondoPrincipal.png");
+    game.getManager().unload("buttons/btnAjustes.png");
+    game.getManager().unload("buttons/btnComo.png");
+    game.getManager().unload("buttons/btnComoPicado.png");
+    game.getManager().unload("buttons/btnSkins.png");
+    game.getManager().unload("buttons/btnSkinsPicado.png");
+    game.getManager().unload("buttons/btnAcerca.png");
+    game.getManager().unload("buttons/btnAcercaPicado.png");
+    game.getManager().unload("titles/title.png");
+    game.getManager().unload("titles/titleHover.png");
     batch.dispose();
   }
 }
