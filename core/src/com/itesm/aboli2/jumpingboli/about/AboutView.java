@@ -52,7 +52,7 @@ public class AboutView extends Pantalla {
   public void show() {
     aboutStage = new Stage(super.viewport);
     texturaFondo = new Texture("fondos/fondoAbout.png");
-    alturaFondo = -ALTO_PANTALLA;
+    alturaFondo = -2*ALTO_PANTALLA;
     createText();
     crearButtonLayer();
     Gdx.input.setInputProcessor(escenaHUD);
@@ -78,7 +78,7 @@ public class AboutView extends Pantalla {
     btnFlechaArriba.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
-        if(alturaFondo +720 > 0){
+        if(alturaFondo +1440 > 0){
           alturaFondo -= 30;
         }
       }
