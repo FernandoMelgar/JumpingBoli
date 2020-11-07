@@ -28,6 +28,7 @@ public class Boli extends GameObject {
     yBase = y;
   }
 
+
   public void actualizar() {
     sprite.setX(sprite.getX() + DX);
   }
@@ -161,6 +162,10 @@ public class Boli extends GameObject {
 
   public void setyBase(float i) {
     yBase = i;
+  }
+
+  public void setTextura(Texture textura){
+    super.setTextura(textura);
   }
 
   public void setPosicion(float x, int i) {

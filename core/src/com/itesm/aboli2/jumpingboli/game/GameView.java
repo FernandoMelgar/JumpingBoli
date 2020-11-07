@@ -3,7 +3,6 @@ package com.itesm.aboli2.jumpingboli.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -55,8 +54,6 @@ public class GameView extends Pantalla {
   // Música
   private Music musicaFondo;
 
-  //Manager
-  private AssetManager manager;
 
   //Escudos
   private Texture texturaEscudo;
@@ -87,10 +84,9 @@ public class GameView extends Pantalla {
 
     if (estado == EstadoJuego.INICIANDO) {
       gameStage = new Stage(super.viewport);
-      manager = new AssetManager();
-      boli = new Boli(new Texture("characters/boli_morado.png"), 200, 600);
+      boli = new Boli((Texture) game.getManager().get("characters/boli_morado.png"), 200, 600);
       gameText = new GameText("fuentes/exoFont.fnt");
-      texturaFondo = new Texture("mapas/NivelUno.png");
+      texturaFondo = game.getManager().get("mapas/NivelUno.png");
 
       initAudio();
       initMaps();
@@ -151,19 +147,18 @@ public class GameView extends Pantalla {
   }
 
   private void initMaps() {
+    // Todo: No se puede cargar desde el assetManager
     //Se crea el asset manager para manejar el mapa.
-    manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-    manager.load("mapas/platNivel1.tmx", TiledMap.class);
-    manager.finishLoading();
-    mapa = manager.get("mapas/platNivel1.tmx");
+    game.getManager().setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+    game.getManager().load("mapas/platNivel1.tmx", TiledMap.class);
+    game.getManager().finishLoading();
+    mapa = game.getManager().get("mapas/platNivel1.tmx");
     rendererMapa = new OrthogonalTiledMapRenderer(mapa);
 
   }
 
   private void initAudio() {
-    manager.load("music/MusicaFondoNivel1.mp3", Music.class);
-    manager.finishLoading(); //Espera
-    musicaFondo = manager.get("music/MusicaFondoNivel1.mp3");
+    musicaFondo = game.getManager().get("music/MusicaFondoNivel1.mp3");
     musicaFondo.setVolume(0.1f);
     musicaFondo.setLooping(true);
     musicaFondo.play();

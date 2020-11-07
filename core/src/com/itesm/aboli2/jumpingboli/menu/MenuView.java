@@ -2,23 +2,17 @@ package com.itesm.aboli2.jumpingboli.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
-import com.itesm.aboli2.jumpingboli.about.AboutView;
+import com.itesm.aboli2.jumpingboli.Pantallas;
 import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
-import com.itesm.aboli2.jumpingboli.configuration.ConfigurationView;
-import com.itesm.aboli2.jumpingboli.game.GameLevel;
-import com.itesm.aboli2.jumpingboli.game.GameLevelImpl;
-import com.itesm.aboli2.jumpingboli.howTo.howToView;
-import com.itesm.aboli2.jumpingboli.skins.SkinsView;
+import com.itesm.aboli2.jumpingboli.loading.PantallaCargando;
 
 
 public class MenuView extends Pantalla {
@@ -31,13 +25,14 @@ public class MenuView extends Pantalla {
 
   public MenuView(GdXGame mainGame) {
     super(mainGame);
+
 //    game = mainGame;
   }
 
   @Override
   public void show() {
     menuStage = new Stage(super.viewport);
-    texturaFondo = new Texture("fondos/FondoPrincipal.png");
+    texturaFondo = game.getManager().get("fondos/FondoPrincipal.png");
     createMenu();
     Gdx.input.setInputProcessor(menuStage);
   }
@@ -52,22 +47,24 @@ public class MenuView extends Pantalla {
   }
 
   private void createTitle() {
-    ImageButton mainText = new GameButton("titles/title.png", "titles/titleHover.png");
-    mainText.setPosition(ANCHO_PANTALLA / 2, ALTO_PANTALLA *0.8f, Align.center);
+
+
+    ImageButton mainText = new GameButton((Texture) game.getManager().get("titles/title.png"),
+        (Texture) game.getManager().get("titles/titleHover.png"));
+
+    mainText.setPosition(ANCHO_PANTALLA / 2, ALTO_PANTALLA * 0.8f, Align.center);
     menuStage.addActor(mainText);
   }
 
   private void crearBtnAjustes() {
     //Botón ajustes
-    Texture texturaBtnAjustes = new Texture("buttons/btnAjustes.png");
-    TextureRegionDrawable trdBtnAjustes = new TextureRegionDrawable(new TextureRegion(texturaBtnAjustes));
-    ImageButton btnAjustes = new ImageButton(trdBtnAjustes);
+    ImageButton btnAjustes = new GameButton((Texture) game.getManager().get("buttons/btnAjustes.png"));
     btnAjustes.setPosition(ANCHO_PANTALLA*0.95f, ALTO_PANTALLA*0.90f, Align.center);
     //Acción botón
     btnAjustes.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
-        game.setScreen(new ConfigurationView(game));
+        game.setScreen(new PantallaCargando(game, Pantallas.CONFIGURACION));
       }
     });
     menuStage.addActor(btnAjustes);
@@ -75,65 +72,52 @@ public class MenuView extends Pantalla {
 
   private void crearBtnComo() {
     //Botón cómo jugar
-    ImageButton btnComo = new GameButton("buttons/btnComo.png","buttons/btnComoPicado.png" );
-    btnComo.setPosition(ANCHO_PANTALLA/2, ALTO_PANTALLA/5, Align.center);
+
+    ImageButton btnComo = new GameButton((Texture) game.getManager().get("buttons/btnComo.png"),
+        (Texture) game.getManager().get("buttons/btnComoPicado.png"));
+    btnComo.setPosition(ANCHO_PANTALLA / 2, ALTO_PANTALLA / 5, Align.center);
     //Acción botón
     btnComo.addListener(new ClickListener() {
-      public void clicked(InputEvent event, float x, float y){
+      public void clicked(InputEvent event, float x, float y) {
         super.clicked(event, x, y);
-        game.setScreen(new howToView(game));
+        game.setScreen(new PantallaCargando(game, Pantallas.HOWTO));
       }
     });
     menuStage.addActor(btnComo);
   }
 
   private void crearBtnSkins() {
-    //Botón skins
-    Texture texturaBtnSkins = new Texture("buttons/btnSkins.png");
-    TextureRegionDrawable trdBtnSkins = new TextureRegionDrawable(new TextureRegion(texturaBtnSkins));
-    //Botón skins picado
-    Texture btnSkinsPicado = new Texture("buttons/btnSkinsPicado.png");
-    TextureRegionDrawable trdBtnSkinsPicado = new TextureRegionDrawable(new TextureRegion(btnSkinsPicado));
-    ImageButton btnSkins = new ImageButton(trdBtnSkins, trdBtnSkinsPicado);
-    btnSkins.setPosition(ANCHO_PANTALLA/4, ALTO_PANTALLA/5, Align.center);
+
+    ImageButton btnSkins = new GameButton((Texture) game.getManager().get("buttons/btnSkins.png"),
+        (Texture) game.getManager().get("buttons/btnSkinsPicado.png"));
+    btnSkins.setPosition(ANCHO_PANTALLA / 4, ALTO_PANTALLA / 5, Align.center);
     //Acción botón
     btnSkins.addListener(new ClickListener() {
-      public void clicked(InputEvent event, float x, float y){
+      public void clicked(InputEvent event, float x, float y) {
         super.clicked(event, x, y);
-        game.setScreen(new SkinsView(game));
+        game.setScreen(new PantallaCargando(game, Pantallas.SKINS));
       }
     });
     menuStage.addActor(btnSkins);
   }
 
   private void crearBtnAcerca() {
-    //Botón acerca
-    Texture texturaBtnAcerca = new Texture("buttons/btnAcerca.png");
-    TextureRegionDrawable trdBtnAcerca = new TextureRegionDrawable(new TextureRegion(texturaBtnAcerca));
-    //Botón acerca picado
-    Texture btnAcercaPicado = new Texture("buttons/btnAcercaPicado.png");
-    TextureRegionDrawable trdBtnAcercaPicado = new TextureRegionDrawable(new TextureRegion(btnAcercaPicado));
-    ImageButton btnAcerca = new ImageButton(trdBtnAcerca, trdBtnAcercaPicado);
-    btnAcerca.setPosition(ANCHO_PANTALLA*0.75f, ALTO_PANTALLA/5, Align.center);
+    ImageButton btnAcerca = new GameButton((Texture) game.getManager().get("buttons/btnAcerca.png"),
+        (Texture) game.getManager().get("buttons/btnAcercaPicado.png"));
+    btnAcerca.setPosition(ANCHO_PANTALLA * 0.75f, ALTO_PANTALLA / 5, Align.center);
     //Acción botón
     btnAcerca.addListener(new ClickListener() {
-      public void clicked(InputEvent event, float x, float y){
+      public void clicked(InputEvent event, float x, float y) {
         super.clicked(event, x, y);
-        game.setScreen(new AboutView(game));
+        game.setScreen(new PantallaCargando(game, Pantallas.ABOUT));
       }
     });
     menuStage.addActor(btnAcerca);
   }
 
   private void crearBtnJugar() {
-    GameLevel level1 = new GameLevelImpl
-        .Builder(game, "mapas/NivelUno.png", "mapas/platNivel1.tmx")
-        .audioPath("music/MusicaFondoNivel1.mp3")
-        .levelFont("fuentes/exoFont.fnt")
-        .boliTexurePath("characters/boli_morado.png")
-        .build();
-
-    menuStage.addActor(ButtonFactory.getPlayBtn(game, level1));
+    //todo: Modificar la acción del botón en conjunto con el AssetManager.
+    menuStage.addActor(ButtonFactory.getPlayBtn(game, new PantallaCargando(game, Pantallas.NIVELUNO)));
   }
 
   @Override
@@ -159,6 +143,16 @@ public class MenuView extends Pantalla {
   @Override
   public void dispose() {
     texturaFondo.dispose();
+    game.getManager().unload("fondos/FondoPrincipal.png");
+    game.getManager().unload("buttons/btnAjustes.png");
+    game.getManager().unload("buttons/btnComo.png");
+    game.getManager().unload("buttons/btnComoPicado.png");
+    game.getManager().unload("buttons/btnSkins.png");
+    game.getManager().unload("buttons/btnSkinsPicado.png");
+    game.getManager().unload("buttons/btnAcerca.png");
+    game.getManager().unload("buttons/btnAcercaPicado.png");
+    game.getManager().unload("titles/title.png");
+    game.getManager().unload("titles/titleHover.png");
     batch.dispose();
   }
 }

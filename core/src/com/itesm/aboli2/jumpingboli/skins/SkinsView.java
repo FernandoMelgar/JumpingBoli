@@ -1,6 +1,7 @@
 package com.itesm.aboli2.jumpingboli.skins;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -33,7 +34,9 @@ public class SkinsView extends Pantalla {
   private Texture texturaBoliMorada;
 
   //Boli seleccionada
-  private Seleccion boliSeleccionada;
+  private Seleccion boliSeleccionada = Seleccion.MORADA;
+  private String texturaBoliElegida = "characters/boli_morado.png";
+  private float texturaElegida = 0;
 
   //Textura plataforma
   private Texture texturaPlataforma;
@@ -53,7 +56,7 @@ public class SkinsView extends Pantalla {
   @Override
   public void show() {
    skinsStage = new Stage(super.viewport);
-   boliSeleccionada = Seleccion.MORADA;
+
    crearTexturas();
    crearBolis();
    cambiarEstadosBolis();
@@ -71,15 +74,7 @@ public class SkinsView extends Pantalla {
   }
 
   private void crearBolis() {
-    if(boliSeleccionada == Seleccion.MORADA){
-      boliCentral = new Boli(new Texture("characters/boli_morado.png"), ANCHO_PANTALLA*0.17f, ALTO_PANTALLA*0.21f);
-    } else if(boliSeleccionada == Seleccion.VERDE){
-      boliCentral = new Boli(new Texture("characters/boli_morado.png"), ANCHO_PANTALLA*0.17f, ALTO_PANTALLA*0.21f);
-    } else if(boliSeleccionada == Seleccion.AZUL){
-      boliCentral = new Boli(new Texture("characters/boli_morado.png"), ANCHO_PANTALLA*0.17f, ALTO_PANTALLA*0.21f);
-    } else if(boliSeleccionada == Seleccion.ROJA){
-      boliCentral = new Boli(new Texture("characters/boli_morado.png"), ANCHO_PANTALLA*0.17f, ALTO_PANTALLA*0.21f);
-    }
+    boliCentral = new Boli(new Texture(texturaBoliElegida), ANCHO_PANTALLA*0.17f, ALTO_PANTALLA*0.21f);
     boliMorada = new Boli(new Texture("characters/boli_morado.png"), ANCHO_PANTALLA*0.35f, ALTO_PANTALLA*0.67f);
     boliVerde = new Boli(new Texture("characters/boliVerde.png"), ANCHO_PANTALLA*0.35f, ALTO_PANTALLA*0.52f);
     boliRoja = new Boli(new Texture("characters/boliRoja.png"), ANCHO_PANTALLA*0.35f, ALTO_PANTALLA*0.37f);
@@ -107,18 +102,51 @@ public class SkinsView extends Pantalla {
   private void crearBtnUnlock3() {
     ImageButton btnUnlock = new GameButton("buttons/btnUnlock3.png", "buttons/btnUnlockPicado3.png");
     btnUnlock.setPosition(ANCHO_PANTALLA * 0.69f, ALTO_PANTALLA * 0.25f, Align.center);
+    btnUnlock.addListener(new ClickListener() {
+      public void clicked(InputEvent event, float x, float y){
+        super.clicked(event, x, y);
+
+        texturaBoliElegida = "characters/boliAzul.png";
+        texturaElegida = 2;
+        boliCentral.setTextura(new Texture(texturaBoliElegida));
+        boliSeleccionada = Seleccion.VERDE;
+
+      }
+    });
     skinsStage.addActor(btnUnlock);
   }
 
   private void crearBtnUnlock2() {
     ImageButton bntUnlock = new GameButton("buttons/btnUnlock2.png", "buttons/btnUnlockPicado2.png");
     bntUnlock.setPosition(ANCHO_PANTALLA * 0.69f, ALTO_PANTALLA * 0.4f, Align.center);
+    bntUnlock.addListener(new ClickListener() {
+      public void clicked(InputEvent event, float x, float y){
+        super.clicked(event, x, y);
+
+        texturaBoliElegida = "characters/boliRoja.png";
+        texturaElegida = 3;
+        boliCentral.setTextura(new Texture(texturaBoliElegida));
+        boliSeleccionada = Seleccion.VERDE;
+
+      }
+    });
     skinsStage.addActor(bntUnlock);
   }
 
   private void crearBtnUnlock() {
     ImageButton btnUnlock = new GameButton("buttons/btnUnlock.png", "buttons/btnUnlockPicado.png");
     btnUnlock.setPosition(ANCHO_PANTALLA * 0.69f, ALTO_PANTALLA * .55f, Align.center);
+    btnUnlock.addListener(new ClickListener() {
+      public void clicked(InputEvent event, float x, float y){
+        super.clicked(event, x, y);
+
+        texturaBoliElegida = "characters/boliVerde.png";
+        texturaElegida = 1;
+        boliCentral.setTextura(new Texture(texturaBoliElegida));
+        boliSeleccionada = Seleccion.VERDE;
+
+      }
+    });
     skinsStage.addActor(btnUnlock);
 
   }
@@ -129,7 +157,12 @@ public class SkinsView extends Pantalla {
     btnSelect.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
-        boliSeleccionada = Seleccion.MORADA;
+
+        texturaBoliElegida = "characters/boli_morado.png";
+        texturaElegida = 0;
+        boliCentral.setTextura(new Texture(texturaBoliElegida));
+        boliSeleccionada = Seleccion.VERDE;
+
       }
     });
     skinsStage.addActor(btnSelect);
@@ -185,5 +218,17 @@ public class SkinsView extends Pantalla {
   public void dispose() {
     texturaFondo.dispose();
     batch.dispose();
+  }
+
+  private void guardarPreferencias() {
+    Preferences prefs = Gdx.app.getPreferences("elegir");
+    prefs.putFloat("SKIN", texturaElegida);
+    prefs.flush();  // OBLIGATORIO
+  }
+
+  private void cargarSkin() {
+    Preferences prefs = Gdx.app.getPreferences("elegir");
+    puntos = prefs.getFloat("SKIN", 0);
+
   }
 }
