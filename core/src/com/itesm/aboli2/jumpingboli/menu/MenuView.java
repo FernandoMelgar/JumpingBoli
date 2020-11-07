@@ -119,12 +119,7 @@ public class MenuView extends Pantalla {
 
   private void crearBtnJugar() {
     //todo: Modificar la acción del botón en conjunto con el AssetManager.
-    GameLevel level1 = new GameLevelImpl
-        .Builder(game, "mapas/NivelUno.png", "mapas/platNivel1.tmx")
-        .audioPath("music/MusicaFondoNivel1.mp3")
-        .levelFont("fuentes/exoFont.fnt")
-        .boliTexurePath("characters/boli_morado.png")
-        .build();
+    GameLevel level1 = new GameLevelImpl(game);
 
     menuStage.addActor(ButtonFactory.getPlayBtn(game, level1));
   }

@@ -100,13 +100,11 @@ public abstract class GameLevel extends Pantalla {
     cameraHUD.update();
     viewHUD = new StretchViewport(ANCHO_PANTALLA, ALTO_PANTALLA, cameraHUD);
     stageHUD = new Stage(viewHUD);
+    _initButtons();
 
-    ImageButton btnGPause = getPauseBtn();
-    ImageButton bntSalto = getJumpBtn();
-
-    stageHUD.addActor(bntSalto);
-    stageHUD.addActor(btnGPause);
   }
+
+  protected abstract void _initButtons();
 
 
   protected abstract void onStartUp_initBackground();
@@ -160,8 +158,8 @@ public abstract class GameLevel extends Pantalla {
   }
 
 
-  protected ImageButton getPauseBtn() {
-    ImageButton btnGPause = new GameButton("buttons/btnPause.png");
+  protected ImageButton getPauseBtn(Texture btnTexture) {
+    ImageButton btnGPause = new GameButton(btnTexture);
     btnGPause.setPosition(ANCHO_PANTALLA * 0.95f, ALTO_PANTALLA * 0.90f, Align.center);
 
     final Screen currentGameView = this;
@@ -179,9 +177,9 @@ public abstract class GameLevel extends Pantalla {
     return btnGPause;
   }
 
-  protected ImageButton getJumpBtn() {
+  protected ImageButton getJumpBtn(Texture btnTexture) {
 
-    ImageButton bntSalto = new GameButton("buttons/boton_128.png");
+    ImageButton bntSalto = new GameButton(btnTexture);
     bntSalto.setPosition(ANCHO_PANTALLA * .9f, ALTO_PANTALLA * .1f, Align.center);
     bntSalto.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y) {
