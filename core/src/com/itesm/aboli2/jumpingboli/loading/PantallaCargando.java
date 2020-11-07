@@ -1,6 +1,5 @@
 package com.itesm.aboli2.jumpingboli.loading;
 
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
@@ -25,7 +24,6 @@ public class PantallaCargando extends Pantalla {
     private AssetManager manager;
 
     //Referencia al juego
-    private GdXGame game;
 
     //Las pantallas a manejar
     private Pantallas siguientePantalla;
@@ -136,6 +134,7 @@ public class PantallaCargando extends Pantalla {
     }
 
     private void actualizarCarga() {
+
         if(manager.update()){
             switch(siguientePantalla){
                 case MENU:

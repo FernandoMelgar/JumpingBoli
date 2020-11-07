@@ -46,7 +46,7 @@ public abstract class Pantalla implements Screen {
 
     @Override
     public void hide() {
-        dispose();
+//        dispose();
     }
 
 }

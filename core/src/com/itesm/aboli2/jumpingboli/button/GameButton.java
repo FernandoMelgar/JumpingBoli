@@ -13,4 +13,12 @@ public class GameButton extends ImageButton {
   public GameButton(String pathUp) {
     super(new TextureRegionDrawable(new Texture(pathUp)));
   }
+
+  public GameButton(Texture textureUp, Texture textureDown) {
+    super(new TextureRegionDrawable(textureUp), new TextureRegionDrawable(textureDown));
+  }
+
+  public GameButton(Texture textureUp) {
+    super(new TextureRegionDrawable(textureUp));
+  }
 }
