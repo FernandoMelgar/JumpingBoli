@@ -1,16 +1,16 @@
 package com.itesm.aboli2.jumpingboli.loading;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.itesm.aboli2.jumpingboli.GameText;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
 import com.itesm.aboli2.jumpingboli.Pantallas;
 import com.itesm.aboli2.jumpingboli.about.AboutView;
 import com.itesm.aboli2.jumpingboli.configuration.ConfigurationView;
-import com.itesm.aboli2.jumpingboli.game.Boli;
 import com.itesm.aboli2.jumpingboli.game.GameView;
 import com.itesm.aboli2.jumpingboli.howTo.howToView;
 import com.itesm.aboli2.jumpingboli.menu.MenuView;
@@ -93,14 +93,14 @@ public class PantallaCargando extends Pantalla {
         //Fondo
         manager.load("mapas/NivelUno.png", Texture.class);
         //Boli
-        manager.load("characters/boli_morado.png", Boli.class);
+        manager.load("characters/boli_morado.png", Texture.class);
         //Botones
         manager.load("buttons/btnPause.png", Texture.class);
         manager.load("buttons/boton_128.png", Texture.class);
         //Texto
-        manager.load("fuentes/exoFont.fnt", GameText.class);
         // Mapa
-        manager.load("mapas/NivelUno.png", TiledMap.class);
+        manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        manager.load("mapas/NivelUno.tmx", TiledMap.class);
         //Audio
         manager.load("music/MusicaFondoNivel1.mp3", Music.class);
     }

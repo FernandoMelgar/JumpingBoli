@@ -12,8 +12,6 @@ import com.itesm.aboli2.jumpingboli.Pantalla;
 import com.itesm.aboli2.jumpingboli.Pantallas;
 import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
-import com.itesm.aboli2.jumpingboli.game.GameLevel;
-import com.itesm.aboli2.jumpingboli.game.GameLevelImpl;
 import com.itesm.aboli2.jumpingboli.loading.PantallaCargando;
 
 
@@ -119,9 +117,7 @@ public class MenuView extends Pantalla {
 
   private void crearBtnJugar() {
     //todo: Modificar la acción del botón en conjunto con el AssetManager.
-    GameLevel level1 = new GameLevelImpl(game);
-
-    menuStage.addActor(ButtonFactory.getPlayBtn(game, level1));
+    menuStage.addActor(ButtonFactory.getPlayBtn(game, new PantallaCargando(game, Pantallas.NIVELUNO)));
   }
 
   @Override
