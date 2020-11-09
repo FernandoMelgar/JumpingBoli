@@ -2,6 +2,7 @@ package com.itesm.aboli2.jumpingboli.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
@@ -37,6 +38,7 @@ public class GameView extends Pantalla {
 
   //Boli
   private Boli boli;
+  private float colorBoli;
 
   //Mapa
   private TiledMap mapa;
@@ -72,7 +74,7 @@ public class GameView extends Pantalla {
   float timerBuffMultiplicador = 0;
   final float segundosBuff = 5;
   float timerReanudacion = 0;
-  final float segundosReanudación = 3;
+  final float segundosReanudacion = 3;
 
 
   public GameView(GdXGame game) {
@@ -83,8 +85,22 @@ public class GameView extends Pantalla {
   public void show() {
 
     if (estado == EstadoJuego.INICIANDO) {
+      cargarSkin();
+      switch ((int)colorBoli){
+        case 0:
+          boli = new Boli((Texture) game.getManager().get("characters/boli_morado.png"), 200, 600);
+          break;
+        case 1:
+          boli = new Boli((Texture) game.getManager().get("characters/boliVerde.png"), 200, 600);
+          break;
+        case 2:
+          boli = new Boli((Texture) game.getManager().get("characters/boliAzul.png"), 200, 600);
+          break;
+        case 3:
+          boli = new Boli((Texture) game.getManager().get("characters/boliRoja.png"), 200, 600);
+          break;
+      }
       gameStage = new Stage(super.viewport);
-      boli = new Boli((Texture) game.getManager().get("characters/boli_morado.png"), 200, 600);
       gameText = new GameText("fuentes/exoFont.fnt");
       texturaFondo = game.getManager().get("mapas/NivelUno.png");
 
@@ -95,6 +111,12 @@ public class GameView extends Pantalla {
     }
 
     Gdx.input.setInputProcessor(escenaHUD);
+
+  }
+
+  private void cargarSkin() {
+    Preferences prefs = Gdx.app.getPreferences("elegir");
+    colorBoli = prefs.getFloat("SKIN", 0);
 
   }
 
@@ -226,8 +248,6 @@ public class GameView extends Pantalla {
     batch.begin();
     boliVivo();
 
-    Gdx.app.log("ESTADO", "estado: " + estado);
-
     if(estado == EstadoJuego.JUGANDO){
       contadorFondo = contadorFondo - velocidadCamara;
       if(contadorFondo <= -texturaFondo.getWidth()){
@@ -316,7 +336,7 @@ public class GameView extends Pantalla {
   }
 
   private void actualizarTimerReanudacion() {
-    if (timerReanudacion / 60 > segundosReanudación) {
+    if (timerReanudacion / 60 > segundosReanudacion) {
       estado = EstadoJuego.JUGANDO;
       musicaFondo.play();
       boli.setEstadoBoli(EstadoBoli.RODANDO);

@@ -94,6 +94,9 @@ public class PantallaCargando extends Pantalla {
         manager.load("mapas/NivelUno.png", Texture.class);
         //Boli
         manager.load("characters/boli_morado.png", Texture.class);
+        manager.load("characters/boliVerde.png", Texture.class);
+        manager.load("characters/boliAzul.png", Texture.class);
+        manager.load("characters/boliRoja.png", Texture.class);
         //Botones
         manager.load("buttons/btnPause.png", Texture.class);
         manager.load("buttons/boton_128.png", Texture.class);

@@ -35,7 +35,7 @@ public class SkinsView extends Pantalla {
 
   //Boli seleccionada
   private Seleccion boliSeleccionada = Seleccion.MORADA;
-  private String texturaBoliElegida = "characters/boli_morado.png";
+  private String texturaBoliElegida;
   private float texturaElegida = 0;
 
   //Textura plataforma
@@ -75,7 +75,21 @@ public class SkinsView extends Pantalla {
   }
 
   private void crearBolis() {
-    boliCentral = new Boli(new Texture(texturaBoliElegida), ANCHO_PANTALLA*0.17f, ALTO_PANTALLA*0.21f);
+    cargarSkin();
+    switch ((int)texturaElegida){
+      case 0:
+        boliCentral = new Boli((Texture) game.getManager().get("characters/boli_morado.png"), ANCHO_PANTALLA*0.17f, ALTO_PANTALLA*0.21f);
+        break;
+      case 1:
+        boliCentral = new Boli((Texture) game.getManager().get("characters/boliVerde.png"), ANCHO_PANTALLA*0.17f, ALTO_PANTALLA*0.21f);
+        break;
+      case 2:
+        boliCentral = new Boli((Texture) game.getManager().get("characters/boliAzul.png"), ANCHO_PANTALLA*0.17f, ALTO_PANTALLA*0.21f);
+        break;
+      case 3:
+        boliCentral = new Boli((Texture) game.getManager().get("characters/boliRoja.png"), ANCHO_PANTALLA*0.17f, ALTO_PANTALLA*0.21f);
+        break;
+    }
     boliMorada = new Boli(new Texture("characters/boli_morado.png"), ANCHO_PANTALLA*0.35f, ALTO_PANTALLA*0.67f);
     boliVerde = new Boli(new Texture("characters/boliVerde.png"), ANCHO_PANTALLA*0.35f, ALTO_PANTALLA*0.52f);
     boliRoja = new Boli(new Texture("characters/boliRoja.png"), ANCHO_PANTALLA*0.35f, ALTO_PANTALLA*0.37f);
@@ -233,7 +247,7 @@ public class SkinsView extends Pantalla {
 
   private void cargarSkin() {
     Preferences prefs = Gdx.app.getPreferences("elegir");
-    puntos = prefs.getFloat("SKIN", 0);
+    texturaElegida = prefs.getFloat("SKIN", 0);
 
   }
 }
