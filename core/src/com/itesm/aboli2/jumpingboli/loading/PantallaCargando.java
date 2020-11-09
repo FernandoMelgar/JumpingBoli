@@ -75,6 +75,10 @@ public class PantallaCargando extends Pantalla {
     }
 
     private void cargarRecursosSkins() {
+        manager.load("characters/boli_morado.png", Texture.class);
+        manager.load("characters/boliVerde.png", Texture.class);
+        manager.load("characters/boliAzul.png", Texture.class);
+        manager.load("characters/boliRoja.png", Texture.class);
 
     }
 
