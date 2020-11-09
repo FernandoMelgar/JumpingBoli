@@ -3,7 +3,6 @@ package com.itesm.aboli2.jumpingboli.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.itesm.aboli2.jumpingboli.menu.MenuView;
 
 public class Boli extends GameObject {
 
@@ -54,7 +53,7 @@ public class Boli extends GameObject {
   }
 
   public double getV() {
-    return V;
+    return Math.abs(this.V);
   }
 
   public EstadoBoli getEstado() {
@@ -121,7 +120,6 @@ public class Boli extends GameObject {
       DX = 0;
       sprite.rotate(-10);
     }
-
 
     super.render(batch);
   }

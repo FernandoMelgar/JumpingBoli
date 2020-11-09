@@ -190,7 +190,7 @@ public class GameView extends Pantalla {
     // Prueba si debe caer por llegar a un espacio vacío
       // Calcula la celda donde estaría después de moverlo
       int celdaX = (int) (boli.getX() / TAM_CELDA);
-      int celdaY = (int) ((boli.getY() + 1.5*boli.DY) / TAM_CELDA);
+    int celdaY = (int) ((boli.getY() - boli.getV() / 60) / TAM_CELDA);
 
       // Recuperamos la celda en esta posición
       // La capa 0 es el fondo
