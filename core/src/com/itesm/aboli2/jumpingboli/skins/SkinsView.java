@@ -58,6 +58,7 @@ public class SkinsView extends Pantalla {
    skinsStage = new Stage(super.viewport);
 
    crearTexturas();
+   cargarSkin();
    crearBolis();
    cambiarEstadosBolis();
    createSkinsView();
@@ -108,6 +109,7 @@ public class SkinsView extends Pantalla {
 
         texturaBoliElegida = "characters/boliAzul.png";
         texturaElegida = 2;
+        guardarPreferencias();
         boliCentral.setTextura(new Texture(texturaBoliElegida));
         boliSeleccionada = Seleccion.VERDE;
 
@@ -125,6 +127,7 @@ public class SkinsView extends Pantalla {
 
         texturaBoliElegida = "characters/boliRoja.png";
         texturaElegida = 3;
+        guardarPreferencias();
         boliCentral.setTextura(new Texture(texturaBoliElegida));
         boliSeleccionada = Seleccion.VERDE;
 
@@ -142,6 +145,7 @@ public class SkinsView extends Pantalla {
 
         texturaBoliElegida = "characters/boliVerde.png";
         texturaElegida = 1;
+        guardarPreferencias();
         boliCentral.setTextura(new Texture(texturaBoliElegida));
         boliSeleccionada = Seleccion.VERDE;
 
@@ -160,6 +164,7 @@ public class SkinsView extends Pantalla {
 
         texturaBoliElegida = "characters/boli_morado.png";
         texturaElegida = 0;
+        guardarPreferencias();
         boliCentral.setTextura(new Texture(texturaBoliElegida));
         boliSeleccionada = Seleccion.VERDE;
 
