@@ -4,8 +4,10 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.itesm.aboli2.jumpingboli.GameText;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
 import com.itesm.aboli2.jumpingboli.Pantallas;
@@ -19,6 +21,11 @@ import com.itesm.aboli2.jumpingboli.skins.SkinsView;
 public class PantallaCargando extends Pantalla {
 
     //Animación de cargando.
+    // Animación cargando (espera...)
+    private Sprite spriteCargando;
+    public static final float TIEMPO_ENTRE_FRAMES = 0.05f;
+    private float timerAnimacion = TIEMPO_ENTRE_FRAMES;
+    private Texture texturaCargando;
 
     //Asset Manager
     private AssetManager manager;
@@ -31,6 +38,14 @@ public class PantallaCargando extends Pantalla {
     //Indicador de avance de carga
     private int avance;
 
+    // Para mostrar mensajes
+    private GameText texto;
+    private Texture texturaFondoCarga;
+    private Texture texturaCargandoBolita;
+    private Sprite spriteCargandoBolita;
+    private Texture texturaCargandoEngranaje;
+    private Sprite spriteCargandoEngranaje;
+
     public PantallaCargando(GdXGame game, Pantallas siguientePantalla) {
         super(game);
         this.siguientePantalla = siguientePantalla;
@@ -38,6 +53,17 @@ public class PantallaCargando extends Pantalla {
 
     @Override
     public void show() {
+        texturaCargandoEngranaje = new Texture("iconosCargando/engranaje.png");
+        spriteCargandoEngranaje = new Sprite(texturaCargando);
+        spriteCargandoEngranaje.setPosition(ANCHO_PANTALLA/2 - spriteCargandoEngranaje.getWidth()/2,
+                ALTO_PANTALLA/2 - spriteCargandoEngranaje.getHeight()/2);
+        texturaCargandoBolita = new Texture("iconosCargando/bolita.png");
+        spriteCargandoBolita = new Sprite(texturaCargandoBolita);
+        spriteCargandoBolita.setPosition(ANCHO_PANTALLA/2 - spriteCargandoBolita.getWidth()/2,
+                ALTO_PANTALLA/2 - spriteCargandoBolita.getHeight()/2);
+        texturaFondoCarga = new Texture("fondos/fondoCargando.png");
+        //texto = new Texto("fuentes/exoFont.fnt");
+        texto = new GameText("runner/game.fnt");
         cargarRecursos();
     }
 
@@ -135,9 +161,34 @@ public class PantallaCargando extends Pantalla {
 
         batch.begin();
 
+        for (int i = 0; i < 3; i++) {
+            batch.draw(texturaFondoCarga,ANCHO_PANTALLA * i,0);
+        }
+        //batch.draw(texturaFondoCarga,0,0);
+        //batch.draw(texturaFondoCarga, ANCHO,0);
+        spriteCargandoEngranaje.draw(batch);
+        spriteCargandoBolita.draw(batch);
+        //texto.mostrarMensaje(batch, avance + "%", ANCHO/2, ALTO/1.9f);
+        texto.mostrarMensaje(batch, avance + "%", camera.position.x, camera.position.y + ALTO_PANTALLA/2-80);
+
+
         batch.end();
 
+        // Actualizar
+        timerAnimacion -= delta;
+        if (timerAnimacion<=0) {
+            timerAnimacion = TIEMPO_ENTRE_FRAMES;
+            spriteCargandoEngranaje.rotate(15);
+            spriteCargandoBolita.rotate(20);
+        }
+
         actualizarCarga();
+        actualizarCamara();
+        spriteCargandoEngranaje.setPosition(camera.position.x- spriteCargandoEngranaje.getWidth()/2,
+                camera.position.y- spriteCargandoEngranaje.getHeight()/2);
+        spriteCargandoBolita.setPosition(camera.position.x- spriteCargandoBolita.getWidth()/2,
+                camera.position.y- spriteCargandoBolita.getHeight()/2);
+
     }
 
     private void actualizarCarga() {
@@ -166,6 +217,11 @@ public class PantallaCargando extends Pantalla {
             }
         }
         avance = (int)(manager.getProgress()*100);
+    }
+
+    private void actualizarCamara() {
+        camera.position.x = camera.position.x + 2;
+        camera.update();
     }
 
     @Override
