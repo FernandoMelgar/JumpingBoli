@@ -54,7 +54,7 @@ public class PantallaCargando extends Pantalla {
     @Override
     public void show() {
         texturaCargandoEngranaje = new Texture("iconosCargando/engranaje.png");
-        spriteCargandoEngranaje = new Sprite(texturaCargando);
+        spriteCargandoEngranaje = new Sprite(texturaCargandoEngranaje);
         spriteCargandoEngranaje.setPosition(ANCHO_PANTALLA/2 - spriteCargandoEngranaje.getWidth()/2,
                 ALTO_PANTALLA/2 - spriteCargandoEngranaje.getHeight()/2);
         texturaCargandoBolita = new Texture("iconosCargando/bolita.png");
@@ -62,8 +62,8 @@ public class PantallaCargando extends Pantalla {
         spriteCargandoBolita.setPosition(ANCHO_PANTALLA/2 - spriteCargandoBolita.getWidth()/2,
                 ALTO_PANTALLA/2 - spriteCargandoBolita.getHeight()/2);
         texturaFondoCarga = new Texture("fondos/fondoCargando.png");
-        //texto = new Texto("fuentes/exoFont.fnt");
-        texto = new GameText("runner/game.fnt");
+        texto = new GameText("fuentes/exoFont.fnt");
+        //texto = new GameText("runner/game.fnt");
         cargarRecursos();
     }
 
