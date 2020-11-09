@@ -7,6 +7,8 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -45,6 +47,9 @@ public class GameView extends Pantalla {
   //fondo
   private Texture texturaFondo;
 
+  //Partículas y sus elementos a implementar.
+  private ParticleEffect pe;
+  private ParticleEmitter emisor;
 
   //Cámara/vista HUD.
   private Stage escenaHUD;
@@ -53,7 +58,6 @@ public class GameView extends Pantalla {
 
   // Música
   private Music musicaFondo;
-
 
   //Escudos
   private Texture texturaEscudo;
@@ -65,7 +69,6 @@ public class GameView extends Pantalla {
 
   //Inicia el juego
    public EstadoJuego estado = EstadoJuego.INICIANDO;
-
 
   //TIMER
   float timerPausa;
@@ -92,10 +95,19 @@ public class GameView extends Pantalla {
       initMaps();
       initHUD();
       initShields();
+      initParticles();
     }
 
     Gdx.input.setInputProcessor(escenaHUD);
 
+  }
+
+  private void initParticles() {
+    pe = new ParticleEffect();
+    pe.load(Gdx.files.internal("particulas/nubeToxica.pe"), Gdx.files.internal("particulas/"));
+    emisor = pe.getEmitters().get(0);
+    emisor.setPosition(ANCHO_PANTALLA/2, ALTO_PANTALLA/2);
+    pe.start();
   }
 
   private void initHUD() {
@@ -161,7 +173,7 @@ public class GameView extends Pantalla {
     musicaFondo = game.getManager().get("music/MusicaFondoNivel1.mp3");
     musicaFondo.setVolume(0.1f);
     musicaFondo.setLooping(true);
-    musicaFondo.play();
+    //musicaFondo.play();
   }
 
   public void colisionPlataforma(){
@@ -242,6 +254,8 @@ public class GameView extends Pantalla {
     rendererMapa.render();
 
     boli.render(batch);
+    pe.draw(batch);
+    pe.update(delta);
     batch.end();
 
     actualizarTimer(delta);
