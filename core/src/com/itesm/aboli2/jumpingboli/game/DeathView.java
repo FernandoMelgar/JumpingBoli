@@ -6,7 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.itesm.aboli2.jumpingboli.GameText;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
+import com.itesm.aboli2.jumpingboli.Pantallas;
 import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
+import com.itesm.aboli2.jumpingboli.loading.PantallaCargando;
 import com.itesm.aboli2.jumpingboli.menu.MenuView;
 
 public class DeathView extends Pantalla {
@@ -32,7 +34,8 @@ public class DeathView extends Pantalla {
     texturaFondoMuerte = new Texture("fondos/fondoMuerte.png");
     gameText = new GameText("fuentes/exoFont.fnt");
     deathStage.addActor(ButtonFactory.getReturnBtn(game, new MenuView(game)));
-    deathStage.addActor(ButtonFactory.getPlayBtn(game, new GameView(game)));
+    //game.getManager().unload("mapas/platNivel1.tmx");
+    deathStage.addActor(ButtonFactory.getPlayBtn(game, new PantallaCargando(game, Pantallas.NIVELUNO)));
     Gdx.input.setInputProcessor(deathStage);
 
   }

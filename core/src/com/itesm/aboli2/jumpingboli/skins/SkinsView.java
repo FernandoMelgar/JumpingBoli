@@ -237,6 +237,8 @@ public class SkinsView extends Pantalla {
   public void dispose() {
     texturaFondo.dispose();
     batch.dispose();
+
+
   }
 
   private void guardarPreferencias() {

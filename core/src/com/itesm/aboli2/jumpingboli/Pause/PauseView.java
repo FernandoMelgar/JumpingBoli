@@ -12,8 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
+import com.itesm.aboli2.jumpingboli.Pantallas;
 import com.itesm.aboli2.jumpingboli.configuration.ConfigurationViewPause;
 import com.itesm.aboli2.jumpingboli.game.GameView;
+import com.itesm.aboli2.jumpingboli.loading.PantallaCargando;
 import com.itesm.aboli2.jumpingboli.menu.MenuView;
 
 public class PauseView extends Pantalla {
@@ -84,7 +86,9 @@ public class PauseView extends Pantalla {
         btnPauRetry.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y){
                 super.clicked(event, x, y);
-                game.setScreen(new GameView(game));
+
+                game.setScreen(new PantallaCargando(game, Pantallas.NIVELUNO));
+
             }
         });
         pauseStage.addActor(btnPauRetry);

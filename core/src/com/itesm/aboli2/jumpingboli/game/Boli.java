@@ -77,7 +77,7 @@ public class Boli extends GameObject {
     actualizarTimer(delta);
     estado = getEstado();
     DX = getDX();
-    Gdx.app.log("EstadoBoli", "Boli: " + getEstado());
+    //Gdx.app.log("EstadoBoli", "Boli: " + getEstado());
 
     if (estado == EstadoBoli.RODANDO && timerPausa >= 3) {
       sprite.rotate(-30);

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -39,6 +40,7 @@ public class GameView extends Pantalla {
   //Boli
   private Boli boli;
   private float colorBoli;
+  private float monedas = 0;
 
   //Mapa
   private TiledMap mapa;
@@ -75,6 +77,8 @@ public class GameView extends Pantalla {
   final float segundosBuff = 5;
   float timerReanudacion = 0;
   final float segundosReanudacion = 3;
+  //manager
+  private AssetManager manager;
 
 
   public GameView(GdXGame game) {
@@ -83,6 +87,8 @@ public class GameView extends Pantalla {
 
   @Override
   public void show() {
+    manager = new AssetManager();
+    cargarMonedas();
 
     if (estado == EstadoJuego.INICIANDO) {
       cargarSkin();
@@ -171,16 +177,19 @@ public class GameView extends Pantalla {
   private void initMaps() {
     // Todo: No se puede cargar desde el assetManager
     //Se crea el asset manager para manejar el mapa.
-    game.getManager().setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-    game.getManager().load("mapas/platNivel1.tmx", TiledMap.class);
-    game.getManager().finishLoading();
-    mapa = game.getManager().get("mapas/platNivel1.tmx");
+    Gdx.app.log("EstadoBoli", "Boli&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+    manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+    manager.load("mapas/platNivel1.tmx", TiledMap.class);
+    manager.finishLoading();
+    mapa = manager.get("mapas/platNivel1.tmx");
     rendererMapa = new OrthogonalTiledMapRenderer(mapa);
 
   }
 
   private void initAudio() {
-    musicaFondo = game.getManager().get("music/MusicaFondoNivel1.mp3");
+    manager.load("music/MusicaFondoNivel1.mp3", Music.class);
+    manager.finishLoading();
+    musicaFondo = manager.get("music/MusicaFondoNivel1.mp3");
     musicaFondo.setVolume(0.1f);
     musicaFondo.setLooping(true);
     musicaFondo.play();
@@ -200,11 +209,17 @@ public class GameView extends Pantalla {
       // probar si la celda está ocupada
 
     if ( esBuffMultiplicador(capa.getCell(celdaX+1,celdaY+1)) ) {
-      Gdx.app.log("MUERTO", "F");      // Borrar esta estrella y contabilizar
+      //Gdx.app.log("MUERTO", "F");      // Borrar Buff
       capa.setCell(celdaX+1,celdaY+1,null);
       boli.setEstadoBuff(EstadoBuff.BUFFDOBLEPUNTOS);
     }
-      if ((celdaAbajo == null && celdaDerecha == null && boli.getEstado() != EstadoBoli.SALTANDO) || (esBuffMultiplicador(celdaAbajo) && boli.getEstado() != EstadoBoli.SALTANDO) || (esBuffMultiplicador(celdaDerecha) && boli.getEstado() != EstadoBoli.SALTANDO)){
+    if ( esMoneda(capa.getCell(celdaX+1,celdaY+1)) ) {
+      //Gdx.app.log("MUERTO", "F");      // Borrar Moneda
+      capa.setCell(celdaX+1,celdaY+1,null);
+      monedas++;
+      guardarPreferencias();
+    }
+      if ((celdaAbajo == null && celdaDerecha == null && boli.getEstado() != EstadoBoli.SALTANDO) || (esBuffMultiplicador(celdaAbajo) && boli.getEstado() != EstadoBoli.SALTANDO)  || (esBuffMultiplicador(celdaDerecha) && boli.getEstado() != EstadoBoli.SALTANDO) || (esMoneda(celdaAbajo) && boli.getEstado() != EstadoBoli.SALTANDO) || (esMoneda(celdaDerecha) && boli.getEstado() != EstadoBoli.SALTANDO)){
         if(boli.getEstado() != EstadoBoli.CAYENDO){
           boli.setyBase(boli.getY());
           boli.cayendo();
@@ -233,10 +248,16 @@ public class GameView extends Pantalla {
     }
 
     Object propiedad = celda.getTile().getProperties().get("tipo");
-    if("BuffMultiplicador".equals(propiedad)){
-      Gdx.app.log("BUFF", "todo bien");
-    }
     return "BuffMultiplicador".equals(propiedad);
+  }
+
+  private boolean esMoneda(TiledMapTileLayer.Cell celda) {
+    if (celda==null) {
+      return false;
+    }
+
+    Object propiedad = celda.getTile().getProperties().get("tipo");
+    return "moneda".equals(propiedad);
   }
 
 
@@ -284,7 +305,7 @@ public class GameView extends Pantalla {
       boli.setDX(0);
       boli.sprite.rotate(30);
       batch.begin();
-      Gdx.app.log("TIEMPO", "Tiempo: " + (int)(timerReanudacion/60));
+      //Gdx.app.log("TIEMPO", "Tiempo: " + (int)(timerReanudacion/60));
       gameText.mostrarMensaje(batch, "" + (int) (3 - timerReanudacion/60),
               camera.position.x, camera.position.y);
       timerReanudacion++;
@@ -390,6 +411,17 @@ public class GameView extends Pantalla {
     camera.position.x = camera.position.x + boli.getDX();
     camera.update();
   }
+  private void guardarPreferencias() {
+    Preferences prefs = Gdx.app.getPreferences("monedas");
+    prefs.putFloat("MONEDA", monedas);
+    prefs.flush();  // OBLIGATORIO
+  }
+
+  private void cargarMonedas() {
+    Preferences prefs = Gdx.app.getPreferences("monedas");
+    monedas = prefs.getFloat("MONEDA", 0);
+
+  }
 
   @Override
   public void pause() {
@@ -403,61 +435,13 @@ public class GameView extends Pantalla {
 
   @Override
   public void dispose() {
+    musicaFondo.dispose();
+    mapa.dispose();
+    rendererMapa.dispose();
+    texturaFondo.dispose();
 
   }
 
-  class ProcesadorEntrada implements InputProcessor {
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-      Vector3 v = new Vector3(screenX, screenY, 0);
-      camaraHUD.unproject(v);
-
-      if(estado == EstadoJuego.JUGANDO){
-        if (v.x<=ANCHO_PANTALLA/2 + camera.position.x && boli.getEstado() == EstadoBoli.RODANDO) {
-          boli.setyBase(boli.getY());
-          boli.saltar();
-        }
-      }
-      return true;    //////////////////////  **********   ///////////////////
-
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-      return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-      return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-      return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-      return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-      return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-      return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-      return false;
-    }
-  }
 
   public enum EstadoJuego {
     JUGANDO,

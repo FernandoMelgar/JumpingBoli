@@ -1,5 +1,6 @@
 package com.itesm.aboli2.jumpingboli.loading;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
@@ -132,10 +133,12 @@ public class PantallaCargando extends Pantalla {
         manager.load("buttons/boton_128.png", Texture.class);
         //Texto
         // Mapa
-        manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-        manager.load("mapas/NivelUno.tmx", TiledMap.class);
+        manager.setLoader(TiledMap.class, new TmxMapLoader());
+        manager.load("mapas/platNivel1.tmx", TiledMap.class);
+
         //Audio
         manager.load("music/MusicaFondoNivel1.mp3", Music.class);
+
     }
 
     private void cargarRecursosMenu() {
