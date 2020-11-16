@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.itesm.aboli2.jumpingboli.GameText;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
@@ -31,10 +32,15 @@ public class SkinsView extends Pantalla {
   private Boli boliVerde;
   private Boli boliRoja;
   private Boli boliAzul;
-  private Texture texturaBoliMorada;
+
+  //Desbloqueos de Boli
+  private Boolean boliVerdeDesbloqueada;
+  private Boolean boliRojaDesbloqueada;
+  private Boolean boliAzulDesbloqueada;
+  private String btnBoliDesbloquedo;
+  private Array<Integer> boliDesbloqueada;
 
   //Boli seleccionada
-  private Seleccion boliSeleccionada = Seleccion.MORADA;
   private String texturaBoliElegida;
   private float texturaElegida = 0;
 
@@ -47,7 +53,7 @@ public class SkinsView extends Pantalla {
 
   //Texto
   private GameText gameText;
-  private float puntos;
+  private float monedas;
 
   public SkinsView(GdXGame game) {
     super(game);
@@ -56,7 +62,11 @@ public class SkinsView extends Pantalla {
   @Override
   public void show() {
    skinsStage = new Stage(super.viewport);
-
+   boliDesbloqueada = new Array<>(4);
+   //reiniciarDesbloqueos();
+   cargarDesbloqueos();
+   revisarDesbloqueos();
+   cargarMonedas();
    crearTexturas();
    cargarSkin();
    crearBolis();
@@ -64,6 +74,36 @@ public class SkinsView extends Pantalla {
    createSkinsView();
    createText();
    Gdx.input.setInputProcessor(skinsStage);
+  }
+
+  private void reiniciarDesbloqueos() {
+    boliVerdeDesbloqueada = false;
+    boliRojaDesbloqueada = false;
+    boliAzulDesbloqueada = false;
+  }
+
+  private void cargarDesbloqueos() {
+    Preferences unlockGreen = Gdx.app.getPreferences("desbloquearVerde");
+    boliVerdeDesbloqueada = unlockGreen.getBoolean("desbloqueoVerde", false);
+
+    Preferences unlockRed = Gdx.app.getPreferences("desbloquearRoja");
+    boliRojaDesbloqueada = unlockRed.getBoolean("desbloqueoRoja", false);
+
+    Preferences unlockBlue = Gdx.app.getPreferences("desbloquearAzul");
+    boliAzulDesbloqueada = unlockBlue.getBoolean("desbloqueoAzul", false);
+  }
+
+  private void revisarDesbloqueos() {
+    boliDesbloqueada.add(0);
+    if(boliVerdeDesbloqueada){boliDesbloqueada.add(1);}
+    if(boliRojaDesbloqueada){boliDesbloqueada.add(3);}
+    if(boliAzulDesbloqueada){boliDesbloqueada.add(2);}
+  }
+
+  private void cargarMonedas() {
+    //monedas = 1000;
+    Preferences prefs = Gdx.app.getPreferences("monedas");
+    monedas = prefs.getFloat("MONEDA", 0);
   }
 
   private void cambiarEstadosBolis() {
@@ -107,84 +147,153 @@ public class SkinsView extends Pantalla {
 
   private void createSkinsView() {
     crearBtnBack();
-    crearBtnSelect();
-    //Checar preferencias donde guardemos si el jugador ya desbloqueó los niveles para ver si se crean o no.
-    crearBtnUnlock();
-    crearBtnUnlock2();
-    crearBtnUnlock3();
+    crearBtnSelect(); //Aquí se checan las preferencias para ver si están desbloqueadas las otras skins. Si están desbloqueadas, se crea el btnSelect, si no, se crea el btnDesbloquear.
+    crearBtnSelected(); //Se revisan las preferencias para ver la Boli seleccionada y se pone el btnSelected con la Boli del color seleccionado.
   }
 
-  private void crearBtnUnlock3() {
-    ImageButton btnUnlock = new GameButton("buttons/btnUnlock3.png", "buttons/btnUnlockPicado3.png");
-    btnUnlock.setPosition(ANCHO_PANTALLA * 0.69f, ALTO_PANTALLA * 0.25f, Align.center);
+  private void crearBtnSelected() {
+    cargarSkin();
+    ImageButton btnSelected = new GameButton("buttons/btnSelected.png", "buttons/btnSelectedPicado.png");
+    switch ((int)texturaElegida){
+      case 0: //Boli morada
+        btnSelected.setPosition(ANCHO_PANTALLA*0.52f, ALTO_PANTALLA * 0.7f, Align.center);
+        break;
+      case 1: //Boli Verde
+        btnSelected.setPosition(ANCHO_PANTALLA*0.52f, ALTO_PANTALLA * .55f, Align.center);
+        break;
+      case 2: //Boli Azul
+        btnSelected.setPosition(ANCHO_PANTALLA*0.52f, ALTO_PANTALLA*0.25f, Align.center);
+        break;
+      case 3: //Boli Roja
+        btnSelected.setPosition(ANCHO_PANTALLA*0.52f, ALTO_PANTALLA*0.4f, Align.center);
+        break;
+    }
+    skinsStage.addActor(btnSelected);
+  }
+
+  private void crearBtnUnlock3() { //Boli Azul
+    final ImageButton btnUnlock = new GameButton("buttons/btnUnlock200.png", "buttons/btnUnlock200Picado.png");
+    btnUnlock.setPosition(ANCHO_PANTALLA * 0.63f, ALTO_PANTALLA * 0.25f, Align.center);
     btnUnlock.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
-
-        texturaBoliElegida = "characters/boliAzul.png";
-        texturaElegida = 2;
-        guardarPreferencias();
-        boliCentral.setTextura(new Texture(texturaBoliElegida));
-        boliSeleccionada = Seleccion.VERDE;
-
+        if(monedas >= 200){
+          texturaBoliElegida = "characters/boliAzul.png";
+          texturaElegida = 2;
+          boliAzulDesbloqueada = true;
+          boliDesbloqueada.add(2);
+          monedas -= 200;
+          btnUnlock.setVisible(false);
+          guardarPreferencias();
+          boliCentral.setTextura(new Texture(texturaBoliElegida));
+        }
       }
     });
     skinsStage.addActor(btnUnlock);
   }
 
-  private void crearBtnUnlock2() {
-    ImageButton bntUnlock = new GameButton("buttons/btnUnlock2.png", "buttons/btnUnlockPicado2.png");
-    bntUnlock.setPosition(ANCHO_PANTALLA * 0.69f, ALTO_PANTALLA * 0.4f, Align.center);
+  private void crearBtnUnlock2() {  //Boli Roja
+    final ImageButton bntUnlock = new GameButton("buttons/btnUnlock150.png", "buttons/btnUnlock150Picado.png");
+    bntUnlock.setPosition(ANCHO_PANTALLA * 0.63f, ALTO_PANTALLA * 0.4f, Align.center);
     bntUnlock.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
-
-        texturaBoliElegida = "characters/boliRoja.png";
-        texturaElegida = 3;
-        guardarPreferencias();
-        boliCentral.setTextura(new Texture(texturaBoliElegida));
-        boliSeleccionada = Seleccion.VERDE;
-
+        if(monedas >= 150){
+          texturaBoliElegida = "characters/boliRoja.png";
+          texturaElegida = 3;
+          boliRojaDesbloqueada = true;
+          boliDesbloqueada.add(3);
+          monedas -= 150;
+          bntUnlock.setVisible(false);
+          guardarPreferencias();
+          boliCentral.setTextura(new Texture(texturaBoliElegida));
+        }
       }
     });
     skinsStage.addActor(bntUnlock);
   }
 
-  private void crearBtnUnlock() {
-    ImageButton btnUnlock = new GameButton("buttons/btnUnlock.png", "buttons/btnUnlockPicado.png");
-    btnUnlock.setPosition(ANCHO_PANTALLA * 0.69f, ALTO_PANTALLA * .55f, Align.center);
+  private void crearBtnUnlock() { //Boli Verde
+    final ImageButton btnUnlock = new GameButton("buttons/btnUnlock.png", "buttons/btnUnlockPicado.png");
+    btnUnlock.setPosition(ANCHO_PANTALLA * 0.63f, ALTO_PANTALLA * .55f, Align.center);
     btnUnlock.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
-
-        texturaBoliElegida = "characters/boliVerde.png";
-        texturaElegida = 1;
-        guardarPreferencias();
-        boliCentral.setTextura(new Texture(texturaBoliElegida));
-        boliSeleccionada = Seleccion.VERDE;
-
+        if(monedas >= 100){
+          texturaBoliElegida = "characters/boliVerde.png";
+          texturaElegida = 1;
+          boliVerdeDesbloqueada = true;
+          boliDesbloqueada.add(1);
+          monedas -= 100;
+          btnUnlock.setVisible(false);
+          guardarPreferencias();
+          boliCentral.setTextura(new Texture(texturaBoliElegida));
+        }
       }
     });
     skinsStage.addActor(btnUnlock);
-
   }
 
-  private void crearBtnSelect() {
-    ImageButton btnSelect = new GameButton("buttons/btnSelect.png", "buttons/btnSelectPicado.png");
-    btnSelect.setPosition(ANCHO_PANTALLA * 0.5f, ALTO_PANTALLA * 0.7f, Align.center);
-    btnSelect.addListener(new ClickListener() {
-      public void clicked(InputEvent event, float x, float y){
-        super.clicked(event, x, y);
-
-        texturaBoliElegida = "characters/boli_morado.png";
-        texturaElegida = 0;
-        guardarPreferencias();
-        boliCentral.setTextura(new Texture(texturaBoliElegida));
-        boliSeleccionada = Seleccion.VERDE;
-
-      }
-    });
-    skinsStage.addActor(btnSelect);
+  private void crearBtnSelect() { //Boli Morada por defecto
+    //Botón que funciona como bandera, se ve cuando ya se desbloqueó la skin previamente.
+    //Tenemos que hacer que primero desbloquee las skins para poder verlo.
+    //Si tiene el valor de 1, significa que Boli morada está desbloqueada y se crea un botón específico para seleccionar esa Boli.
+    if(boliDesbloqueada.contains(0, true)){
+      ImageButton btnSelectMorada = new GameButton("buttons/btnSelect.png", "buttons/btnSelectPicado.png");
+      btnSelectMorada.setPosition(ANCHO_PANTALLA * 0.5f, ALTO_PANTALLA * 0.7f, Align.center);
+      btnSelectMorada.addListener(new ClickListener() {
+        public void clicked(InputEvent event, float x, float y){
+          super.clicked(event, x, y);
+          texturaBoliElegida = "characters/boli_morado.png";
+          texturaElegida = 0;
+          guardarPreferencias();
+          boliCentral.setTextura(new Texture(texturaBoliElegida));
+        }
+      });
+      skinsStage.addActor(btnSelectMorada);
+    }
+    if(boliDesbloqueada.contains(1, true)){
+      ImageButton btnSelectVerde = new GameButton("buttons/btnSelect.png", "buttons/btnSelectPicado.png");
+      btnSelectVerde.setPosition(ANCHO_PANTALLA * 0.5f, ALTO_PANTALLA * 0.55f, Align.center);
+      btnSelectVerde.addListener(new ClickListener() {
+        public void clicked(InputEvent event, float x, float y){
+          super.clicked(event, x, y);
+          texturaBoliElegida = "characters/boli_morado.png";
+          texturaElegida = 1;
+          guardarPreferencias();
+          boliCentral.setTextura(new Texture(texturaBoliElegida));
+        }
+      });
+      skinsStage.addActor(btnSelectVerde);
+    } else {crearBtnUnlock();}
+    if(boliDesbloqueada.contains(3, true)){
+      ImageButton btnSelectRoja = new GameButton("buttons/btnSelect.png", "buttons/btnSelectPicado.png");
+      btnSelectRoja.setPosition(ANCHO_PANTALLA * 0.5f, ALTO_PANTALLA * 0.4f, Align.center);
+      btnSelectRoja.addListener(new ClickListener() {
+        public void clicked(InputEvent event, float x, float y){
+          super.clicked(event, x, y);
+          texturaBoliElegida = "characters/boli_morado.png";
+          texturaElegida = 3;
+          guardarPreferencias();
+          boliCentral.setTextura(new Texture(texturaBoliElegida));
+        }
+      });
+      skinsStage.addActor(btnSelectRoja);
+    } else {crearBtnUnlock2();}
+    if(boliDesbloqueada.contains(2, true)){
+      ImageButton btnSelectAzul = new GameButton("buttons/btnSelect.png", "buttons/btnSelectPicado.png");
+      btnSelectAzul.setPosition(ANCHO_PANTALLA * 0.5f, ALTO_PANTALLA * 0.25f, Align.center);
+      btnSelectAzul.addListener(new ClickListener() {
+        public void clicked(InputEvent event, float x, float y){
+          super.clicked(event, x, y);
+          texturaBoliElegida = "characters/boli_morado.png";
+          texturaElegida = 2;
+          guardarPreferencias();
+          boliCentral.setTextura(new Texture(texturaBoliElegida));
+        }
+      });
+      skinsStage.addActor(btnSelectAzul);
+    } else {crearBtnUnlock3();}
   }
 
   private void crearBtnBack() {
@@ -194,6 +303,7 @@ public class SkinsView extends Pantalla {
   @Override
   public void render(float delta) {
     cleanScreen();
+    crearBtnSelected();
     hacerSaltarBoli(delta);
     batch.setProjectionMatrix(camera.combined);
 
@@ -205,6 +315,7 @@ public class SkinsView extends Pantalla {
     boliVerde.render(batch);
     boliRoja.render(batch);
     boliAzul.render(batch);
+    dibujarTexto();
     batch.end();
 
     skinsStage.draw();
@@ -212,7 +323,7 @@ public class SkinsView extends Pantalla {
 
   private void hacerSaltarBoli(float tiempo) {
     timerSalto += tiempo;
-    if (timerSalto >= 10){
+    if (timerSalto >= 40){
       boliCentral.setEstadoBoli(EstadoBoli.SALTANDO);
       boliCentral.saltar();
       timerSalto = 0;
@@ -220,7 +331,8 @@ public class SkinsView extends Pantalla {
   }
 
   private void dibujarTexto() {
-    gameText.mostrarMensaje(batch, "SKINS", ANCHO_PANTALLA / 2, ALTO_PANTALLA * 0.9f);
+    gameText.mostrarMensaje(batch, "Your coins: ", ANCHO_PANTALLA*0.7f, ALTO_PANTALLA * 0.9f);
+    gameText.mostrarMensaje(batch, "" + monedas, ANCHO_PANTALLA*0.82f, ALTO_PANTALLA*0.9f);
   }
 
   @Override
@@ -237,19 +349,33 @@ public class SkinsView extends Pantalla {
   public void dispose() {
     texturaFondo.dispose();
     batch.dispose();
-
-
   }
 
   private void guardarPreferencias() {
     Preferences prefs = Gdx.app.getPreferences("elegir");
     prefs.putFloat("SKIN", texturaElegida);
+
+    Preferences unlockGreen = Gdx.app.getPreferences("desbloquearVerde");
+    unlockGreen.putBoolean("desbloqueoVerde", boliVerdeDesbloqueada);
+
+    Preferences unlockRed = Gdx.app.getPreferences("desbloquearRoja");
+    unlockRed.putBoolean("desbloqueoRoja", boliRojaDesbloqueada);
+
+    Preferences unlockBlue = Gdx.app.getPreferences("desbloquearAzul");
+    unlockBlue.putBoolean("desbloqueoAzul", boliAzulDesbloqueada);
+
+    Preferences coins = Gdx.app.getPreferences("monedas");
+    coins.putFloat("MONEDA", monedas);
+
     prefs.flush();  // OBLIGATORIO
+    unlockGreen.flush();
+    unlockRed.flush();
+    unlockBlue.flush();
+    coins.flush();
   }
 
   private void cargarSkin() {
     Preferences prefs = Gdx.app.getPreferences("elegir");
     texturaElegida = prefs.getFloat("SKIN", 0);
-
   }
 }

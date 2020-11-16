@@ -21,6 +21,9 @@ public class ConfigurationView extends Pantalla {
   //Fondo
   private Texture texturaFondo;
 
+  //Musica del juego
+  private boolean playMusic;
+
   private Stage configurationStage;
 
   public ConfigurationView(GdXGame game) {
@@ -34,7 +37,15 @@ public class ConfigurationView extends Pantalla {
     texturaFondo = new Texture("fondos/fondoAjustes.png");
     createConfigView();
     cargarPreferencias();
+    guardarPreferencias();
     Gdx.input.setInputProcessor(configurationStage);
+  }
+
+  private void guardarPreferencias() {
+    Preferences musica = Gdx.app.getPreferences("musica");
+    musica.putBoolean("MUSICA", playMusic);
+
+    musica.flush();
   }
 
   private void cargarPreferencias() {
@@ -42,7 +53,8 @@ public class ConfigurationView extends Pantalla {
   }
 
   private void cargarPreferenciasMusica() {
-    Preferences prefs = Gdx.app.getPreferences("Musica");
+    Preferences musica = Gdx.app.getPreferences("musica");
+    playMusic = musica.getBoolean("MUSICA", true);
   }
 
   private void createConfigView() {
@@ -57,6 +69,12 @@ public class ConfigurationView extends Pantalla {
     btnOn.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
+        if(playMusic){
+          playMusic = false;
+        } else {
+          playMusic = true;
+        }
+        guardarPreferencias();
       }
     });
 

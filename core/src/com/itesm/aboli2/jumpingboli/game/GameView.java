@@ -57,7 +57,7 @@ public class GameView extends Pantalla {
 
   // Música
   private Music musicaFondo;
-
+  private boolean playMusic;
 
   //Escudos
   private Texture texturaEscudo;
@@ -187,12 +187,19 @@ public class GameView extends Pantalla {
   }
 
   private void initAudio() {
+    //Cargamos las preferencias
+    Preferences musica = Gdx.app.getPreferences("musica");
+    playMusic = musica.getBoolean("MUSICA", true);
+
     manager.load("music/MusicaFondoNivel1.mp3", Music.class);
     manager.finishLoading();
     musicaFondo = manager.get("music/MusicaFondoNivel1.mp3");
     musicaFondo.setVolume(0.1f);
     musicaFondo.setLooping(true);
-    musicaFondo.play();
+    if(playMusic){musicaFondo.play();
+    } else {
+      musicaFondo.pause();
+    }
   }
 
   public void colisionPlataforma(){
@@ -414,7 +421,12 @@ public class GameView extends Pantalla {
   private void guardarPreferencias() {
     Preferences prefs = Gdx.app.getPreferences("monedas");
     prefs.putFloat("MONEDA", monedas);
+
+    Preferences musica = Gdx.app.getPreferences("musica");
+    musica.putBoolean("MUSICA", playMusic);
+
     prefs.flush();  // OBLIGATORIO
+    musica.flush();
   }
 
   private void cargarMonedas() {
