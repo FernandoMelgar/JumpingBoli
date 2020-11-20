@@ -49,4 +49,15 @@ public abstract class Pantalla implements Screen {
 //        dispose();
     }
 
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+
 }
