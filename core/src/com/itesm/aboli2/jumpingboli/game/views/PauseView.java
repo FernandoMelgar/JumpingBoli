@@ -1,4 +1,4 @@
-package com.itesm.aboli2.jumpingboli.Pause;
+package com.itesm.aboli2.jumpingboli.game.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -14,7 +14,6 @@ import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
 import com.itesm.aboli2.jumpingboli.Pantallas;
 import com.itesm.aboli2.jumpingboli.configuration.ConfigurationViewPause;
-import com.itesm.aboli2.jumpingboli.game.GameView;
 import com.itesm.aboli2.jumpingboli.loading.PantallaCargando;
 import com.itesm.aboli2.jumpingboli.menu.MenuView;
 
@@ -146,32 +145,7 @@ public class PauseView extends Pantalla {
     }
 
     @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
     public void dispose() {
 
     }
-
-    /* INTENTO FALLIIDO DE QUE SE MUEVA UN BOTÓN
-    private class MovBtnConfig extends Stage {
-        Sprite sprite;
-
-        public MovBtnConfig(Viewport vista, SpriteBatch batch) {
-            super(vista, batch);
-
-            Texture texturaBtnPauConfig = new Texture("buttons/btn_Pausa_Config.png");
-            sprite = new Sprite(texturaBtnPauConfig);
-            sprite.setPosition(ANCHO_PANTALLA*0.95f, ALTO_PANTALLA*0.90f);
-        }
-    }
-
-     */
 }

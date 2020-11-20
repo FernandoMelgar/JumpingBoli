@@ -1,4 +1,4 @@
-package com.itesm.aboli2.jumpingboli.game;
+package com.itesm.aboli2.jumpingboli.game.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

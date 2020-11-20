@@ -1,7 +1,6 @@
-package com.itesm.aboli2.jumpingboli.game;
+package com.itesm.aboli2.jumpingboli.game.views;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -13,7 +12,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -25,8 +23,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.itesm.aboli2.jumpingboli.GameText;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
-import com.itesm.aboli2.jumpingboli.Pause.PauseView;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
+import com.itesm.aboli2.jumpingboli.game.Boli;
+import com.itesm.aboli2.jumpingboli.game.Escudo;
+import com.itesm.aboli2.jumpingboli.game.EstadoBoli;
+import com.itesm.aboli2.jumpingboli.game.EstadoBuff;
 
 public class GameView extends Pantalla {
 
@@ -331,19 +332,13 @@ public class GameView extends Pantalla {
       moverCamara();
       actualizar();
     }
-
-    /*
-    // USAR otra CÁMARA/VISTA
-    if (estado == EstadoJuego.PAUSANDO) {
-      batch.setProjectionMatrix(camaraHUD.combined);
-      escenaPausa.draw();
-      batch.begin();
-      escenaPausa.sprite.draw(batch);
-      batch.end();
-
-      escenaPausa.sprite.rotate(1);
+    Gdx.app.log("Boli X", String.valueOf(boli.getX()));
+    if (alreadyWin()) {
+      camera.position.x = ANCHO_PANTALLA;
+      musicaFondo.dispose();
+      game.setScreen(new YouWinView(game));
     }
-    */
+
 
     gameStage.draw();
     //HUD
@@ -355,10 +350,14 @@ public class GameView extends Pantalla {
     escenaHUD.draw();
   }
 
+  private boolean alreadyWin() {
+    return boli.getX() >= 49214.0f;
+  }
+
 
   private void actualizarTimer(float delta) {
     timerPausa += delta;
-    if (estado == EstadoJuego.INICIANDO && timerPausa>=3) {
+    if (estado == EstadoJuego.INICIANDO && timerPausa >= 3) {
       estado = EstadoJuego.JUGANDO;
     }
   }

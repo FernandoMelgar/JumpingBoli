@@ -1,8 +1,6 @@
 package com.itesm.aboli2.jumpingboli.loading;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -14,7 +12,7 @@ import com.itesm.aboli2.jumpingboli.Pantalla;
 import com.itesm.aboli2.jumpingboli.Pantallas;
 import com.itesm.aboli2.jumpingboli.about.AboutView;
 import com.itesm.aboli2.jumpingboli.configuration.ConfigurationView;
-import com.itesm.aboli2.jumpingboli.game.GameView;
+import com.itesm.aboli2.jumpingboli.game.views.GameView;
 import com.itesm.aboli2.jumpingboli.howTo.howToView;
 import com.itesm.aboli2.jumpingboli.menu.MenuView;
 import com.itesm.aboli2.jumpingboli.skins.SkinsView;
