@@ -332,19 +332,13 @@ public class GameView extends Pantalla {
       moverCamara();
       actualizar();
     }
-
-    /*
-    // USAR otra CÁMARA/VISTA
-    if (estado == EstadoJuego.PAUSANDO) {
-      batch.setProjectionMatrix(camaraHUD.combined);
-      escenaPausa.draw();
-      batch.begin();
-      escenaPausa.sprite.draw(batch);
-      batch.end();
-
-      escenaPausa.sprite.rotate(1);
+    Gdx.app.log("Boli X", String.valueOf(boli.getX()));
+    if (alreadyWin()) {
+      camera.position.x = ANCHO_PANTALLA;
+      musicaFondo.dispose();
+      game.setScreen(new YouWinView(game));
     }
-    */
+
 
     gameStage.draw();
     //HUD
@@ -356,10 +350,14 @@ public class GameView extends Pantalla {
     escenaHUD.draw();
   }
 
+  private boolean alreadyWin() {
+    return boli.getX() >= 49214.0f;
+  }
+
 
   private void actualizarTimer(float delta) {
     timerPausa += delta;
-    if (estado == EstadoJuego.INICIANDO && timerPausa>=3) {
+    if (estado == EstadoJuego.INICIANDO && timerPausa >= 3) {
       estado = EstadoJuego.JUGANDO;
     }
   }
