@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameObject {
 
-  protected Sprite sprite;    // Las subclases pueden acceder/modificar directamente a sprite
+   public Sprite sprite;    // Las subclases pueden acceder/modificar directamente a sprite
 
   public GameObject(Texture textura, float x, float y) {
     sprite = new Sprite(textura);

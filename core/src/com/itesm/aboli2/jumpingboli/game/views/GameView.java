@@ -1,4 +1,4 @@
-package com.itesm.aboli2.jumpingboli.game;
+package com.itesm.aboli2.jumpingboli.game.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
@@ -24,6 +24,10 @@ import com.itesm.aboli2.jumpingboli.GameText;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
+import com.itesm.aboli2.jumpingboli.game.Boli;
+import com.itesm.aboli2.jumpingboli.game.Escudo;
+import com.itesm.aboli2.jumpingboli.game.EstadoBoli;
+import com.itesm.aboli2.jumpingboli.game.EstadoBuff;
 
 public class GameView extends Pantalla {
 
