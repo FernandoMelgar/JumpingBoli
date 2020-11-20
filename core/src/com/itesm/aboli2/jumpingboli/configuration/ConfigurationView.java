@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -63,22 +64,45 @@ public class ConfigurationView extends Pantalla {
   }
 
   private void crearBtnControlMusica() {
-    //Botón encendido.
-    ImageButton btnOn = new GameButton("buttons/btnOn.png", "buttons/btnOff.png");
-    btnOn.setPosition(ANCHO_PANTALLA * 0.61f, ALTO_PANTALLA * 0.58f, Align.center);
-    btnOn.addListener(new ClickListener() {
+    //Botón On
+    Texture btnMusicaPrendido = new Texture("buttons/btnOn.png");
+    TextureRegionDrawable trdBtnMusicaPrendido = new TextureRegionDrawable(new TextureRegion(btnMusicaPrendido));
+    //Botón Off
+    Texture btnMusicaApagado = new Texture("buttons/btnOff.png");
+    TextureRegionDrawable trdBtnMusicaApagado = new TextureRegionDrawable(new TextureRegion(btnMusicaApagado));
+    //Botón con efecto
+    final Button.ButtonStyle estiloPrendido = new Button.ButtonStyle(trdBtnMusicaPrendido, trdBtnMusicaApagado, null);
+    final Button.ButtonStyle estiloApagado = new Button.ButtonStyle(trdBtnMusicaApagado, trdBtnMusicaPrendido, null);
+
+    final Button.ButtonStyle Prendido = new ImageButton.ImageButtonStyle(estiloPrendido);
+    final Button.ButtonStyle Apagado = new ImageButton.ImageButtonStyle(estiloApagado);
+    //Botón final
+    final ImageButton btnMusica = new ImageButton(trdBtnMusicaPrendido, trdBtnMusicaApagado);
+
+    btnMusica.setPosition(ANCHO_PANTALLA * 0.61f, ALTO_PANTALLA * 0.58f, Align.center);
+    cargarPreferenciasMusica();
+    //Le damos el estilo inicial
+    if(playMusic){
+      btnMusica.setStyle(Prendido);
+    } else {
+      btnMusica.setStyle(Apagado);
+    }
+    //Listener
+    btnMusica.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
         if(playMusic){
+          btnMusica.setStyle(Apagado);
           playMusic = false;
         } else {
+          btnMusica.setStyle(Prendido);
           playMusic = true;
         }
         guardarPreferencias();
       }
     });
 
-    configurationStage.addActor(btnOn);
+    configurationStage.addActor(btnMusica);
   }
 
   private void createBackBtn() {
