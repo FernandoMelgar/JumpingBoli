@@ -1,7 +1,6 @@
 package com.itesm.aboli2.jumpingboli.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -13,7 +12,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -25,7 +23,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.itesm.aboli2.jumpingboli.GameText;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
-import com.itesm.aboli2.jumpingboli.Pause.PauseView;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
 
 public class GameView extends Pantalla {

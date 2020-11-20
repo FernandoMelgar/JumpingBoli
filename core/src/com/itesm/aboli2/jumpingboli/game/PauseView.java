@@ -1,4 +1,4 @@
-package com.itesm.aboli2.jumpingboli.Pause;
+package com.itesm.aboli2.jumpingboli.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
