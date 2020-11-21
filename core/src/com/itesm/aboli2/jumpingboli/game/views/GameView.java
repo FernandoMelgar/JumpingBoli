@@ -150,8 +150,8 @@ public class GameView extends Pantalla {
       }
     });
     ImageButton bntSalto = new GameButton("buttons/boton_128.png");
-    bntSalto.setPosition(ANCHO_PANTALLA * .9f, ALTO_PANTALLA * .1f, Align.center);
-    bntSalto.addListener(new ClickListener(){
+    bntSalto.setPosition(ANCHO_PANTALLA * .85f, ALTO_PANTALLA * .2f, Align.center);
+    bntSalto.addListener(new ClickListener() {
 
       public void clicked(InputEvent event, float x, float y) {
         super.clicked(event, x, y);
