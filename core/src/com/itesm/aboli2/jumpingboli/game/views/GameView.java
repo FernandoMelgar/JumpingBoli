@@ -155,10 +155,10 @@ public class GameView extends Pantalla {
 
       public void clicked(InputEvent event, float x, float y) {
         super.clicked(event, x, y);
-          if (boli.getEstado() == EstadoBoli.RODANDO) {
-            boli.setyBase(boli.getY());
-            boli.saltar();
-          }
+        if (boli.getEstado() == EstadoBoli.RODANDO) {
+          boli.setyBase(boli.getY());
+          boli.saltar();
+        }
       }
     });
 
@@ -176,9 +176,6 @@ public class GameView extends Pantalla {
   }
 
   private void initMaps() {
-    // Todo: No se puede cargar desde el assetManager
-    //Se crea el asset manager para manejar el mapa.
-    Gdx.app.log("EstadoBoli", "Boli&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
     manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
     manager.load("mapas/platNivel1.tmx", TiledMap.class);
     manager.finishLoading();
@@ -351,6 +348,8 @@ public class GameView extends Pantalla {
   }
 
   private boolean alreadyWin() {
+    // For second level
+    // return boli.getX >= 39818.0f;
     return boli.getX() >= 49214.0f;
   }
 
