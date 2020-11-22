@@ -331,6 +331,9 @@ public class GameView extends Pantalla {
     }
     Gdx.app.log("Boli X", String.valueOf(boli.getX()));
     if (alreadyWin()) {
+      Preferences levelOneCompletion = Gdx.app.getPreferences("isLevelOneCompleted");
+      levelOneCompletion.putBoolean("isLevelOneCompleted", true);
+      levelOneCompletion.flush();
       camera.position.x = ANCHO_PANTALLA;
       musicaFondo.dispose();
       game.setScreen(new YouWinView(game));
@@ -348,8 +351,9 @@ public class GameView extends Pantalla {
   }
 
   private boolean alreadyWin() {
-    // For second level
-    // return boli.getX >= 39818.0f;
+    /* For second level
+    return boli.getX >= 39818.0f; */
+
     return boli.getX() >= 49214.0f;
   }
 

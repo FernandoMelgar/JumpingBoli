@@ -1,4 +1,4 @@
-package com.itesm.aboli2.jumpingboli.configuration;
+package com.itesm.aboli2.jumpingboli.game.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
