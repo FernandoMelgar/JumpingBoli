@@ -28,7 +28,6 @@ import com.itesm.aboli2.jumpingboli.game.Boli;
 import com.itesm.aboli2.jumpingboli.game.Escudo;
 import com.itesm.aboli2.jumpingboli.game.EstadoBoli;
 import com.itesm.aboli2.jumpingboli.game.EstadoBuff;
-import com.itesm.aboli2.jumpingboli.win.escapeView;
 
 public class GameView extends Pantalla {
 
