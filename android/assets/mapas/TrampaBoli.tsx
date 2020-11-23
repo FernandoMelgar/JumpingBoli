@@ -3,7 +3,7 @@
  <image source="Trampa de osos.png" width="192" height="64"/>
  <tile id="6">
   <properties>
-   <property name="tipo" value="tampaSinActivar"/>
+   <property name="tipo" value="trampaPicos"/>
   </properties>
  </tile>
  <tile id="7">
