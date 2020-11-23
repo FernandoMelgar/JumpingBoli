@@ -20,6 +20,7 @@ public class LevelSelectionView extends Pantalla {
 
   private Texture backgroundLevelSelection;
   private Stage levelSelectionStage;
+  private float nivelEscogido;
 
   public LevelSelectionView(GdXGame context) {
     super(context);
@@ -28,6 +29,8 @@ public class LevelSelectionView extends Pantalla {
 
   @Override
   public void show() {
+    cargarNivel();
+
     levelSelectionStage = new Stage(super.viewport);
     backgroundLevelSelection = new Texture("fondos/fondoPausa.png");
 
@@ -39,6 +42,8 @@ public class LevelSelectionView extends Pantalla {
       public void clicked(InputEvent event, float x, float y) {
         super.clicked(event, x, y);
         game.setScreen(new PantallaCargando(game, Pantallas.NIVELUNO));
+        nivelEscogido = 0;
+        guardarPreferencias();
       }
     });
 
@@ -51,20 +56,36 @@ public class LevelSelectionView extends Pantalla {
 
   private void loadBtn2() {
     ImageButton secondLevel;
-    if (isLevelOneCompleted())
+    if (isLevelOneCompleted()){
       secondLevel = new GameButton("buttons/levelselection/btnLevel2_active.png",
-          "buttons/levelselection/btnLevel2_clicked.png");
-    else
-      secondLevel = new GameButton("buttons/levelselection/btnLevel2_blocked.png",
-          "buttons/levelselection/btnLevel2_blocked_clicked.png");
+              "buttons/levelselection/btnLevel2_clicked.png");
+      secondLevel.addListener(new ClickListener() {
+        @Override
+        public void clicked(InputEvent event, float x, float y) {
+          super.clicked(event, x, y);
+          game.setScreen(new PantallaCargando(game, Pantallas.NIVELUNO));
+          nivelEscogido = 1;
+          guardarPreferencias();
+        }
+      });
 
+
+    } else{
+      secondLevel = new GameButton("buttons/levelselection/btnLevel2_blocked.png",
+              "buttons/levelselection/btnLevel2_blocked_clicked.png");
+
+
+
+    }
     secondLevel.setPosition(ANCHO_PANTALLA * .7f, ALTO_PANTALLA * .5f, Align.center);
     levelSelectionStage.addActor(secondLevel);
+
   }
 
   public boolean isLevelOneCompleted() {
-    Preferences pref = Gdx.app.getPreferences("isLevelOneCompleted");
-    return pref.getBoolean("isLevelOneCompleted", false);
+    return true;
+    //Preferences pref = Gdx.app.getPreferences("isLevelOneCompleted");
+    //return pref.getBoolean("isLevelOneCompleted", false);
   }
 
   @Override
@@ -75,6 +96,18 @@ public class LevelSelectionView extends Pantalla {
     batch.draw(backgroundLevelSelection, 0, 0);
     batch.end();
     levelSelectionStage.draw();
+  }
+
+  private void cargarNivel() {
+    Preferences prefs = Gdx.app.getPreferences("nivel");
+    nivelEscogido = prefs.getFloat("NIVEL", 0);
+
+  }
+  private void guardarPreferencias() {
+    Preferences prefs = Gdx.app.getPreferences("nivel");
+    prefs.putFloat("NIVEL", nivelEscogido);
+
+    prefs.flush();  // OBLIGATORIO
   }
 
   @Override

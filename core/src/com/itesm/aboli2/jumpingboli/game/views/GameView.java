@@ -33,6 +33,7 @@ import com.itesm.aboli2.jumpingboli.win.escapeView;
 public class GameView extends Pantalla {
 
   private Stage gameStage;
+  private float nivelEscogido;
 
   private float velocidadCamara = 1;
 
@@ -177,25 +178,53 @@ public class GameView extends Pantalla {
   }
 
   private void initMaps() {
-    manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-    manager.load("mapas/platNivel1.tmx", TiledMap.class);
-    manager.finishLoading();
-    mapa = manager.get("mapas/platNivel1.tmx");
+    cargarNivel();
+    Gdx.app.log("Boli X", String.valueOf(nivelEscogido));
+    switch ((int)nivelEscogido){
+      case 0:
+        manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        manager.load("mapas/platNivel1.tmx", TiledMap.class);
+        manager.finishLoading();
+        mapa = manager.get("mapas/platNivel1.tmx");
+        break;
+      case 1:
+        manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        manager.load("mapas/platNivel2.tmx", TiledMap.class);
+        manager.finishLoading();
+        mapa = manager.get("mapas/platNivel2.tmx");
+        break;
+    }
+
     rendererMapa = new OrthogonalTiledMapRenderer(mapa);
 
   }
 
   private void initAudio() {
+    cargarNivel();
     //Cargamos las preferencias
-    Preferences musica = Gdx.app.getPreferences("musica");
-    playMusic = musica.getBoolean("MUSICA", true);
 
-    manager.load("music/MusicaFondoNivel1.mp3", Music.class);
-    manager.finishLoading();
-    musicaFondo = manager.get("music/MusicaFondoNivel1.mp3");
+    Preferences musica = Gdx.app.getPreferences("musica");
+    switch ((int)nivelEscogido){
+      case 0:
+        playMusic = musica.getBoolean("MUSICA", true);
+
+        manager.load("music/MusicaFondoNivel1.mp3", Music.class);
+        manager.finishLoading();
+        musicaFondo = manager.get("music/MusicaFondoNivel1.mp3");
+        break;
+      case 1:
+        playMusic = musica.getBoolean("MUSICA", true);
+
+        manager.load("music/MusicaFondoNivel2.mp3", Music.class);
+        manager.finishLoading();
+        musicaFondo = manager.get("music/MusicaFondoNivel2.mp3");
+        break;
+    }
+
     musicaFondo.setVolume(0.1f);
     musicaFondo.setLooping(true);
-    if(playMusic){musicaFondo.play();
+    if(playMusic){
+      musicaFondo.play();
     } else {
       musicaFondo.pause();
     }
@@ -331,7 +360,7 @@ public class GameView extends Pantalla {
       moverCamara();
       actualizar();
     }
-    Gdx.app.log("Boli X", String.valueOf(boli.getX()));
+    //Gdx.app.log("Boli X", String.valueOf(boli.getX()));
     if (alreadyWin()) {
       Preferences levelOneCompletion = Gdx.app.getPreferences("isLevelOneCompleted");
       levelOneCompletion.putBoolean("isLevelOneCompleted", true);
@@ -423,21 +452,27 @@ public class GameView extends Pantalla {
     camera.update();
   }
   private void guardarPreferencias() {
-    Preferences prefs = Gdx.app.getPreferences("monedas");
-    prefs.putFloat("MONEDA", monedas);
+    Preferences monedaPre = Gdx.app.getPreferences("monedas");
+    monedaPre.putFloat("MONEDA", monedas);
 
     Preferences musica = Gdx.app.getPreferences("musica");
     musica.putBoolean("MUSICA", playMusic);
 
-    prefs.flush();  // OBLIGATORIO
+    monedaPre.flush();  // OBLIGATORIO
     musica.flush();
   }
 
   private void cargarMonedas() {
-    Preferences prefs = Gdx.app.getPreferences("monedas");
-    monedas = prefs.getFloat("MONEDA", 0);
+    Preferences monedaPre = Gdx.app.getPreferences("monedas");
+    monedas = monedaPre.getFloat("MONEDA", 0);
+  }
+
+  private void cargarNivel() {
+    Preferences nivel = Gdx.app.getPreferences("nivel");
+    nivelEscogido = nivel.getFloat("NIVEL", 0);
 
   }
+
 
   @Override
   public void pause() {
