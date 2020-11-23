@@ -3,10 +3,13 @@ package com.itesm.aboli2.jumpingboli.skins;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.itesm.aboli2.jumpingboli.GameText;
@@ -25,6 +28,8 @@ public class SkinsView extends Pantalla {
 
   //Fondo
   private Texture texturaFondo;
+  private Texture texturaFondoMovible;
+  private float xFondo;
 
   //Texturas Boli
   private Boli boliCentral;
@@ -37,19 +42,14 @@ public class SkinsView extends Pantalla {
   private Boolean boliVerdeDesbloqueada;
   private Boolean boliRojaDesbloqueada;
   private Boolean boliAzulDesbloqueada;
-  private String btnBoliDesbloquedo;
   private Array<Integer> boliDesbloqueada;
 
   //Boli seleccionada
   private String texturaBoliElegida;
   private float texturaElegida = 0;
 
-  //Textura plataforma
-  private Texture texturaPlataforma;
-
   //Timer para el salto de Boli
   private float timerSalto;
-  private float timerRegreso;
 
   //Texto
   private GameText gameText;
@@ -63,7 +63,7 @@ public class SkinsView extends Pantalla {
   public void show() {
    skinsStage = new Stage(super.viewport);
    boliDesbloqueada = new Array<>(4);
-   //reiniciarDesbloqueos();
+   xFondo=0;
    cargarDesbloqueos();
    revisarDesbloqueos();
    cargarMonedas();
@@ -74,12 +74,6 @@ public class SkinsView extends Pantalla {
    createSkinsView();
    createText();
    Gdx.input.setInputProcessor(skinsStage);
-  }
-
-  private void reiniciarDesbloqueos() {
-    boliVerdeDesbloqueada = false;
-    boliRojaDesbloqueada = false;
-    boliAzulDesbloqueada = false;
   }
 
   private void cargarDesbloqueos() {
@@ -101,7 +95,6 @@ public class SkinsView extends Pantalla {
   }
 
   private void cargarMonedas() {
-    //monedas = 1000;
     Preferences prefs = Gdx.app.getPreferences("monedas");
     monedas = prefs.getFloat("MONEDA", 0);
   }
@@ -118,27 +111,27 @@ public class SkinsView extends Pantalla {
     cargarSkin();
     switch ((int)texturaElegida){
       case 0:
-        boliCentral = new Boli((Texture) game.getManager().get("characters/boli_morado.png"), ANCHO_PANTALLA*0.17f, ALTO_PANTALLA*0.21f);
+        boliCentral = new Boli((Texture) game.getManager().get("characters/boliMorado62.png"), ANCHO_PANTALLA*0.185f, ALTO_PANTALLA*0.245f);
         break;
       case 1:
-        boliCentral = new Boli((Texture) game.getManager().get("characters/boliVerde.png"), ANCHO_PANTALLA*0.17f, ALTO_PANTALLA*0.21f);
+        boliCentral = new Boli((Texture) game.getManager().get("characters/boliVerde62.png"), ANCHO_PANTALLA*0.185f, ALTO_PANTALLA*0.245f);
         break;
       case 2:
-        boliCentral = new Boli((Texture) game.getManager().get("characters/boliAzul.png"), ANCHO_PANTALLA*0.17f, ALTO_PANTALLA*0.21f);
+        boliCentral = new Boli((Texture) game.getManager().get("characters/boliAzul62.png"), ANCHO_PANTALLA*0.185f, ALTO_PANTALLA*0.245f);
         break;
       case 3:
-        boliCentral = new Boli((Texture) game.getManager().get("characters/boliRoja.png"), ANCHO_PANTALLA*0.17f, ALTO_PANTALLA*0.21f);
+        boliCentral = new Boli((Texture) game.getManager().get("characters/boliRoja62.png"), ANCHO_PANTALLA*0.185f, ALTO_PANTALLA*0.245f);
         break;
     }
-    boliMorada = new Boli(new Texture("characters/boli_morado.png"), ANCHO_PANTALLA*0.35f, ALTO_PANTALLA*0.67f);
-    boliVerde = new Boli(new Texture("characters/boliVerde.png"), ANCHO_PANTALLA*0.35f, ALTO_PANTALLA*0.52f);
-    boliRoja = new Boli(new Texture("characters/boliRoja.png"), ANCHO_PANTALLA*0.35f, ALTO_PANTALLA*0.37f);
-    boliAzul = new Boli(new Texture("characters/boliAzul.png"), ANCHO_PANTALLA*0.35f, ALTO_PANTALLA*0.22f);
+    boliMorada = new Boli(new Texture("characters/boli_morado.png"), ANCHO_PANTALLA*0.45f, ALTO_PANTALLA*0.67f);
+    boliVerde = new Boli(new Texture("characters/boliVerde.png"), ANCHO_PANTALLA*0.45f, ALTO_PANTALLA*0.52f);
+    boliRoja = new Boli(new Texture("characters/boliRoja.png"), ANCHO_PANTALLA*0.45f, ALTO_PANTALLA*0.37f);
+    boliAzul = new Boli(new Texture("characters/boliAzul.png"), ANCHO_PANTALLA*0.45f, ALTO_PANTALLA*0.22f);
   }
 
   private void crearTexturas() {
-    texturaFondo = new Texture("fondos/fondoExtra.png");
-    texturaPlataforma = new Texture("characters/plataformaFondo.png");
+    texturaFondo = new Texture("fondos/fondoSkins.png");
+    texturaFondoMovible = new Texture("fondos/fondoEstrellasMovibles.png");
   }
 
   private void createText() {
@@ -148,43 +141,23 @@ public class SkinsView extends Pantalla {
   private void createSkinsView() {
     crearBtnBack();
     crearBtnSelect(); //Aquí se checan las preferencias para ver si están desbloqueadas las otras skins. Si están desbloqueadas, se crea el btnSelect, si no, se crea el btnDesbloquear.
-    crearBtnSelected(); //Se revisan las preferencias para ver la Boli seleccionada y se pone el btnSelected con la Boli del color seleccionado.
-  }
-
-  private void crearBtnSelected() {
-    cargarSkin();
-    ImageButton btnSelected = new GameButton("buttons/btnSelected.png", "buttons/btnSelectedPicado.png");
-    switch ((int)texturaElegida){
-      case 0: //Boli morada
-        btnSelected.setPosition(ANCHO_PANTALLA*0.52f, ALTO_PANTALLA * 0.7f, Align.center);
-        break;
-      case 1: //Boli Verde
-        btnSelected.setPosition(ANCHO_PANTALLA*0.52f, ALTO_PANTALLA * .55f, Align.center);
-        break;
-      case 2: //Boli Azul
-        btnSelected.setPosition(ANCHO_PANTALLA*0.52f, ALTO_PANTALLA*0.25f, Align.center);
-        break;
-      case 3: //Boli Roja
-        btnSelected.setPosition(ANCHO_PANTALLA*0.52f, ALTO_PANTALLA*0.4f, Align.center);
-        break;
-    }
-    skinsStage.addActor(btnSelected);
   }
 
   private void crearBtnUnlock3() { //Boli Azul
     final ImageButton btnUnlock = new GameButton("buttons/btnUnlock200.png", "buttons/btnUnlock200Picado.png");
-    btnUnlock.setPosition(ANCHO_PANTALLA * 0.63f, ALTO_PANTALLA * 0.25f, Align.center);
+    btnUnlock.setPosition(ANCHO_PANTALLA * 0.73f, ALTO_PANTALLA * 0.25f, Align.center);
     btnUnlock.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
         if(monedas >= 200){
-          texturaBoliElegida = "characters/boliAzul.png";
+          texturaBoliElegida = "characters/boliAzul62.png";
           texturaElegida = 2;
           boliAzulDesbloqueada = true;
           boliDesbloqueada.add(2);
           monedas -= 200;
           btnUnlock.setVisible(false);
           guardarPreferencias();
+          crearBtnSelect();
           boliCentral.setTextura(new Texture(texturaBoliElegida));
         }
       }
@@ -194,18 +167,19 @@ public class SkinsView extends Pantalla {
 
   private void crearBtnUnlock2() {  //Boli Roja
     final ImageButton bntUnlock = new GameButton("buttons/btnUnlock150.png", "buttons/btnUnlock150Picado.png");
-    bntUnlock.setPosition(ANCHO_PANTALLA * 0.63f, ALTO_PANTALLA * 0.4f, Align.center);
+    bntUnlock.setPosition(ANCHO_PANTALLA * 0.73f, ALTO_PANTALLA * 0.4f, Align.center);
     bntUnlock.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
         if(monedas >= 150){
-          texturaBoliElegida = "characters/boliRoja.png";
+          texturaBoliElegida = "characters/boliRoja62.png";
           texturaElegida = 3;
           boliRojaDesbloqueada = true;
           boliDesbloqueada.add(3);
           monedas -= 150;
           bntUnlock.setVisible(false);
           guardarPreferencias();
+          crearBtnSelect();
           boliCentral.setTextura(new Texture(texturaBoliElegida));
         }
       }
@@ -215,18 +189,19 @@ public class SkinsView extends Pantalla {
 
   private void crearBtnUnlock() { //Boli Verde
     final ImageButton btnUnlock = new GameButton("buttons/btnUnlock.png", "buttons/btnUnlockPicado.png");
-    btnUnlock.setPosition(ANCHO_PANTALLA * 0.63f, ALTO_PANTALLA * .55f, Align.center);
+    btnUnlock.setPosition(ANCHO_PANTALLA * 0.73f, ALTO_PANTALLA * .55f, Align.center);
     btnUnlock.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
         if(monedas >= 100){
-          texturaBoliElegida = "characters/boliVerde.png";
+          texturaBoliElegida = "characters/boliVerde62.png";
           texturaElegida = 1;
           boliVerdeDesbloqueada = true;
           boliDesbloqueada.add(1);
           monedas -= 100;
           btnUnlock.setVisible(false);
           guardarPreferencias();
+          crearBtnSelect();
           boliCentral.setTextura(new Texture(texturaBoliElegida));
         }
       }
@@ -240,11 +215,11 @@ public class SkinsView extends Pantalla {
     //Si tiene el valor de 1, significa que Boli morada está desbloqueada y se crea un botón específico para seleccionar esa Boli.
     if(boliDesbloqueada.contains(0, true)){
       ImageButton btnSelectMorada = new GameButton("buttons/btnSelect.png", "buttons/btnSelectPicado.png");
-      btnSelectMorada.setPosition(ANCHO_PANTALLA * 0.5f, ALTO_PANTALLA * 0.7f, Align.center);
+      btnSelectMorada.setPosition(ANCHO_PANTALLA * 0.6f, ALTO_PANTALLA * 0.7f, Align.center);
       btnSelectMorada.addListener(new ClickListener() {
         public void clicked(InputEvent event, float x, float y){
           super.clicked(event, x, y);
-          texturaBoliElegida = "characters/boli_morado.png";
+          texturaBoliElegida = "characters/boliMorado62.png";
           texturaElegida = 0;
           guardarPreferencias();
           boliCentral.setTextura(new Texture(texturaBoliElegida));
@@ -254,11 +229,11 @@ public class SkinsView extends Pantalla {
     }
     if(boliDesbloqueada.contains(1, true)){
       ImageButton btnSelectVerde = new GameButton("buttons/btnSelect.png", "buttons/btnSelectPicado.png");
-      btnSelectVerde.setPosition(ANCHO_PANTALLA * 0.5f, ALTO_PANTALLA * 0.55f, Align.center);
+      btnSelectVerde.setPosition(ANCHO_PANTALLA * 0.6f, ALTO_PANTALLA * 0.55f, Align.center);
       btnSelectVerde.addListener(new ClickListener() {
         public void clicked(InputEvent event, float x, float y){
           super.clicked(event, x, y);
-          texturaBoliElegida = "characters/boli_morado.png";
+          texturaBoliElegida = "characters/boliVerde62.png";
           texturaElegida = 1;
           guardarPreferencias();
           boliCentral.setTextura(new Texture(texturaBoliElegida));
@@ -268,11 +243,11 @@ public class SkinsView extends Pantalla {
     } else {crearBtnUnlock();}
     if(boliDesbloqueada.contains(3, true)){
       ImageButton btnSelectRoja = new GameButton("buttons/btnSelect.png", "buttons/btnSelectPicado.png");
-      btnSelectRoja.setPosition(ANCHO_PANTALLA * 0.5f, ALTO_PANTALLA * 0.4f, Align.center);
+      btnSelectRoja.setPosition(ANCHO_PANTALLA * 0.6f, ALTO_PANTALLA * 0.4f, Align.center);
       btnSelectRoja.addListener(new ClickListener() {
         public void clicked(InputEvent event, float x, float y){
           super.clicked(event, x, y);
-          texturaBoliElegida = "characters/boli_morado.png";
+          texturaBoliElegida = "characters/boliRoja62.png";
           texturaElegida = 3;
           guardarPreferencias();
           boliCentral.setTextura(new Texture(texturaBoliElegida));
@@ -282,11 +257,11 @@ public class SkinsView extends Pantalla {
     } else {crearBtnUnlock2();}
     if(boliDesbloqueada.contains(2, true)){
       ImageButton btnSelectAzul = new GameButton("buttons/btnSelect.png", "buttons/btnSelectPicado.png");
-      btnSelectAzul.setPosition(ANCHO_PANTALLA * 0.5f, ALTO_PANTALLA * 0.25f, Align.center);
+      btnSelectAzul.setPosition(ANCHO_PANTALLA * 0.6f, ALTO_PANTALLA * 0.25f, Align.center);
       btnSelectAzul.addListener(new ClickListener() {
         public void clicked(InputEvent event, float x, float y){
           super.clicked(event, x, y);
-          texturaBoliElegida = "characters/boli_morado.png";
+          texturaBoliElegida = "characters/boliAzul62.png";
           texturaElegida = 2;
           guardarPreferencias();
           boliCentral.setTextura(new Texture(texturaBoliElegida));
@@ -303,13 +278,13 @@ public class SkinsView extends Pantalla {
   @Override
   public void render(float delta) {
     cleanScreen();
-    crearBtnSelected();
-    hacerSaltarBoli(delta);
+    actualizar(delta);
     batch.setProjectionMatrix(camera.combined);
 
     batch.begin();
+    batch.draw(texturaFondoMovible, xFondo, 0);
+    batch.draw(texturaFondoMovible, xFondo+texturaFondoMovible.getWidth(), 0);
     batch.draw(texturaFondo, 0, 0);
-    batch.draw(texturaPlataforma, ANCHO_PANTALLA*0.15f, ALTO_PANTALLA/6);
     boliCentral.render(batch);
     boliMorada.render(batch);
     boliVerde.render(batch);
@@ -319,6 +294,18 @@ public class SkinsView extends Pantalla {
     batch.end();
 
     skinsStage.draw();
+  }
+
+  private void actualizar(float tiempo) {
+    hacerSaltarBoli(tiempo);
+    actualizarFondo();
+  }
+
+  private void actualizarFondo() {
+    xFondo-=1;
+    if(xFondo == -texturaFondoMovible.getWidth()){
+      xFondo=0;
+    }
   }
 
   private void hacerSaltarBoli(float tiempo) {
@@ -331,8 +318,8 @@ public class SkinsView extends Pantalla {
   }
 
   private void dibujarTexto() {
-    gameText.mostrarMensaje(batch, "Your coins: ", ANCHO_PANTALLA*0.7f, ALTO_PANTALLA * 0.9f);
-    gameText.mostrarMensaje(batch, "" + monedas, ANCHO_PANTALLA*0.82f, ALTO_PANTALLA*0.9f);
+    gameText.mostrarMensaje(batch, "Your coins: ", ANCHO_PANTALLA*0.72f, ALTO_PANTALLA * 0.83f);
+    gameText.mostrarMensaje(batch, "" + monedas, ANCHO_PANTALLA*0.84f, ALTO_PANTALLA*0.83f);
   }
 
   @Override
@@ -348,6 +335,7 @@ public class SkinsView extends Pantalla {
   @Override
   public void dispose() {
     texturaFondo.dispose();
+    texturaFondoMovible.dispose();
     batch.dispose();
   }
 
