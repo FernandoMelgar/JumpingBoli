@@ -267,6 +267,7 @@ public class GameView extends Pantalla {
   }
 
   public boolean boliVivo(){
+    //prueba
     if (boli.getY() + boli.sprite.getHeight() < 0) {
       camera.position.x = ANCHO_PANTALLA;
       musicaFondo.dispose();
