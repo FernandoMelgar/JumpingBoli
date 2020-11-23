@@ -65,7 +65,7 @@ public class GameView extends Pantalla {
   //Escudos
   private Texture texturaEscudo;
   private Array<Escudo> arrEscudos;
-  private boolean quitarEscudo = false;
+  private int quitarEscudo = 0;
 
   //Texto
   private GameText gameText;
@@ -246,11 +246,13 @@ public class GameView extends Pantalla {
       // probar si la celda está ocupada
 
     if(esTrampaPicos(celdaAbajo) || esTrampaPicos(capa.getCell(celdaX+1,celdaY+1))){
+      if(boli.getEstadoBuff() != EstadoBuff.BUFFINMORTAL){
+        quitarEscudo = 1;
+      }
 
-      quitarEscudo = true;
     }
 
-    if ( esBuffMultiplicador(capa.getCell(celdaX+1,celdaY+1)) ) {
+    if (esBuffMultiplicador(capa.getCell(celdaX+1,celdaY+1)) ) {
       //Gdx.app.log("MUERTO", "F");      // Borrar Buff
       capa.setCell(celdaX+1,celdaY+1,null);
       boli.setEstadoBuff(EstadoBuff.BUFFDOBLEPUNTOS);
@@ -276,7 +278,7 @@ public class GameView extends Pantalla {
 
   public boolean boliVivo(){
     //prueba
-    if (boli.getY() + boli.sprite.getHeight() < 0) {
+    if (boli.getY() + boli.sprite.getHeight() < 0 || arrEscudos.size == 0) {
       camera.position.x = ANCHO_PANTALLA;
       musicaFondo.dispose();
       //game.setScreen(new DeathView(game, puntos));
@@ -451,6 +453,7 @@ public class GameView extends Pantalla {
 
 
   private void actualizarEscudo() {
+    //Gdx.app.log("Perdiste", String.valueOf(quitarEscudo));
     if(boli.getEstadoBuff() == EstadoBuff.BUFFINMORTAL){
       timerBuffInmortal++;
       if(timerBuffInmortal/60 > segundosBuff){
@@ -458,19 +461,14 @@ public class GameView extends Pantalla {
         boli.setEstadoBuff(EstadoBuff.NORMAL);
       }
     }else{
-      for(int i = arrEscudos.size-1; i>= 0; i--){
-        if(quitarEscudo){
-          arrEscudos.removeIndex(i);
+        if(quitarEscudo > 0){
+          arrEscudos.removeIndex(arrEscudos.size-1);
+          quitarEscudo--;
           boli.setEstadoBuff(EstadoBuff.BUFFINMORTAL);
-          quitarEscudo = false;
-          break;
         }
 
-      }
     }
-    if(arrEscudos.size == 0){
-      Gdx.app.log("Perdiste", String.valueOf(boli.getX()));
-    }
+
 
   }
 
