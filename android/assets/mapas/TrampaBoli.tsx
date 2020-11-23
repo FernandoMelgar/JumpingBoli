@@ -11,7 +11,7 @@
    <property name="tipo" value="trampaActivada"/>
   </properties>
   <animation>
-   <frame tileid="7" duration="60"/>
+   <frame tileid="7" duration="2000"/>
    <frame tileid="8" duration="60"/>
    <frame tileid="9" duration="60"/>
    <frame tileid="10" duration="60"/>
@@ -25,6 +25,7 @@
    <frame tileid="9" duration="60"/>
    <frame tileid="8" duration="60"/>
    <frame tileid="7" duration="60"/>
+   <frame tileid="6" duration="2000"/>
    <frame tileid="6" duration="2000"/>
    <frame tileid="6" duration="2000"/>
    <frame tileid="6" duration="2000"/>
