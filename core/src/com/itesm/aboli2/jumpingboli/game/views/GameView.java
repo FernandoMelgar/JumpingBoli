@@ -65,6 +65,7 @@ public class GameView extends Pantalla {
   //Escudos
   private Texture texturaEscudo;
   private Array<Escudo> arrEscudos;
+  private boolean quitarEscudo = false;
 
   //Texto
   private GameText gameText;
@@ -77,6 +78,7 @@ public class GameView extends Pantalla {
   //TIMER
   float timerPausa;
   float timerBuffMultiplicador = 0;
+  float timerBuffInmortal = 0;
   final float segundosBuff = 5;
   float timerReanudacion = 0;
   final float segundosReanudacion = 3;
@@ -179,7 +181,7 @@ public class GameView extends Pantalla {
 
   private void initMaps() {
     cargarNivel();
-    Gdx.app.log("Boli X", String.valueOf(nivelEscogido));
+
     switch ((int)nivelEscogido){
       case 0:
         manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
@@ -243,10 +245,16 @@ public class GameView extends Pantalla {
       TiledMapTileLayer.Cell celdaDerecha = capa.getCell(celdaX + 1, celdaY);
       // probar si la celda está ocupada
 
+    if(esTrampaPicos(celdaAbajo) || esTrampaPicos(capa.getCell(celdaX+1,celdaY+1))){
+
+      quitarEscudo = true;
+    }
+
     if ( esBuffMultiplicador(capa.getCell(celdaX+1,celdaY+1)) ) {
       //Gdx.app.log("MUERTO", "F");      // Borrar Buff
       capa.setCell(celdaX+1,celdaY+1,null);
       boli.setEstadoBuff(EstadoBuff.BUFFDOBLEPUNTOS);
+
     }
     if ( esMoneda(capa.getCell(celdaX+1,celdaY+1)) ) {
       //Gdx.app.log("MUERTO", "F");      // Borrar Moneda
@@ -286,6 +294,15 @@ public class GameView extends Pantalla {
 
     Object propiedad = celda.getTile().getProperties().get("tipo");
     return "BuffMultiplicador".equals(propiedad);
+  }
+
+  private boolean esTrampaPicos(TiledMapTileLayer.Cell celda) {
+    if (celda==null) {
+      return false;
+    }
+
+    Object propiedad = celda.getTile().getProperties().get("tipo");
+    return "trampaPicos".equals(propiedad);
   }
 
   private boolean esMoneda(TiledMapTileLayer.Cell celda) {
@@ -434,12 +451,27 @@ public class GameView extends Pantalla {
 
 
   private void actualizarEscudo() {
-    for(int i = arrEscudos.size-1; i>= 0; i--){
-      if(boli.getY()<0){
-        arrEscudos.removeIndex(i);
-        break;
+    if(boli.getEstadoBuff() == EstadoBuff.BUFFINMORTAL){
+      timerBuffInmortal++;
+      if(timerBuffInmortal/60 > segundosBuff){
+        timerBuffInmortal = 0;
+        boli.setEstadoBuff(EstadoBuff.NORMAL);
+      }
+    }else{
+      for(int i = arrEscudos.size-1; i>= 0; i--){
+        if(quitarEscudo){
+          arrEscudos.removeIndex(i);
+          boli.setEstadoBuff(EstadoBuff.BUFFINMORTAL);
+          quitarEscudo = false;
+          break;
+        }
+
       }
     }
+    if(arrEscudos.size == 0){
+      Gdx.app.log("Perdiste", String.valueOf(boli.getX()));
+    }
+
   }
 
   private void dibujarEscudos() {
