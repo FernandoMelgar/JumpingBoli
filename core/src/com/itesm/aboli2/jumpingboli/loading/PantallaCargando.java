@@ -62,7 +62,6 @@ public class PantallaCargando extends Pantalla {
                 ALTO_PANTALLA/2 - spriteCargandoBolita.getHeight()/2);
         texturaFondoCarga = new Texture("fondos/fondoCargando.png");
         texto = new GameText("fuentes/exoFont.fnt");
-        //texto = new GameText("runner/game.fnt");
         cargarRecursos();
     }
 
@@ -165,16 +164,12 @@ public class PantallaCargando extends Pantalla {
 
         batch.begin();
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i <= 3; i++) {
             batch.draw(texturaFondoCarga,ANCHO_PANTALLA * i,0);
         }
-        //batch.draw(texturaFondoCarga,0,0);
-        //batch.draw(texturaFondoCarga, ANCHO,0);
         spriteCargandoEngranaje.draw(batch);
         spriteCargandoBolita.draw(batch);
-        //texto.mostrarMensaje(batch, avance + "%", ANCHO/2, ALTO/1.9f);
         texto.mostrarMensaje(batch, avance + "%", camera.position.x, camera.position.y + ALTO_PANTALLA/2-80);
-
 
         batch.end();
 
