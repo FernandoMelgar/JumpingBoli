@@ -1,4 +1,4 @@
-package com.itesm.aboli2.jumpingboli.win;
+package com.itesm.aboli2.jumpingboli.game.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -12,13 +12,10 @@ import com.badlogic.gdx.utils.Align;
 import com.itesm.aboli2.jumpingboli.GameText;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
-import com.itesm.aboli2.jumpingboli.Pantallas;
-import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
-import com.itesm.aboli2.jumpingboli.loading.PantallaCargando;
 import com.itesm.aboli2.jumpingboli.menu.MenuView;
 
-public class escapeView extends Pantalla {
+public class EscapeView extends Pantalla {
 
     private Stage escapeStage;
     private GameText gameText;
@@ -43,11 +40,11 @@ public class escapeView extends Pantalla {
     private float puntos;
     private Texture texturaBtnBack;
 
-    public escapeView(GdXGame game) {
+    public EscapeView(GdXGame game) {
         super(game);
     }
 
-    public escapeView(GdXGame game, float puntos) {
+    public EscapeView(GdXGame game, float puntos) {
         super(game);
         this.puntos = puntos;
     }

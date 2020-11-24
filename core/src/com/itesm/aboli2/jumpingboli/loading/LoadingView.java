@@ -17,7 +17,7 @@ import com.itesm.aboli2.jumpingboli.howTo.howToView;
 import com.itesm.aboli2.jumpingboli.menu.MenuView;
 import com.itesm.aboli2.jumpingboli.skins.SkinsView;
 
-public class PantallaCargando extends Pantalla {
+public class LoadingView extends Pantalla {
 
     //Animación de cargando.
     // Animación cargando (espera...)
@@ -45,7 +45,7 @@ public class PantallaCargando extends Pantalla {
     private Texture texturaCargandoEngranaje;
     private Sprite spriteCargandoEngranaje;
 
-    public PantallaCargando(GdXGame game, Pantallas siguientePantalla) {
+    public LoadingView(GdXGame game, Pantallas siguientePantalla) {
         super(game);
         this.siguientePantalla = siguientePantalla;
     }

@@ -13,7 +13,7 @@ import com.itesm.aboli2.jumpingboli.Pantallas;
 import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
 import com.itesm.aboli2.jumpingboli.game.views.LevelSelectionView;
-import com.itesm.aboli2.jumpingboli.loading.PantallaCargando;
+import com.itesm.aboli2.jumpingboli.loading.LoadingView;
 
 
 public class MenuView extends Pantalla {
@@ -65,7 +65,7 @@ public class MenuView extends Pantalla {
     btnAjustes.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
-        game.setScreen(new PantallaCargando(game, Pantallas.CONFIGURACION));
+        game.setScreen(new LoadingView(game, Pantallas.CONFIGURACION));
       }
     });
     menuStage.addActor(btnAjustes);
@@ -81,7 +81,7 @@ public class MenuView extends Pantalla {
     btnComo.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y) {
         super.clicked(event, x, y);
-        game.setScreen(new PantallaCargando(game, Pantallas.HOWTO));
+        game.setScreen(new LoadingView(game, Pantallas.HOWTO));
       }
     });
     menuStage.addActor(btnComo);
@@ -96,7 +96,7 @@ public class MenuView extends Pantalla {
     btnSkins.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y) {
         super.clicked(event, x, y);
-        game.setScreen(new PantallaCargando(game, Pantallas.SKINS));
+        game.setScreen(new LoadingView(game, Pantallas.SKINS));
       }
     });
     menuStage.addActor(btnSkins);
@@ -110,7 +110,7 @@ public class MenuView extends Pantalla {
     btnAcerca.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y) {
         super.clicked(event, x, y);
-        game.setScreen(new PantallaCargando(game, Pantallas.ABOUT));
+        game.setScreen(new LoadingView(game, Pantallas.ABOUT));
       }
     });
     menuStage.addActor(btnAcerca);

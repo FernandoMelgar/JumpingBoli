@@ -8,7 +8,6 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -29,7 +28,6 @@ import com.itesm.aboli2.jumpingboli.game.Boli;
 import com.itesm.aboli2.jumpingboli.game.Escudo;
 import com.itesm.aboli2.jumpingboli.game.EstadoBoli;
 import com.itesm.aboli2.jumpingboli.game.EstadoBuff;
-import com.itesm.aboli2.jumpingboli.win.escapeView;
 
 public class GameView extends Pantalla {
 
@@ -402,7 +400,7 @@ public class GameView extends Pantalla {
       camera.position.x = ANCHO_PANTALLA;
       musicaFondo.dispose();
       //game.setScreen(new YouWinView(game));
-      game.setScreen(new escapeView(game));
+      game.setScreen(new EscapeView(game));
     }
 
 
