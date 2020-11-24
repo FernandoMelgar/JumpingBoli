@@ -73,7 +73,7 @@ public class escapeView extends Pantalla {
         spritePlaneta = new Sprite(texturaPlaneta);
         texturaNave = new Texture("iconosFondoEscape/FE_Nave.png");
         spriteNave = new Sprite(texturaNave);
-        texturaFondo = new Texture("iconosFondoEscape/FE_space.png");
+        texturaFondo = new Texture("iconosFondoEscape/FE_Space3.jpg");
         texturaEstela = new Texture("iconosFondoEscape/FE_Estela.png");
         spriteEstela = new Sprite(texturaEstela);
         texturaBoli = new Texture("iconosFondoEscape/FE_Boli.png");

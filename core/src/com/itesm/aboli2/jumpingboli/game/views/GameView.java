@@ -29,6 +29,7 @@ import com.itesm.aboli2.jumpingboli.game.Boli;
 import com.itesm.aboli2.jumpingboli.game.Escudo;
 import com.itesm.aboli2.jumpingboli.game.EstadoBoli;
 import com.itesm.aboli2.jumpingboli.game.EstadoBuff;
+import com.itesm.aboli2.jumpingboli.win.escapeView;
 
 public class GameView extends Pantalla {
 
@@ -389,9 +390,10 @@ public class GameView extends Pantalla {
       batch.begin();
       texturaIconoBuff = new Texture("characters/x2Logo.png");
       //batch.draw(texturaIconoBuff, camera.position.x - 450 , camera.position.y + 270);
-      gameText.mostrarMensaje(batch, "x2", camera.position.x - 430, camera.position.y + 300, 20f);
+      gameText.mostrarMensaje(batch, "x2", camera.position.x - 430, camera.position.y + 300);
       batch.end();
     }
+
     //Gdx.app.log("Boli X", String.valueOf(boli.getX()));
     if (alreadyWin()) {
       Preferences levelOneCompletion = Gdx.app.getPreferences("isLevelOneCompleted");
@@ -399,7 +401,8 @@ public class GameView extends Pantalla {
       levelOneCompletion.flush();
       camera.position.x = ANCHO_PANTALLA;
       musicaFondo.dispose();
-      game.setScreen(new YouWinView(game));
+      //game.setScreen(new YouWinView(game));
+      game.setScreen(new escapeView(game));
     }
 
 
