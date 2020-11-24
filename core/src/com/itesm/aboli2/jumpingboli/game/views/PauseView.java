@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Align;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
 import com.itesm.aboli2.jumpingboli.Pantallas;
+import com.itesm.aboli2.jumpingboli.button.GameButton;
 import com.itesm.aboli2.jumpingboli.loading.PantallaCargando;
 import com.itesm.aboli2.jumpingboli.menu.MenuView;
 
@@ -76,55 +77,60 @@ public class PauseView extends Pantalla {
 
     private void crearBtnPauRetry() {
         //Botón reintentar
+        ImageButton btnRetry = new GameButton("buttons/btn_Pausa_Retry.png", "buttons/btn_Pausa_RetryPicado.png");
+        btnRetry.setPosition(ANCHO_PANTALLA*0.80f, ALTO_PANTALLA*0.20f, Align.center);
+        /*
         Texture texturaBtnPauRetry = new Texture("buttons/btn_Pausa_Retry.png");
         TextureRegionDrawable trdBtnPauRetry = new TextureRegionDrawable(new TextureRegion(texturaBtnPauRetry));
-        ImageButton btnPauRetry = new ImageButton(trdBtnPauRetry);
-        btnPauRetry.setPosition(ANCHO_PANTALLA*0.80f, ALTO_PANTALLA*0.20f, Align.center);
+        ImageButton btnRetry = new ImageButton(trdBtnPauRetry);
+        btnRetry.setPosition(ANCHO_PANTALLA*0.80f, ALTO_PANTALLA*0.20f, Align.center);
+         */
         //Acción botón
-        btnPauRetry.addListener(new ClickListener() {
+        btnRetry.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y){
                 super.clicked(event, x, y);
-
                 game.setScreen(new PantallaCargando(game, Pantallas.NIVELUNO));
 
             }
         });
-        pauseStage.addActor(btnPauRetry);
+        pauseStage.addActor(btnRetry);
     }
 
 
     private void crearBtnPauMenu() {
         //Botón regresar al Menu
-        Texture texturaBtnPauMenu = new Texture("buttons/btn_Pausa_Menu.png");
-        TextureRegionDrawable trdBtnPauMenu = new TextureRegionDrawable(new TextureRegion(texturaBtnPauMenu));
-        ImageButton btnPauMenu = new ImageButton(trdBtnPauMenu);
-        btnPauMenu.setPosition(ANCHO_PANTALLA*0.20f, ALTO_PANTALLA*0.20f, Align.center);
+        ImageButton btnMenu = new GameButton("buttons/btn_Pausa_Menu.png", "buttons/btn_Pausa_MenuPicado.png");
+        btnMenu.setPosition(ANCHO_PANTALLA*0.20f, ALTO_PANTALLA*0.20f, Align.center);
         //Acción botón
-        btnPauMenu.addListener(new ClickListener() {
+        btnMenu.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y){
                 super.clicked(event, x, y);
                 game.setScreen(new MenuView(game));
             }
         });
-        pauseStage.addActor(btnPauMenu);
+        pauseStage.addActor(btnMenu);
     }
 
 
     private void crearBtnPauJugar() {
         //Botón reanudar
+        ImageButton btnJugar = new GameButton("buttons/btn_Pausa_Jugar.png", "buttons/btn_Pausa_JugarPicado.png");
+        btnJugar.setPosition(1280/2f, 720/2f, Align.center);
+        /*
         Texture texturaBtnPauJugar = new Texture("buttons/btn_Pausa_Jugar.png");
         TextureRegionDrawable trdBtnPauJugar = new TextureRegionDrawable(new TextureRegion(texturaBtnPauJugar));
         ImageButton btnPauJugar = new ImageButton(trdBtnPauJugar);
         btnPauJugar.setPosition(1280/2f, 720/2f, Align.center);
+         */
         //Acción botón
-        btnPauJugar.addListener(new ClickListener() {
+        btnJugar.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y){
                 super.clicked(event, x, y);
                 Pantalla gameView = (Pantalla) fromScreen;
                 game.setScreen(gameView);
             }
         });
-        pauseStage.addActor(btnPauJugar);
+        pauseStage.addActor(btnJugar);
     }
 
 
