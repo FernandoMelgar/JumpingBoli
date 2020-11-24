@@ -8,6 +8,7 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -84,6 +85,8 @@ public class GameView extends Pantalla {
   //manager
   private AssetManager manager;
   private Texture texturaIconoBuff;
+    private Texture texturaEscudoBoli;
+  private Sprite spriteEscudoBoli;
 
 
   public GameView(GdXGame game) {
@@ -128,7 +131,6 @@ public class GameView extends Pantalla {
   private void cargarSkin() {
     Preferences prefs = Gdx.app.getPreferences("elegir");
     colorBoli = prefs.getFloat("SKIN", 0);
-
   }
 
   private void initHUD() {
@@ -392,6 +394,18 @@ public class GameView extends Pantalla {
       batch.end();
     }
 
+    if (estado == EstadoJuego.JUGANDO && boli.getEstadoBuff() == EstadoBuff.BUFFINMORTAL){
+      batch.begin();
+      texturaEscudoBoli = new Texture("characters/skinEscudo2.png");
+      spriteEscudoBoli = new Sprite(texturaEscudoBoli);
+      spriteEscudoBoli.setPosition(boli.getX() - 10, boli.getY()-10);
+      spriteEscudoBoli.draw(batch);
+      spriteEscudoBoli.rotate(30); //NO ROTA
+      batch.end();
+    }
+
+
+
     //Gdx.app.log("Boli X", String.valueOf(boli.getX()));
     if (alreadyWin()) {
       Preferences levelOneCompletion = Gdx.app.getPreferences("isLevelOneCompleted");
@@ -402,6 +416,7 @@ public class GameView extends Pantalla {
       //game.setScreen(new YouWinView(game));
       game.setScreen(new EscapeView(game));
     }
+
 
 
 
