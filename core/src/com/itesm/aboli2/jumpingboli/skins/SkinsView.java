@@ -2,6 +2,7 @@ package com.itesm.aboli2.jumpingboli.skins;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -51,6 +52,9 @@ public class SkinsView extends Pantalla {
   //Timer para el salto de Boli
   private float timerSalto;
 
+  //Efecto sonido
+  private Sound efectoBoton;
+
   //Texto
   private GameText gameText;
   private float monedas;
@@ -64,6 +68,7 @@ public class SkinsView extends Pantalla {
    skinsStage = new Stage(super.viewport);
    boliDesbloqueada = new Array<>(4);
    xFondo=0;
+   efectoBoton = game.getManager().get("efectosSonido/efectoBoton.wav");
    cargarDesbloqueos();
    revisarDesbloqueos();
    cargarMonedas();
@@ -157,6 +162,7 @@ public class SkinsView extends Pantalla {
           monedas -= 200;
           btnUnlock.setVisible(false);
           guardarPreferencias();
+          efectoBoton.play();
           crearBtnSelect();
           boliCentral.setTextura(new Texture(texturaBoliElegida));
         }
@@ -179,6 +185,7 @@ public class SkinsView extends Pantalla {
           monedas -= 150;
           bntUnlock.setVisible(false);
           guardarPreferencias();
+          efectoBoton.play();
           crearBtnSelect();
           boliCentral.setTextura(new Texture(texturaBoliElegida));
         }
@@ -201,6 +208,7 @@ public class SkinsView extends Pantalla {
           monedas -= 100;
           btnUnlock.setVisible(false);
           guardarPreferencias();
+          efectoBoton.play();
           crearBtnSelect();
           boliCentral.setTextura(new Texture(texturaBoliElegida));
         }
@@ -222,6 +230,7 @@ public class SkinsView extends Pantalla {
           texturaBoliElegida = "characters/boliMorado62.png";
           texturaElegida = 0;
           guardarPreferencias();
+          efectoBoton.play();
           boliCentral.setTextura(new Texture(texturaBoliElegida));
         }
       });
@@ -236,6 +245,7 @@ public class SkinsView extends Pantalla {
           texturaBoliElegida = "characters/boliVerde62.png";
           texturaElegida = 1;
           guardarPreferencias();
+          efectoBoton.play();
           boliCentral.setTextura(new Texture(texturaBoliElegida));
         }
       });
@@ -250,6 +260,7 @@ public class SkinsView extends Pantalla {
           texturaBoliElegida = "characters/boliRoja62.png";
           texturaElegida = 3;
           guardarPreferencias();
+          efectoBoton.play();
           boliCentral.setTextura(new Texture(texturaBoliElegida));
         }
       });
@@ -264,6 +275,7 @@ public class SkinsView extends Pantalla {
           texturaBoliElegida = "characters/boliAzul62.png";
           texturaElegida = 2;
           guardarPreferencias();
+          efectoBoton.play();
           boliCentral.setTextura(new Texture(texturaBoliElegida));
         }
       });

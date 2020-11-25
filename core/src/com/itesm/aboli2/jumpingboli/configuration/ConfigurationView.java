@@ -2,6 +2,7 @@ package com.itesm.aboli2.jumpingboli.configuration;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -22,6 +23,9 @@ public class ConfigurationView extends Pantalla {
   //Fondo
   private Texture texturaFondo;
 
+  //Efecto sonido
+  private Sound efectoBoton;
+
   //Musica del juego
   private boolean playMusic;
 
@@ -36,6 +40,7 @@ public class ConfigurationView extends Pantalla {
   public void show() {
     configurationStage = new Stage(super.viewport);
     texturaFondo = new Texture("fondos/fondoAjustes.png");
+    efectoBoton = game.getManager().get("efectosSonido/efectoBoton.wav");
     createConfigView();
     cargarPreferencias();
     guardarPreferencias();
@@ -96,6 +101,7 @@ public class ConfigurationView extends Pantalla {
           playMusic = false;
         } else {
           btnMusica.setStyle(Prendido);
+          efectoBoton.play();
           playMusic = true;
         }
         guardarPreferencias();

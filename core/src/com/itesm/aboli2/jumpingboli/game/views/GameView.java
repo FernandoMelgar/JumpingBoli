@@ -85,7 +85,7 @@ public class GameView extends Pantalla {
   //manager
   private AssetManager manager;
   private Texture texturaIconoBuff;
-    private Texture texturaEscudoBoli;
+  private Texture texturaEscudoBoli;
   private Sprite spriteEscudoBoli;
 
 
