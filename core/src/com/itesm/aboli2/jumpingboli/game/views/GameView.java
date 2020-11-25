@@ -82,11 +82,12 @@ public class GameView extends Pantalla {
   final float segundosBuff = 5;
   float timerReanudacion = 0;
   final float segundosReanudacion = 3;
+
   //manager
   private AssetManager manager;
   private Texture texturaIconoBuff;
-  private Texture texturaEscudoBoli;
-  private Sprite spriteEscudoBoli;
+  private Texture texturaEscudoBoli = new Texture("characters/skinEscudo2.png");;
+  private Sprite spriteEscudoBoli = new Sprite(texturaEscudoBoli);
 
 
   public GameView(GdXGame game) {
@@ -396,11 +397,11 @@ public class GameView extends Pantalla {
 
     if (estado == EstadoJuego.JUGANDO && boli.getEstadoBuff() == EstadoBuff.BUFFINMORTAL){
       batch.begin();
-      texturaEscudoBoli = new Texture("characters/skinEscudo2.png");
-      spriteEscudoBoli = new Sprite(texturaEscudoBoli);
+      //texturaEscudoBoli = new Texture("characters/skinEscudo2.png");
+      //spriteEscudoBoli = new Sprite(texturaEscudoBoli);
       spriteEscudoBoli.setPosition(boli.getX() - 10, boli.getY()-10);
       spriteEscudoBoli.draw(batch);
-      spriteEscudoBoli.rotate(30); //NO ROTA
+      spriteEscudoBoli.rotate(-60); //NO ROTA
       batch.end();
     }
 

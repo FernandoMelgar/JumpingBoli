@@ -68,7 +68,7 @@ public class EscapeView extends Pantalla {
     @Override
     public void show() {
         escapeStage = new Stage(super.viewport);
-        texturaPlaneta = new Texture("iconosFondoEscape/planeta3.png");
+        texturaPlaneta = new Texture("iconosFondoEscape/FE_planeta.png");
         spritePlaneta = new Sprite(texturaPlaneta);
         texturaNave = new Texture("iconosFondoEscape/FE_Nave.png");
         spriteNave = new Sprite(texturaNave);
