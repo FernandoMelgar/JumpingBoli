@@ -40,6 +40,8 @@ public class EscapeView extends Pantalla {
     private float puntos;
     private Texture texturaBtnBack;
 
+    ImageButton btnReturn = new GameButton("buttons/btnBack.png", "buttons/btnBackPicado.png");
+
     public EscapeView(GdXGame game) {
         super(game);
     }
@@ -50,23 +52,23 @@ public class EscapeView extends Pantalla {
     }
 
 
-    public void createBtnBack(){
-        ImageButton btnReturn = new GameButton("buttons/btnBack.png", "buttons/btnBackPicado.png");
-        btnReturn.setPosition(ANCHO_PANTALLA/2, ALTO_PANTALLA - btnReturn.getHeight(), Align.center);
-        btnReturn.addListener(new ClickListener() {
+    public void createBtnBack(ImageButton btn){
+        //ImageButton btnReturn = new GameButton("buttons/btnBack.png", "buttons/btnBackPicado.png");
+        //btn.setPosition(ANCHO_PANTALLA/2, ALTO_PANTALLA - btnReturn.getHeight(), Align.center);
+        btn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 game.setScreen(new MenuView(game));
             }
         });
-        escapeStage.addActor(btnReturn);
+        escapeStage.addActor(btn);
     }
 
     @Override
     public void show() {
         escapeStage = new Stage(super.viewport);
-        texturaPlaneta = new Texture("iconosFondoEscape/FE_planeta.png");
+        texturaPlaneta = new Texture("iconosFondoEscape/planeta3.png");
         spritePlaneta = new Sprite(texturaPlaneta);
         texturaNave = new Texture("iconosFondoEscape/FE_Nave.png");
         spriteNave = new Sprite(texturaNave);
@@ -80,7 +82,7 @@ public class EscapeView extends Pantalla {
         texturaBtnBack = new Texture("buttons/btnBack.png");
         //cargarRecursos(siguientePantalla);
         gameText = new GameText("fuentes/exoFont.fnt");
-        createBtnBack();
+        createBtnBack(btnReturn);
         //escapeStage.addActor(ButtonFactory.getPlayBtn(game, new PantallaCargando(game, Pantallas.NIVELUNO)));
         Gdx.input.setInputProcessor(escapeStage);
 
@@ -91,7 +93,7 @@ public class EscapeView extends Pantalla {
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             batch.draw(texturaFondo,ANCHO_PANTALLA * i,0);
 
         }
@@ -127,8 +129,11 @@ public class EscapeView extends Pantalla {
         // Actualizar carga
         //actualizarCarga();
         actualizarCamara();
-        spritePlaneta.setPosition(camera.position.x + spritePlaneta.getWidth()/4,
-                camera.position.y - ALTO_PANTALLA/2);
+        //spritePlaneta.setPosition(camera.position.x + spritePlaneta.getWidth()/4,
+                //camera.position.y - ALTO_PANTALLA/2);
+        spritePlaneta.setPosition(camera.position.x + spritePlaneta.getWidth()/6,
+                camera.position.y - ALTO_PANTALLA*1.3f);
+        spritePlaneta.rotate(2/60f);
         spriteNave.setPosition(camera.position.x - ANCHO_PANTALLA/2 + spriteNave.getWidth(),
                 camera.position.y + ALTO_PANTALLA/4);
         spriteEstela.setPosition(camera.position.x - ANCHO_PANTALLA/2 + 150,
@@ -136,13 +141,14 @@ public class EscapeView extends Pantalla {
         spriteBoli.setPosition(camera.position.x - ANCHO_PANTALLA/2 + 290,
                 camera.position.y - ALTO_PANTALLA/6 + 10);
         spriteVictoria.setPosition(camera.position.x - ANCHO_PANTALLA/2, camera.position.y - ALTO_PANTALLA/2);
+        btnReturn.setPosition(camera.position.x + 400, camera.position.y - ANCHO_PANTALLA/4);
 
 
     }
 
 
     private void actualizarCamara() {
-        camera.position.x = camera.position.x + 3;
+        camera.position.x = camera.position.x + 1.5f;
         camera.update();
     }
 

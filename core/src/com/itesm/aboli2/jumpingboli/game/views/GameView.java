@@ -283,7 +283,7 @@ public class GameView extends Pantalla {
     if (boli.getY() + boli.sprite.getHeight() < 0 || arrEscudos.size == 0) {
       camera.position.x = ANCHO_PANTALLA;
       musicaFondo.dispose();
-      //game.setScreen(new DeathView(game, puntos));
+      //game.setScreen(new EscapeView(game, puntos));
       game.setScreen(new DeathView(game, puntos));
       return false;
     }
