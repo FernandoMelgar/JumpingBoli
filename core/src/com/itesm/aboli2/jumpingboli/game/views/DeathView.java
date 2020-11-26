@@ -10,6 +10,7 @@ import com.itesm.aboli2.jumpingboli.Pantalla;
 import com.itesm.aboli2.jumpingboli.Pantallas;
 import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
 import com.itesm.aboli2.jumpingboli.loading.LoadingView;
+import com.itesm.aboli2.jumpingboli.menu.MenuView;
 
 public class DeathView extends Pantalla {
 
@@ -35,8 +36,6 @@ public class DeathView extends Pantalla {
     gameText = new GameText("fuentes/exoFont.fnt");
     ImageButton backBtn = game.buttonFactory.returnToMenuBtn();
     deathStage.addActor(backBtn);
-    //game.getManager().unload("mapas/platNivel1.tmx");
-    deathStage.addActor(ButtonFactory.getPlayBtn(game, new LoadingView(game, Pantallas.GAME)));
     Gdx.input.setInputProcessor(deathStage);
 
   }
@@ -44,8 +43,6 @@ public class DeathView extends Pantalla {
   @Override
   public void render(float delta) {
     cleanScreen();
-    // rgb(180,19,1)
-    //paintScreen(180 / 255f, 19 / 255f, 1 / 255f);
     batch.setProjectionMatrix(camera.combined);
     batch.begin();
     batch.draw(texturaFondoMuerte,0,0);
