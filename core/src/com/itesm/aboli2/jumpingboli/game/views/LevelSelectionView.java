@@ -83,9 +83,8 @@ public class LevelSelectionView extends Pantalla {
   }
 
   public boolean isLevelOneCompleted() {
-    return true;
-    //Preferences pref = Gdx.app.getPreferences("isLevelOneCompleted");
-    //return pref.getBoolean("isLevelOneCompleted", false);
+    Preferences completo = Gdx.app.getPreferences("estaCompleto");
+    return completo.getBoolean("ESTACOMPLETO", false);
   }
 
   @Override
