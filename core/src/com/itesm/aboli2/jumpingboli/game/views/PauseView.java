@@ -15,7 +15,6 @@ import com.itesm.aboli2.jumpingboli.Pantalla;
 import com.itesm.aboli2.jumpingboli.Pantallas;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
 import com.itesm.aboli2.jumpingboli.loading.LoadingView;
-import com.itesm.aboli2.jumpingboli.menu.MenuView;
 
 public class PauseView extends Pantalla {
     
@@ -89,7 +88,7 @@ public class PauseView extends Pantalla {
         btnRetry.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y){
                 super.clicked(event, x, y);
-                game.setScreen(new LoadingView(game, Pantallas.NIVELUNO));
+                game.setScreen(new LoadingView(game, Pantallas.GAME));
 
             }
         });
@@ -98,17 +97,9 @@ public class PauseView extends Pantalla {
 
 
     private void crearBtnPauMenu() {
-        //Botón regresar al Menu
-        ImageButton btnMenu = new GameButton("buttons/btn_Pausa_Menu.png", "buttons/btn_Pausa_MenuPicado.png");
-        btnMenu.setPosition(ANCHO_PANTALLA*0.20f, ALTO_PANTALLA*0.20f, Align.center);
-        //Acción botón
-        btnMenu.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y){
-                super.clicked(event, x, y);
-                game.setScreen(new MenuView(game));
-            }
-        });
-        pauseStage.addActor(btnMenu);
+        ImageButton toMenu = game.buttonFactory.returnToMenuBtn();
+        toMenu.setPosition(ANCHO_PANTALLA * 0.20f, ALTO_PANTALLA * 0.20f, Align.center);
+        pauseStage.addActor(toMenu);
     }
 
 

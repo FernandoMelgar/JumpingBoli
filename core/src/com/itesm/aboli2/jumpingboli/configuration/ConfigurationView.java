@@ -14,9 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
-import com.itesm.aboli2.jumpingboli.button.GameButton;
-import com.itesm.aboli2.jumpingboli.menu.MenuView;
-import com.itesm.aboli2.jumpingboli.skins.Seleccion;
 
 public class ConfigurationView extends Pantalla {
 
@@ -113,21 +110,8 @@ public class ConfigurationView extends Pantalla {
 
   private void createBackBtn() {
     //Botón back
-    Texture texturaBtnBack = new Texture("buttons/btnBack.png");
-    TextureRegionDrawable trdBtnBack = new TextureRegionDrawable(new TextureRegion(texturaBtnBack));
-    //Botón cómo back picado
-    Texture btnBackPicado = new Texture("buttons/btnBackPicado.png");
-    TextureRegionDrawable trdBtnBackPicado = new TextureRegionDrawable(new TextureRegion(btnBackPicado));
-    ImageButton btnBack = new ImageButton(trdBtnBack, trdBtnBackPicado);
-    btnBack.setPosition(ANCHO_PANTALLA*0.10f, ALTO_PANTALLA*0.88f, Align.center);
-    //Acción botón
-    btnBack.addListener(new ClickListener() {
-      public void clicked(InputEvent event, float x, float y){
-        super.clicked(event, x, y);
-        game.setScreen(new MenuView(game));
-      }
-    });
-    configurationStage.addActor(btnBack);
+
+    configurationStage.addActor(game.buttonFactory.returnToMenuBtn());
   }
 
   @Override

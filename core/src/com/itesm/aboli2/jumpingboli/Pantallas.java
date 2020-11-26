@@ -4,7 +4,8 @@ public enum Pantallas {
     MENU,
     SKINS,
     ABOUT,
-    NIVELUNO,
+    GAME,
     CONFIGURACION,
-    HOWTO
+    HOWTO,
+    LEVELSELECTION
 }
