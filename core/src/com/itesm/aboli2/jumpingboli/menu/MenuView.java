@@ -1,15 +1,9 @@
 package com.itesm.aboli2.jumpingboli.menu;
 
-import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -32,11 +26,9 @@ public class MenuView extends Pantalla {
   //Efectos de sonido
   private Sound efectoInicio;
   private Sound efectoBoton;
+  private Sound efectoPlay;
   private boolean playMusic;
 
-
-  //Manager para manejar los efectos de sonido.
-  private AssetManager manager;
 
   //Fondo
   private Texture texturaFondo;
@@ -69,6 +61,7 @@ public class MenuView extends Pantalla {
   private void crearEfectos() {
     efectoInicio = game.getManager().get("efectosSonido/efectoInicio.wav");
     efectoBoton = game.getManager().get("efectosSonido/efectoBoton.wav");
+    efectoPlay = game.getManager().get("efectosSonido/play.ogg");
   }
 
   private void reproducirEfectoBoton(){
@@ -158,7 +151,36 @@ public class MenuView extends Pantalla {
   }
 
   private void crearBtnJugar() {
-    menuStage.addActor(ButtonFactory.getPlayBtn(game, new LevelSelectionView(game)));
+
+    ImageButton btnPlay2 = new ButtonFactory
+        .Builder((Texture) game.getManager().get("buttons/btnPlay.png"))
+        .position(1280 / 2f, 720 / 2f)
+        .alignment(Align.center)
+        .clickListener(new ClickListener() {
+          @Override
+          public void clicked(InputEvent event, float x, float y) {
+            super.clicked(event, x, y);
+            if (playMusic)
+              efectoPlay.play();
+            game.setScreen(new LevelSelectionView(game));
+          }
+        })
+        .build();
+
+
+/*    ImageButton btnToPlay = new GameButton("buttons/btnPlay.png");
+    btnToPlay.setPosition(1280/2f, 720/2f, Align.center);
+    btnToPlay.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        super.clicked(event, x, y);
+        if(playMusic)
+          efectoPlay.play();
+        game.setScreen(new LevelSelectionView(game));
+      }
+    });
+    menuStage.addActor(btnToPlay);*/
+    menuStage.addActor(btnPlay2);
   }
 
   @Override
