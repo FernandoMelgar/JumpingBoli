@@ -53,8 +53,6 @@ public class EscapeView extends Pantalla {
 
 
     public void createBtnBack(ImageButton btn){
-        //ImageButton btnReturn = new GameButton("buttons/btnBack.png", "buttons/btnBackPicado.png");
-        //btn.setPosition(ANCHO_PANTALLA/2, ALTO_PANTALLA - btnReturn.getHeight(), Align.center);
         btn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

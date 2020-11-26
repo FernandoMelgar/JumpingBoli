@@ -4,25 +4,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Tree;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.itesm.aboli2.jumpingboli.GameText;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
-import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
-import com.itesm.aboli2.jumpingboli.menu.MenuView;
-import com.itesm.aboli2.jumpingboli.skins.SkinsView;
-
-import sun.font.TrueTypeFont;
 
 
 public class AboutView extends Pantalla {
@@ -90,9 +82,9 @@ public class AboutView extends Pantalla {
     btnFlechaAbajo.setPosition(ANCHO_PANTALLA*0.92f, ALTO_PANTALLA*0.1f, Align.center);
     //Acción botón
     btnFlechaAbajo.addListener(new ClickListener() {
-      public void clicked(InputEvent event, float x, float y){
+      public void clicked(InputEvent event, float x, float y) {
         super.clicked(event, x, y);
-        if(alturaFondo < 0){
+        if (alturaFondo < 0) {
           alturaFondo += 30;
         }
       }
@@ -100,7 +92,8 @@ public class AboutView extends Pantalla {
 
     escenaHUD.addActor(btnFlechaArriba); //Botón flecha arriba
     escenaHUD.addActor(btnFlechaAbajo); //Botón flecha abajo.
-    escenaHUD.addActor(ButtonFactory.getReturnBtn(game, new MenuView(game))); //Botón back.
+    ImageButton backBtn = game.buttonFactory.returnToMenuBtn();
+    escenaHUD.addActor(backBtn);
   }
 
 

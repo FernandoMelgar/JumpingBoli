@@ -1,6 +1,5 @@
 package com.itesm.aboli2.jumpingboli.loading;
 
-import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -15,6 +14,7 @@ import com.itesm.aboli2.jumpingboli.Pantallas;
 import com.itesm.aboli2.jumpingboli.about.AboutView;
 import com.itesm.aboli2.jumpingboli.configuration.ConfigurationView;
 import com.itesm.aboli2.jumpingboli.game.views.GameView;
+import com.itesm.aboli2.jumpingboli.game.views.LevelSelectionView;
 import com.itesm.aboli2.jumpingboli.howTo.howToView;
 import com.itesm.aboli2.jumpingboli.menu.MenuView;
 import com.itesm.aboli2.jumpingboli.skins.SkinsView;
@@ -69,11 +69,16 @@ public class LoadingView extends Pantalla {
 
     private void cargarRecursos() {
         manager = game.getManager();
-        switch(siguientePantalla){
+
+        manager.load("efectosSonido/efectoBoton.wav", Sound.class);
+        manager.load("buttons/btnBack.png", Texture.class);
+        manager.load("buttons/btnBackPicado.png", Texture.class);
+
+        switch (siguientePantalla) {
             case MENU:
                 cargarRecursosMenu();
                 break;
-            case NIVELUNO:
+            case GAME:
                 cargarRecursosNivelUno();
                 break;
             case ABOUT:
@@ -88,8 +93,23 @@ public class LoadingView extends Pantalla {
             case HOWTO:
                 cargarRecursosHowTo();
                 break;
+            case LEVELSELECTION:
+                cargarRecursosSeleccionDeNivel();
 
         }
+    }
+
+    private void cargarRecursosSeleccionDeNivel() {
+        manager.load("fondos/fondoPausa.png", Texture.class);
+        manager.load("buttons/levelselection/btnLevel1_active.png", Texture.class);
+        manager.load("buttons/levelselection/btnLevel1_clicked.png", Texture.class);
+        manager.load("buttons/levelselection/btnLevel2_active.png", Texture.class);
+        manager.load("buttons/levelselection/btnLevel2_clicked.png", Texture.class);
+        manager.load("buttons/levelselection/btnLevel2_blocked.png", Texture.class);
+        manager.load("buttons/levelselection/btnLevel2_blocked_clicked.png", Texture.class);
+        manager.load("efectosSonido/playLevel.ogg", Sound.class);
+
+
     }
 
     private void cargarRecursosHowTo() {
@@ -98,6 +118,7 @@ public class LoadingView extends Pantalla {
 
     private void cargarRecursosConfiguracion() {
         manager.load("efectosSonido/efectoBoton.wav", Sound.class);
+
     }
 
     private void cargarRecursosSkins() {
@@ -110,6 +131,7 @@ public class LoadingView extends Pantalla {
         manager.load("characters/boliAzul62.png", Texture.class);
         manager.load("characters/boliRoja62.png", Texture.class);
         manager.load("efectosSonido/efectoBoton.wav", Sound.class);
+
     }
 
     private void cargarRecursosAbout() {
@@ -120,6 +142,7 @@ public class LoadingView extends Pantalla {
         manager.load("buttons/btnFlechaArribaPicado.png", Texture.class);
         manager.load("buttons/btnFlecha.png", Texture.class);
         manager.load("buttons/btnFlechaPicado.png", Texture.class);
+
     }
 
     private void cargarRecursosNivelUno() {
@@ -155,12 +178,16 @@ public class LoadingView extends Pantalla {
         manager.load("buttons/btnSkinsPicado.png", Texture.class);
         manager.load("buttons/btnAcerca.png", Texture.class);
         manager.load("buttons/btnAcercaPicado.png", Texture.class);
+        manager.load("buttons/btnPlay.png", Texture.class);
+
         //Cargamos el título
         manager.load("titles/title.png", Texture.class);
         manager.load("titles/titleHover.png", Texture.class);
         //Cargamos efectos de sonido
         manager.load("efectosSonido/efectoInicio.wav", Sound.class);
         manager.load("efectosSonido/efectoBoton.wav", Sound.class);
+        manager.load("efectosSonido/play.ogg", Sound.class);
+
     }
 
     @Override
@@ -203,7 +230,7 @@ public class LoadingView extends Pantalla {
                 case MENU:
                     game.setScreen(new MenuView(game));
                     break;
-                case NIVELUNO:
+                case GAME:
                     //todo: Modificar al nuevo tipo de juego.
                     game.setScreen(new GameView(game));
                     break;
@@ -219,6 +246,8 @@ public class LoadingView extends Pantalla {
                 case HOWTO:
                     game.setScreen(new howToView(game));
                     break;
+                case LEVELSELECTION:
+                    game.setScreen(new LevelSelectionView(game));
             }
         }
         avance = (int)(manager.getProgress()*100);
