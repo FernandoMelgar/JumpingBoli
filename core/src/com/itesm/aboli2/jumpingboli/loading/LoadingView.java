@@ -1,6 +1,5 @@
 package com.itesm.aboli2.jumpingboli.loading;
 
-import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -161,6 +160,8 @@ public class LoadingView extends Pantalla {
         //Cargamos efectos de sonido
         manager.load("efectosSonido/efectoInicio.wav", Sound.class);
         manager.load("efectosSonido/efectoBoton.wav", Sound.class);
+        manager.load("efectosSonido/play.ogg", Sound.class);
+
     }
 
     @Override
