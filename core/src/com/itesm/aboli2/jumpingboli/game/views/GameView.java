@@ -86,7 +86,7 @@ public class GameView extends Pantalla {
   //manager
   private AssetManager manager;
   private Texture texturaIconoBuff;
-  private Texture texturaEscudoBoli = new Texture("characters/skinEscudo2.png");;
+  private Texture texturaEscudoBoli = new Texture("characters/skinEscudo2.png");
   private Sprite spriteEscudoBoli = new Sprite(texturaEscudoBoli);
 
 
@@ -267,7 +267,19 @@ public class GameView extends Pantalla {
       monedas++;
       guardarPreferencias();
     }
-      if ((celdaAbajo == null && celdaDerecha == null && boli.getEstado() != EstadoBoli.SALTANDO) || (esBuffMultiplicador(celdaAbajo) && boli.getEstado() != EstadoBoli.SALTANDO)  || (esBuffMultiplicador(celdaDerecha) && boli.getEstado() != EstadoBoli.SALTANDO) || (esMoneda(celdaAbajo) && boli.getEstado() != EstadoBoli.SALTANDO) || (esMoneda(celdaDerecha) && boli.getEstado() != EstadoBoli.SALTANDO)){
+    if ( esBuffEscudos(capa.getCell(celdaX+1,celdaY+1)) ) {
+      //Gdx.app.log("MUERTO", "F");      // Borrar Escudo
+      capa.setCell(celdaX+1,celdaY+1,null);
+      agregarEscudo();
+    }
+
+      if ((celdaAbajo == null && celdaDerecha == null && boli.getEstado() != EstadoBoli.SALTANDO)
+              || (esBuffMultiplicador(celdaAbajo) && boli.getEstado() != EstadoBoli.SALTANDO)
+              || (esBuffMultiplicador(celdaDerecha) && boli.getEstado() != EstadoBoli.SALTANDO)
+              || (esMoneda(celdaAbajo) && boli.getEstado() != EstadoBoli.SALTANDO)
+              || (esMoneda(celdaDerecha) && boli.getEstado() != EstadoBoli.SALTANDO)
+              || (esBuffEscudos(celdaAbajo) && boli.getEstado() != EstadoBoli.SALTANDO)
+              || (esBuffEscudos(celdaDerecha) && boli.getEstado() != EstadoBoli.SALTANDO)){
         if(boli.getEstado() != EstadoBoli.CAYENDO){
           boli.setyBase(boli.getY());
           boli.cayendo();
@@ -277,6 +289,13 @@ public class GameView extends Pantalla {
         boli.setPosicion(boli.getX(),(celdaY + 1) * TAM_CELDA);
         boli.setEstadoBoli(EstadoBoli.RODANDO);
       }
+  }
+
+  private void agregarEscudo() {
+    if(arrEscudos.size < 3){
+      Escudo escudo = new Escudo(texturaEscudo, (arrEscudos.size+1) * 30, ALTO_PANTALLA * 0.88f);
+      arrEscudos.add(escudo);
+    }
   }
 
   public boolean boliVivo(){
@@ -308,6 +327,15 @@ public class GameView extends Pantalla {
 
     Object propiedad = celda.getTile().getProperties().get("tipo");
     return "trampaPicos".equals(propiedad);
+  }
+
+  private boolean esBuffEscudos(TiledMapTileLayer.Cell celda) {
+    if (celda==null) {
+      return false;
+    }
+
+    Object propiedad = celda.getTile().getProperties().get("tipo");
+    return "buffEscudo".equals(propiedad);
   }
 
   private boolean esMoneda(TiledMapTileLayer.Cell celda) {
@@ -355,7 +383,7 @@ public class GameView extends Pantalla {
       //boli.setEstadoBoli(EstadoBoli.QUIETO);
       batch.begin();
       gameText.mostrarMensaje(batch, "" + (int) (3 - timerPausa),
-          ANCHO_PANTALLA / 2, ALTO_PANTALLA / 2);
+          ANCHO_PANTALLA / 2, ALTO_PANTALLA / 2,100);
       batch.end();
     }
 
@@ -368,7 +396,7 @@ public class GameView extends Pantalla {
       batch.begin();
       //Gdx.app.log("TIEMPO", "Tiempo: " + (int)(timerReanudacion/60));
       gameText.mostrarMensaje(batch, "" + (int) (3 - timerReanudacion/60),
-              camera.position.x, camera.position.y);
+              camera.position.x, camera.position.y,100);
       timerReanudacion++;
 
       batch.end();

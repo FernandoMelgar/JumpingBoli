@@ -24,9 +24,7 @@ public class GameText {
 
   public void mostrarMensaje(SpriteBatch batch, String mensaje, float x, float y, float fontSize) {
     GlyphLayout glyp = new GlyphLayout();
-    glyp.setText(font, mensaje);
-    float anchoTexto = fontSize;
-    glyp.setText(font, mensaje, Color.WHITE, glyp.width, Align.center, false);
-    font.draw(batch, glyp, x - anchoTexto / 2, y);
+    glyp.setText(font, mensaje, Color.WHITE, fontSize, Align.center, false);
+    font.draw(batch, glyp, x - fontSize / 2, y);
   }
 }
