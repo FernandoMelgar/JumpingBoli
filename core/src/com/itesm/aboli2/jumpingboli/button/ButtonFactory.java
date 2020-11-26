@@ -1,5 +1,7 @@
 package com.itesm.aboli2.jumpingboli.button;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
@@ -9,7 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.itesm.aboli2.jumpingboli.GdXGame;
+import com.itesm.aboli2.jumpingboli.Pantallas;
 import com.itesm.aboli2.jumpingboli.game.views.LevelSelectionView;
+import com.itesm.aboli2.jumpingboli.loading.LoadingView;
 
 public class ButtonFactory {
 
@@ -18,6 +22,12 @@ public class ButtonFactory {
   Texture textureDown;
   ClickListener clickListener;
 
+  GdXGame game;
+
+  public ButtonFactory(GdXGame game) {
+    this.game = game;
+  }
+
   public static class Builder {
     private final Texture textureUp;
     private Texture textureDown;
@@ -25,6 +35,7 @@ public class ButtonFactory {
     private float xCoordinate;
     private float yCoordinate;
     private int alignment;
+
 
     public Builder(Texture tUp) {
       this.textureUp = tUp;
@@ -68,8 +79,16 @@ public class ButtonFactory {
 
   }
 
+  public void setTextureUp(Texture textureUp) {
+    this.textureUp = textureUp;
+  }
+
+  public void setTextureDown(Texture textureDown) {
+    this.textureDown = textureDown;
+  }
 
   public static ImageButton getPlayBtn(final GdXGame context, final Screen toScreen) {
+
     ImageButton btnToPlay = new GameButton("buttons/btnPlay.png");
     btnToPlay.setPosition(1280 / 2f, 720 / 2f, Align.center);
     btnToPlay.addListener(new ClickListener() {
@@ -82,19 +101,33 @@ public class ButtonFactory {
     return btnToPlay;
   }
 
-
-  public static ImageButton getReturnBtn(final GdXGame context, final Screen toScreen) {
-    ImageButton btnReturn = new GameButton("buttons/btnBack.png", "buttons/btnBackPicado.png");
-    btnReturn.setPosition(1280 * .1f, 720 * .9f, Align.center);
-    btnReturn.addListener(new ClickListener() {
-      @Override
-      public void clicked(InputEvent event, float x, float y) {
-        super.clicked(event, x, y);
-        context.setScreen(toScreen);
-      }
-    });
-    return btnReturn;
+  boolean isSoundActive() {
+    Preferences musica = Gdx.app.getPreferences("musica");
+    boolean isActive = musica.getBoolean("MUSICA", true);
+    if (isActive)
+      soundEfect = game.getManager().get("efectosSonido/efectoBoton.wav");
+    return isActive;
   }
+
+  public ImageButton returnToMenuBtn() {
+    return new Builder((Texture) game.getManager().get("buttons/btnBack.png"))
+        .textureDown((Texture) game.getManager().get("buttons/btnBackPicado.png"))
+        .position(1280 * .1f, 720 * .9f)
+        .alignment(Align.center)
+        .clickListener(new ClickListener() {
+          @Override
+          public void clicked(InputEvent event, float x, float y) {
+            Gdx.app.log("ButtonFatory", "Clicked :)))");
+            super.clicked(event, x, y);
+            if (isSoundActive()) {
+              soundEfect.play();
+            }
+            game.setScreen(new LoadingView(game, Pantallas.MENU));
+          }
+        })
+        .build();
+  }
+
 
   public static ImageButton toLevelSelectView(final GdXGame context) {
     ImageButton btnReturn = new GameButton("buttons/btnBack.png", "buttons/btnBackPicado.png");

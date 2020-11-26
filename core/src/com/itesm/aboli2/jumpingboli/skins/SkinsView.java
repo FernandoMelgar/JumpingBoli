@@ -4,23 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.itesm.aboli2.jumpingboli.GameText;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
-import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
 import com.itesm.aboli2.jumpingboli.game.Boli;
 import com.itesm.aboli2.jumpingboli.game.EstadoBoli;
-import com.itesm.aboli2.jumpingboli.menu.MenuView;
 
 public class SkinsView extends Pantalla {
 
@@ -297,7 +292,9 @@ public class SkinsView extends Pantalla {
   }
 
   private void crearBtnBack() {
-    skinsStage.addActor(ButtonFactory.getReturnBtn(game, new MenuView(game)));
+
+    ImageButton backBtn = game.buttonFactory.returnToMenuBtn();
+    skinsStage.addActor(backBtn);
   }
 
   @Override

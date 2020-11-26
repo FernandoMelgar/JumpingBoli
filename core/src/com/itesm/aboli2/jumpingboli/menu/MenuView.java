@@ -1,15 +1,9 @@
 package com.itesm.aboli2.jumpingboli.menu;
 
-import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -20,7 +14,6 @@ import com.itesm.aboli2.jumpingboli.Pantalla;
 import com.itesm.aboli2.jumpingboli.Pantallas;
 import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
-import com.itesm.aboli2.jumpingboli.game.views.LevelSelectionView;
 import com.itesm.aboli2.jumpingboli.loading.LoadingView;
 
 
@@ -168,7 +161,7 @@ public class MenuView extends Pantalla {
             super.clicked(event, x, y);
             if (playMusic)
               efectoPlay.play();
-            game.setScreen(new LevelSelectionView(game));
+            game.setScreen(new LoadingView(game, Pantallas.LEVELSELECTION));
           }
         })
         .build();

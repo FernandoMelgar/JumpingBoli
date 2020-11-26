@@ -9,9 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
-import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
-import com.itesm.aboli2.jumpingboli.menu.MenuView;
 
 public class howToView extends Pantalla {
     Stage howToStage;
@@ -67,7 +65,8 @@ public class howToView extends Pantalla {
     }
 
     private void createBtnBack() {
-        howToStage.addActor(ButtonFactory.getReturnBtn(game, new MenuView(game)));
+        ImageButton backBtn = game.buttonFactory.returnToMenuBtn();
+        howToStage.addActor(backBtn);
     }
 
     @Override
