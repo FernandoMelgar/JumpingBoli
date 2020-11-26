@@ -8,6 +8,7 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -81,8 +82,12 @@ public class GameView extends Pantalla {
   final float segundosBuff = 5;
   float timerReanudacion = 0;
   final float segundosReanudacion = 3;
+
   //manager
   private AssetManager manager;
+  private Texture texturaIconoBuff;
+  private Texture texturaEscudoBoli = new Texture("characters/skinEscudo2.png");;
+  private Sprite spriteEscudoBoli = new Sprite(texturaEscudoBoli);
 
 
   public GameView(GdXGame game) {
@@ -127,7 +132,6 @@ public class GameView extends Pantalla {
   private void cargarSkin() {
     Preferences prefs = Gdx.app.getPreferences("elegir");
     colorBoli = prefs.getFloat("SKIN", 0);
-
   }
 
   private void initHUD() {
@@ -280,7 +284,7 @@ public class GameView extends Pantalla {
     if (boli.getY() + boli.sprite.getHeight() < 0 || arrEscudos.size == 0) {
       camera.position.x = ANCHO_PANTALLA;
       musicaFondo.dispose();
-      //game.setScreen(new DeathView(game, puntos));
+      //game.setScreen(new EscapeView(game, puntos));
       game.setScreen(new DeathView(game, puntos));
       return false;
     }
@@ -324,6 +328,8 @@ public class GameView extends Pantalla {
     batch.begin();
     boliVivo();
 
+    //batch.draw(texturaIconoBuff,ANCHO_PANTALLA/6, ALTO_PANTALLA - 50);
+
     if(estado == EstadoJuego.JUGANDO){
       contadorFondo = contadorFondo - velocidadCamara;
       if(contadorFondo <= -texturaFondo.getWidth()){
@@ -364,6 +370,7 @@ public class GameView extends Pantalla {
       gameText.mostrarMensaje(batch, "" + (int) (3 - timerReanudacion/60),
               camera.position.x, camera.position.y);
       timerReanudacion++;
+
       batch.end();
       actualizarTimerReanudacion();
     } if (boli.getEstado() == EstadoBoli.CAYENDO){
@@ -379,6 +386,27 @@ public class GameView extends Pantalla {
       moverCamara();
       actualizar();
     }
+
+    if (estado == EstadoJuego.JUGANDO && boli.getEstadoBuff() == EstadoBuff.BUFFDOBLEPUNTOS){
+      batch.begin();
+      texturaIconoBuff = new Texture("characters/x2Logo.png");
+      //batch.draw(texturaIconoBuff, camera.position.x - 450 , camera.position.y + 270);
+      gameText.mostrarMensaje(batch, "x2", camera.position.x - 430, camera.position.y + 300);
+      batch.end();
+    }
+
+    if (estado == EstadoJuego.JUGANDO && boli.getEstadoBuff() == EstadoBuff.BUFFINMORTAL){
+      batch.begin();
+      //texturaEscudoBoli = new Texture("characters/skinEscudo2.png");
+      //spriteEscudoBoli = new Sprite(texturaEscudoBoli);
+      spriteEscudoBoli.setPosition(boli.getX() - 10, boli.getY()-10);
+      spriteEscudoBoli.draw(batch);
+      spriteEscudoBoli.rotate(-60); //NO ROTA
+      batch.end();
+    }
+
+
+
     //Gdx.app.log("Boli X", String.valueOf(boli.getX()));
     if (alreadyWin()) {
       Preferences levelOneCompletion = Gdx.app.getPreferences("isLevelOneCompleted");
@@ -386,8 +414,12 @@ public class GameView extends Pantalla {
       levelOneCompletion.flush();
       camera.position.x = ANCHO_PANTALLA;
       musicaFondo.dispose();
-      game.setScreen(new YouWinView(game));
+      //game.setScreen(new YouWinView(game));
+      game.setScreen(new EscapeView(game));
     }
+
+
+
 
 
     gameStage.draw();
@@ -438,6 +470,9 @@ public class GameView extends Pantalla {
 
   private void actualizarPuntos() {
     if(boli.getEstadoBuff() == EstadoBuff.BUFFDOBLEPUNTOS){
+      //texturaIconoBuff = new Texture("characters/x2Logo.png");
+      //batch.draw(texturaIconoBuff, ALTO_PANTALLA/2, ANCHO_PANTALLA/2);
+      //gameText.mostrarMensaje(batch, "x2", ALTO_PANTALLA/2, ANCHO_PANTALLA/2);
       timerBuffMultiplicador++;
       puntos+= 0.2f;
       if(timerBuffMultiplicador/60 > segundosBuff){

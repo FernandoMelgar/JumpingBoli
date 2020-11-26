@@ -1,7 +1,15 @@
 package com.itesm.aboli2.jumpingboli.menu;
 
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -13,13 +21,22 @@ import com.itesm.aboli2.jumpingboli.Pantallas;
 import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
 import com.itesm.aboli2.jumpingboli.game.views.LevelSelectionView;
-import com.itesm.aboli2.jumpingboli.loading.PantallaCargando;
+import com.itesm.aboli2.jumpingboli.loading.LoadingView;
 
 
 public class MenuView extends Pantalla {
 
   //Menú-botones.
   private Stage menuStage;
+
+  //Efectos de sonido
+  private Sound efectoInicio;
+  private Sound efectoBoton;
+  private boolean playMusic;
+
+
+  //Manager para manejar los efectos de sonido.
+  private AssetManager manager;
 
   //Fondo
   private Texture texturaFondo;
@@ -35,7 +52,29 @@ public class MenuView extends Pantalla {
     menuStage = new Stage(super.viewport);
     texturaFondo = game.getManager().get("fondos/FondoPrincipal.png");
     createMenu();
+    cargarPreferencias();
+    initAudio();
     Gdx.input.setInputProcessor(menuStage);
+  }
+
+  private void cargarPreferencias() {
+    Preferences musica = Gdx.app.getPreferences("musica");
+    playMusic = musica.getBoolean("MUSICA", true);
+  }
+
+  private void initAudio() {
+    crearEfectos();
+  }
+
+  private void crearEfectos() {
+    efectoInicio = game.getManager().get("efectosSonido/efectoInicio.wav");
+    efectoBoton = game.getManager().get("efectosSonido/efectoBoton.wav");
+  }
+
+  private void reproducirEfectoBoton(){
+    if(playMusic){
+      efectoBoton.play();
+    }
   }
 
   private void createMenu() {
@@ -48,8 +87,6 @@ public class MenuView extends Pantalla {
   }
 
   private void createTitle() {
-
-
     ImageButton mainText = new GameButton((Texture) game.getManager().get("titles/title.png"),
         (Texture) game.getManager().get("titles/titleHover.png"));
 
@@ -65,7 +102,8 @@ public class MenuView extends Pantalla {
     btnAjustes.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
-        game.setScreen(new PantallaCargando(game, Pantallas.CONFIGURACION));
+        reproducirEfectoBoton();
+        game.setScreen(new LoadingView(game, Pantallas.CONFIGURACION));
       }
     });
     menuStage.addActor(btnAjustes);
@@ -81,7 +119,8 @@ public class MenuView extends Pantalla {
     btnComo.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y) {
         super.clicked(event, x, y);
-        game.setScreen(new PantallaCargando(game, Pantallas.HOWTO));
+        reproducirEfectoBoton();
+        game.setScreen(new LoadingView(game, Pantallas.HOWTO));
       }
     });
     menuStage.addActor(btnComo);
@@ -96,7 +135,8 @@ public class MenuView extends Pantalla {
     btnSkins.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y) {
         super.clicked(event, x, y);
-        game.setScreen(new PantallaCargando(game, Pantallas.SKINS));
+        reproducirEfectoBoton();
+        game.setScreen(new LoadingView(game, Pantallas.SKINS));
       }
     });
     menuStage.addActor(btnSkins);
@@ -110,14 +150,14 @@ public class MenuView extends Pantalla {
     btnAcerca.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y) {
         super.clicked(event, x, y);
-        game.setScreen(new PantallaCargando(game, Pantallas.ABOUT));
+        reproducirEfectoBoton();
+        game.setScreen(new LoadingView(game, Pantallas.ABOUT));
       }
     });
     menuStage.addActor(btnAcerca);
   }
 
   private void crearBtnJugar() {
-    //todo: Modificar la acción del botón en conjunto con el AssetManager.
     menuStage.addActor(ButtonFactory.getPlayBtn(game, new LevelSelectionView(game)));
   }
 

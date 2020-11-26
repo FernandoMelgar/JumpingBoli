@@ -10,6 +10,8 @@ import com.itesm.aboli2.jumpingboli.game.views.LevelSelectionView;
 
 public class ButtonFactory {
 
+
+
   public static ImageButton getPlayBtn(final GdXGame context, final Screen toScreen){
     ImageButton btnToPlay = new GameButton("buttons/btnPlay.png");
     btnToPlay.setPosition(1280/2f, 720/2f, Align.center);

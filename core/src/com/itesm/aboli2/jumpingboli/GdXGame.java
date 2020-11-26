@@ -2,10 +2,7 @@ package com.itesm.aboli2.jumpingboli;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.itesm.aboli2.jumpingboli.loading.PantallaCargando;
+import com.itesm.aboli2.jumpingboli.loading.LoadingView;
 
 
 public class GdXGame extends Game {
@@ -15,7 +12,7 @@ public class GdXGame extends Game {
     public void create() {
         manager = new AssetManager();
 
-        setScreen(new PantallaCargando(this, Pantallas.MENU));
+        setScreen(new LoadingView(this, Pantallas.MENU));
     }
 
     public AssetManager getManager(){

@@ -13,7 +13,7 @@ import com.itesm.aboli2.jumpingboli.Pantalla;
 import com.itesm.aboli2.jumpingboli.Pantallas;
 import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
-import com.itesm.aboli2.jumpingboli.loading.PantallaCargando;
+import com.itesm.aboli2.jumpingboli.loading.LoadingView;
 import com.itesm.aboli2.jumpingboli.menu.MenuView;
 
 public class LevelSelectionView extends Pantalla {
@@ -41,7 +41,7 @@ public class LevelSelectionView extends Pantalla {
       @Override
       public void clicked(InputEvent event, float x, float y) {
         super.clicked(event, x, y);
-        game.setScreen(new PantallaCargando(game, Pantallas.NIVELUNO));
+        game.setScreen(new LoadingView(game, Pantallas.NIVELUNO));
         nivelEscogido = 0;
         guardarPreferencias();
       }
@@ -63,7 +63,7 @@ public class LevelSelectionView extends Pantalla {
         @Override
         public void clicked(InputEvent event, float x, float y) {
           super.clicked(event, x, y);
-          game.setScreen(new PantallaCargando(game, Pantallas.NIVELUNO));
+          game.setScreen(new LoadingView(game, Pantallas.NIVELUNO));
           nivelEscogido = 1;
           guardarPreferencias();
         }

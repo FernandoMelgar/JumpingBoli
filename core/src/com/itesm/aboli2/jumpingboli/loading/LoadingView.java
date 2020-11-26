@@ -1,7 +1,9 @@
 package com.itesm.aboli2.jumpingboli.loading;
 
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -17,7 +19,7 @@ import com.itesm.aboli2.jumpingboli.howTo.howToView;
 import com.itesm.aboli2.jumpingboli.menu.MenuView;
 import com.itesm.aboli2.jumpingboli.skins.SkinsView;
 
-public class PantallaCargando extends Pantalla {
+public class LoadingView extends Pantalla {
 
     //Animación de cargando.
     // Animación cargando (espera...)
@@ -45,7 +47,7 @@ public class PantallaCargando extends Pantalla {
     private Texture texturaCargandoEngranaje;
     private Sprite spriteCargandoEngranaje;
 
-    public PantallaCargando(GdXGame game, Pantallas siguientePantalla) {
+    public LoadingView(GdXGame game, Pantallas siguientePantalla) {
         super(game);
         this.siguientePantalla = siguientePantalla;
     }
@@ -95,7 +97,7 @@ public class PantallaCargando extends Pantalla {
     }
 
     private void cargarRecursosConfiguracion() {
-
+        manager.load("efectosSonido/efectoBoton.wav", Sound.class);
     }
 
     private void cargarRecursosSkins() {
@@ -107,6 +109,7 @@ public class PantallaCargando extends Pantalla {
         manager.load("characters/boliVerde62.png", Texture.class);
         manager.load("characters/boliAzul62.png", Texture.class);
         manager.load("characters/boliRoja62.png", Texture.class);
+        manager.load("efectosSonido/efectoBoton.wav", Sound.class);
     }
 
     private void cargarRecursosAbout() {
@@ -155,6 +158,9 @@ public class PantallaCargando extends Pantalla {
         //Cargamos el título
         manager.load("titles/title.png", Texture.class);
         manager.load("titles/titleHover.png", Texture.class);
+        //Cargamos efectos de sonido
+        manager.load("efectosSonido/efectoInicio.wav", Sound.class);
+        manager.load("efectosSonido/efectoBoton.wav", Sound.class);
     }
 
     @Override
