@@ -284,7 +284,6 @@ public class GameView extends Pantalla {
     if (boli.getY() + boli.sprite.getHeight() < 0 || arrEscudos.size == 0) {
       camera.position.x = ANCHO_PANTALLA;
       musicaFondo.dispose();
-      //game.setScreen(new EscapeView(game, puntos));
       game.setScreen(new DeathView(game, puntos));
       return false;
     }
@@ -414,12 +413,18 @@ public class GameView extends Pantalla {
       levelOneCompletion.flush();
       camera.position.x = ANCHO_PANTALLA;
       musicaFondo.dispose();
-      //game.setScreen(new YouWinView(game));
-      game.setScreen(new EscapeView(game));
+
+      cargarNivel();
+
+      switch ((int) nivelEscogido) {
+        case 0:
+          game.setScreen(new YouWinView(game));
+          break;
+        case 1:
+          game.setScreen(new EscapeView(game));
+          break;
+      }
     }
-
-
-
 
 
     gameStage.draw();
@@ -433,10 +438,18 @@ public class GameView extends Pantalla {
   }
 
   private boolean alreadyWin() {
-    /* For second level
-    return boli.getX >= 39818.0f; */
+    cargarNivel();
 
-    return boli.getX() >= 49214.0f;
+    switch ((int) nivelEscogido) {
+      case 0:
+        return boli.getX() >= 49214.0f;
+
+      case 1:
+        return boli.getX() >= 39818.0f;
+
+      default:
+        return false;
+    }
   }
 
 
