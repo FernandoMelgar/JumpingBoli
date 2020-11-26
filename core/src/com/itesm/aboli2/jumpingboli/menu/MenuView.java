@@ -2,6 +2,7 @@ package com.itesm.aboli2.jumpingboli.menu;
 
 import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
@@ -31,6 +32,8 @@ public class MenuView extends Pantalla {
   //Efectos de sonido
   private Sound efectoInicio;
   private Sound efectoBoton;
+  private boolean playMusic;
+
 
   //Manager para manejar los efectos de sonido.
   private AssetManager manager;
@@ -49,8 +52,14 @@ public class MenuView extends Pantalla {
     menuStage = new Stage(super.viewport);
     texturaFondo = game.getManager().get("fondos/FondoPrincipal.png");
     createMenu();
+    cargarPreferencias();
     initAudio();
     Gdx.input.setInputProcessor(menuStage);
+  }
+
+  private void cargarPreferencias() {
+    Preferences musica = Gdx.app.getPreferences("musica");
+    playMusic = musica.getBoolean("MUSICA", true);
   }
 
   private void initAudio() {
@@ -60,6 +69,12 @@ public class MenuView extends Pantalla {
   private void crearEfectos() {
     efectoInicio = game.getManager().get("efectosSonido/efectoInicio.wav");
     efectoBoton = game.getManager().get("efectosSonido/efectoBoton.wav");
+  }
+
+  private void reproducirEfectoBoton(){
+    if(playMusic){
+      efectoBoton.play();
+    }
   }
 
   private void createMenu() {
@@ -87,7 +102,7 @@ public class MenuView extends Pantalla {
     btnAjustes.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
-        efectoBoton.play();
+        reproducirEfectoBoton();
         game.setScreen(new LoadingView(game, Pantallas.CONFIGURACION));
       }
     });
@@ -104,7 +119,7 @@ public class MenuView extends Pantalla {
     btnComo.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y) {
         super.clicked(event, x, y);
-        efectoBoton.play();
+        reproducirEfectoBoton();
         game.setScreen(new LoadingView(game, Pantallas.HOWTO));
       }
     });
@@ -120,7 +135,7 @@ public class MenuView extends Pantalla {
     btnSkins.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y) {
         super.clicked(event, x, y);
-        efectoBoton.play();
+        reproducirEfectoBoton();
         game.setScreen(new LoadingView(game, Pantallas.SKINS));
       }
     });
@@ -135,7 +150,7 @@ public class MenuView extends Pantalla {
     btnAcerca.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y) {
         super.clicked(event, x, y);
-        efectoBoton.play();
+        reproducirEfectoBoton();
         game.setScreen(new LoadingView(game, Pantallas.ABOUT));
       }
     });
