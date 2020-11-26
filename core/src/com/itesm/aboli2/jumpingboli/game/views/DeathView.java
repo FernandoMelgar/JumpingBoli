@@ -10,7 +10,6 @@ import com.itesm.aboli2.jumpingboli.Pantalla;
 import com.itesm.aboli2.jumpingboli.Pantallas;
 import com.itesm.aboli2.jumpingboli.button.ButtonFactory;
 import com.itesm.aboli2.jumpingboli.loading.LoadingView;
-import com.itesm.aboli2.jumpingboli.menu.MenuView;
 
 public class DeathView extends Pantalla {
 
@@ -35,6 +34,7 @@ public class DeathView extends Pantalla {
     texturaFondoMuerte = new Texture("fondos/fondoMuerte.png");
     gameText = new GameText("fuentes/exoFont.fnt");
     ImageButton backBtn = game.buttonFactory.returnToMenuBtn();
+    deathStage.addActor(ButtonFactory.getPlayBtn(game, new LoadingView(game, Pantallas.GAME)));
     deathStage.addActor(backBtn);
     Gdx.input.setInputProcessor(deathStage);
 
