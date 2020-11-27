@@ -46,7 +46,7 @@ public class GameView extends Pantalla {
   private float monedas = 0;
 
   //Score
-  private int score; //Score que se asignará según el nivel para poder manejar porcentaje.
+  private int totalNivel; //Score que se asignará según el nivel para poder manejar porcentaje.
 
   //Mapa
   private TiledMap mapa;
@@ -140,10 +140,10 @@ public class GameView extends Pantalla {
     cargarNivel();
     switch ((int)nivelEscogido){
       case 0:
-        score = 1209;
+        totalNivel = 49214;
         break;
       case 1:
-        score = 1000; //todo cambiarlo cuando sepamos cual es el 100% del nivel dos.
+        totalNivel = 39818;
         break;
     }
   }
@@ -437,7 +437,7 @@ public class GameView extends Pantalla {
       batch.begin();
       texturaIconoBuff = new Texture("characters/x2Logo.png");
       //batch.draw(texturaIconoBuff, camera.position.x - 450 , camera.position.y + 270);
-      gameTextBuff.mostrarMensaje(batch, "x2", camera.position.x - 430, camera.position.y + 300);
+      gameTextBuff.mostrarMensaje(batch, "x2", camera.position.x - 380, camera.position.y + 300);
       batch.end();
     }
 
@@ -455,9 +455,6 @@ public class GameView extends Pantalla {
 
     //Gdx.app.log("Boli X", String.valueOf(boli.getX()));
     if (alreadyWin()) {
-      Preferences levelOneCompletion = Gdx.app.getPreferences("isLevelOneCompleted");
-      levelOneCompletion.putBoolean("isLevelOneCompleted", true);
-      levelOneCompletion.flush();
       camera.position.x = ANCHO_PANTALLA;
       musicaFondo.dispose();
 
@@ -516,8 +513,9 @@ public class GameView extends Pantalla {
   }
 
   private void dibujarPuntaje() {
-    int intPuntos = ((int)puntos*100)/score;
-    gameTextScore.mostrarMensaje(batch,  intPuntos + "%", ANCHO_PANTALLA * 0.12f, ALTO_PANTALLA * 0.915f);
+    int intPorcentaje = ((int)boli.getX()*100)/ totalNivel;
+    gameTextScore.mostrarMensaje(batch,  (int)puntos + "pts", ANCHO_PANTALLA * 0.15f, ALTO_PANTALLA * 0.915f);
+    gameTextScore.mostrarMensaje(batch,  intPorcentaje + "%", ANCHO_PANTALLA /2, ALTO_PANTALLA * 0.915f);
   }
 
   // LOS PUNTOS SE DETIENEN SI BOLI ESTÁ MUERTO
