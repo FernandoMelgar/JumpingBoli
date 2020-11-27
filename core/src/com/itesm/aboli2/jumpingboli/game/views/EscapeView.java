@@ -93,8 +93,8 @@ public class EscapeView extends Pantalla {
         batch.begin();
         for (int i = 0; i < 20; i++) {
             batch.draw(texturaFondo,ANCHO_PANTALLA * i,0);
-
         }
+
         //batch.draw(texturaFondoCarga,0,0);
         //batch.draw(texturaFondoCarga, ANCHO,0);
         spritePlaneta.draw(batch);
