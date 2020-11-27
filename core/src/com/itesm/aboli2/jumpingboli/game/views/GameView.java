@@ -68,7 +68,9 @@ public class GameView extends Pantalla {
   private int quitarEscudo = 0;
 
   //Texto
-  private GameText gameText;
+  private GameText gameText; //Texto para los conteos iniciales
+  private GameText gameTextScore; //Texto para el marcador.
+  private GameText gameTextBuff; //Texto para buffs.
   private float puntos;
 
   //Inicia el juego
@@ -116,7 +118,9 @@ public class GameView extends Pantalla {
           break;
       }
       gameStage = new Stage(super.viewport);
-      gameText = new GameText("fuentes/exoFont.fnt");
+      gameTextScore = new GameText("fuentes/exoFont.fnt");
+      gameTextBuff = new GameText("fuentes/orbitronFontYellow.fnt");
+      gameText = new GameText("fuentes/orbitronFont.fnt");
       texturaFondo = game.getManager().get("mapas/NivelUno.png");
 
       initAudio();
@@ -382,7 +386,7 @@ public class GameView extends Pantalla {
       //boli.setEstadoBoli(EstadoBoli.QUIETO);
       batch.begin();
       gameText.mostrarMensaje(batch, "" + (int) (3 - timerPausa),
-          ANCHO_PANTALLA / 2, ALTO_PANTALLA / 2,100);
+          ANCHO_PANTALLA / 2, ALTO_PANTALLA *0.47f,100);
       batch.end();
     }
 
@@ -418,7 +422,7 @@ public class GameView extends Pantalla {
       batch.begin();
       texturaIconoBuff = new Texture("characters/x2Logo.png");
       //batch.draw(texturaIconoBuff, camera.position.x - 450 , camera.position.y + 270);
-      gameText.mostrarMensaje(batch, "x2", camera.position.x - 430, camera.position.y + 300);
+      gameTextBuff.mostrarMensaje(batch, "x2", camera.position.x - 430, camera.position.y + 300);
       batch.end();
     }
 
@@ -498,7 +502,7 @@ public class GameView extends Pantalla {
 
   private void dibujarPuntaje() {
     int intPuntos = (int)puntos;
-    gameText.mostrarMensaje(batch, "" + intPuntos, ANCHO_PANTALLA * 0.12f, ALTO_PANTALLA * 0.915f);
+    gameTextScore.mostrarMensaje(batch, "" + intPuntos, ANCHO_PANTALLA * 0.12f, ALTO_PANTALLA * 0.915f);
   }
 
   // LOS PUNTOS SE DETIENEN SI BOLI ESTÁ MUERTO

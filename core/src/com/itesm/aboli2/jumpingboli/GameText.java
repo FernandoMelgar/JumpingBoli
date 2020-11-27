@@ -11,9 +11,7 @@ import com.badlogic.gdx.utils.Align;
 public class GameText {
   private BitmapFont font;
 
-  public GameText(String archivo) {
-    font = new BitmapFont(Gdx.files.internal(archivo));
-  }
+  public GameText(String archivo) {font = new BitmapFont(Gdx.files.internal(archivo));}
 
   public void mostrarMensaje(SpriteBatch batch, String mensaje, float x, float y) {
     GlyphLayout glyp = new GlyphLayout();
