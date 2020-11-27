@@ -101,6 +101,7 @@ public class GameView extends Pantalla {
     manager = new AssetManager();
     cargarMonedas();
 
+
     if (estado == EstadoJuego.INICIANDO) {
       cargarSkin();
       switch ((int)colorBoli){
@@ -520,12 +521,14 @@ public class GameView extends Pantalla {
       //gameText.mostrarMensaje(batch, "x2", ALTO_PANTALLA/2, ANCHO_PANTALLA/2);
       timerBuffMultiplicador++;
       puntos+= 0.2f;
+      guardarPreferencias();
       if(timerBuffMultiplicador/60 > segundosBuff){
         timerBuffMultiplicador = 0;
         boli.setEstadoBuff(EstadoBuff.NORMAL);
       }
     }else{
       puntos+= 0.1f;
+      guardarPreferencias();
     }
 
   }
@@ -568,9 +571,21 @@ public class GameView extends Pantalla {
     Preferences musica = Gdx.app.getPreferences("musica");
     musica.putBoolean("MUSICA", playMusic);
 
+    Preferences puntosPre = Gdx.app.getPreferences("puntos");
+    puntosPre.putFloat("PUNTOS", puntos);
+
     monedaPre.flush();  // OBLIGATORIO
     musica.flush();
+    puntosPre.flush();
   }
+
+
+  private void cargarPuntos() {
+    Preferences puntosPre = Gdx.app.getPreferences("puntos");
+    puntos = puntosPre.getFloat("PUNTOS", 0);
+  }
+
+
 
   private void cargarMonedas() {
     Preferences monedaPre = Gdx.app.getPreferences("monedas");

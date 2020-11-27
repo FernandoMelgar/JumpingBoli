@@ -1,6 +1,7 @@
 package com.itesm.aboli2.jumpingboli.game.views;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -37,7 +38,7 @@ public class EscapeView extends Pantalla {
     private Sprite spriteBoli;
     private Sprite spriteVictoria;
     private Texture texturaVictoria;
-    private float puntos;
+    private float puntos = 0;
     private Texture texturaBtnBack;
 
     ImageButton btnReturn = new GameButton("buttons/btnBack.png", "buttons/btnBackPicado.png");
@@ -65,6 +66,7 @@ public class EscapeView extends Pantalla {
 
     @Override
     public void show() {
+        cargarPuntos();
         escapeStage = new Stage(super.viewport);
         texturaPlaneta = new Texture("iconosFondoEscape/FE_planeta.png");
         spritePlaneta = new Sprite(texturaPlaneta);
@@ -148,6 +150,11 @@ public class EscapeView extends Pantalla {
     private void actualizarCamara() {
         camera.position.x = camera.position.x + 1.5f;
         camera.update();
+    }
+
+    private void cargarPuntos() {
+        Preferences puntosPre = Gdx.app.getPreferences("puntos");
+        puntos = puntosPre.getFloat("PUNTOS", 0);
     }
 
 

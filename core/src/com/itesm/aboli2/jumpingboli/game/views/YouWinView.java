@@ -28,6 +28,7 @@ public class YouWinView extends Pantalla {
 
   @Override
   public void show() {
+    cargarPuntos();
     youWinStage = new Stage(super.viewport);
     texturaFondoYouWin = new Texture("fondos/fondoYouWin.png");
     gameText = new GameText("fuentes/exoFont.fnt");
@@ -54,6 +55,12 @@ public class YouWinView extends Pantalla {
 
     prefs.flush();  // OBLIGATORIO
   }
+
+  private void cargarPuntos() {
+    Preferences puntosPre = Gdx.app.getPreferences("puntos");
+    puntos = puntosPre.getFloat("PUNTOS", 0);
+  }
+
   @Override
   public void dispose() {
     batch.dispose();
