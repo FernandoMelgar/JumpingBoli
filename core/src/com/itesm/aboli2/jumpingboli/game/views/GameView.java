@@ -45,13 +45,15 @@ public class GameView extends Pantalla {
   private float colorBoli;
   private float monedas = 0;
 
+  //Score
+  private int score; //Score que se asignará según el nivel para poder manejar porcentaje.
+
   //Mapa
   private TiledMap mapa;
   private OrthogonalTiledMapRenderer rendererMapa;
 
   //fondo
   private Texture texturaFondo;
-
 
   //Cámara/vista HUD.
   private Stage escenaHUD;
@@ -75,7 +77,6 @@ public class GameView extends Pantalla {
 
   //Inicia el juego
    public EstadoJuego estado = EstadoJuego.INICIANDO;
-
 
   //TIMER
   float timerPausa;
@@ -128,10 +129,23 @@ public class GameView extends Pantalla {
       initMaps();
       initHUD();
       initShields();
+      initScore();
     }
 
     Gdx.input.setInputProcessor(escenaHUD);
 
+  }
+
+  private void initScore() {
+    cargarNivel();
+    switch ((int)nivelEscogido){
+      case 0:
+        score = 1209;
+        break;
+      case 1:
+        score = 1000; //todo cambiarlo cuando sepamos cual es el 100% del nivel dos.
+        break;
+    }
   }
 
   private void cargarSkin() {
@@ -502,8 +516,8 @@ public class GameView extends Pantalla {
   }
 
   private void dibujarPuntaje() {
-    int intPuntos = (int)puntos;
-    gameTextScore.mostrarMensaje(batch, "" + intPuntos, ANCHO_PANTALLA * 0.12f, ALTO_PANTALLA * 0.915f);
+    int intPuntos = ((int)puntos*100)/score;
+    gameTextScore.mostrarMensaje(batch,  intPuntos + "%", ANCHO_PANTALLA * 0.12f, ALTO_PANTALLA * 0.915f);
   }
 
   // LOS PUNTOS SE DETIENEN SI BOLI ESTÁ MUERTO
