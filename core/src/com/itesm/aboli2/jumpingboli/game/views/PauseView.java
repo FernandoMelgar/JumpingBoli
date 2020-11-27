@@ -97,9 +97,17 @@ public class PauseView extends Pantalla {
 
 
     private void crearBtnPauMenu() {
-        ImageButton toMenu = game.buttonFactory.returnToMenuBtn();
-        toMenu.setPosition(ANCHO_PANTALLA * 0.20f, ALTO_PANTALLA * 0.20f, Align.center);
-        pauseStage.addActor(toMenu);
+        ImageButton btnMenu = new GameButton("buttons/btn_Pausa_Menu.png", "buttons/btn_Pausa_MenuPicado.png");
+        btnMenu.setPosition(ANCHO_PANTALLA * 0.20f, ALTO_PANTALLA * 0.20f, Align.center);
+        //Acción botón
+        btnMenu.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                game.setScreen(new LoadingView(game, Pantallas.MENU));
+
+            }
+        });
+        pauseStage.addActor(btnMenu);
     }
 
 
@@ -132,9 +140,6 @@ public class PauseView extends Pantalla {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(texturaFondoPausa, 0, 0);
-        //movBtnConfig.draw();
-        //movBtnConfig.sprite.draw(batch);
-        //movBtnConfig.sprite.rotate(-10);
         batch.end();
         pauseStage.draw();
 

@@ -8,12 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import com.itesm.aboli2.jumpingboli.GameText;
 import com.itesm.aboli2.jumpingboli.GdXGame;
 import com.itesm.aboli2.jumpingboli.Pantalla;
+import com.itesm.aboli2.jumpingboli.Pantallas;
 import com.itesm.aboli2.jumpingboli.button.GameButton;
-import com.itesm.aboli2.jumpingboli.menu.MenuView;
+import com.itesm.aboli2.jumpingboli.loading.LoadingView;
 
 public class EscapeView extends Pantalla {
 
@@ -57,7 +57,7 @@ public class EscapeView extends Pantalla {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                game.setScreen(new MenuView(game));
+                game.setScreen(new LoadingView(game, Pantallas.MENU));
             }
         });
         escapeStage.addActor(btn);
@@ -105,15 +105,6 @@ public class EscapeView extends Pantalla {
         gameText.mostrarMensaje(batch, "Score:" + " " + (int)puntos + " pts",
                 camera.position.x + ANCHO_PANTALLA/4, camera.position.y + ALTO_PANTALLA/3, 800f);
         escapeStage.draw();
-        //texto.mostrarMensaje(batch, avance + "%", ANCHO/2, ALTO/1.9f);
-        //texto.mostrarMensaje(batch, avance + "%", camara.position.x, camara.position.y + ALTO/2-80);
-
-        /*if (camara.position.x - ANCHO/2 > 0){
-            batch.draw(texturaFondoCarga,camara.position.x - ANCHO/2,
-                    camara.position.y - ALTO/2);
-        }
-
-         */
         batch.end();
 
         // Actualizar
@@ -127,8 +118,6 @@ public class EscapeView extends Pantalla {
         // Actualizar carga
         //actualizarCarga();
         actualizarCamara();
-        //spritePlaneta.setPosition(camera.position.x + spritePlaneta.getWidth()/4,
-                //camera.position.y - ALTO_PANTALLA/2);
         spritePlaneta.setPosition(camera.position.x + spritePlaneta.getWidth()/6,
                 camera.position.y - ALTO_PANTALLA*1.3f);
         spritePlaneta.rotate(2/60f);
@@ -140,8 +129,6 @@ public class EscapeView extends Pantalla {
                 camera.position.y - ALTO_PANTALLA/6 + 10);
         spriteVictoria.setPosition(camera.position.x - ANCHO_PANTALLA/2, camera.position.y - ALTO_PANTALLA/2);
         btnReturn.setPosition(camera.position.x + 400, camera.position.y - ANCHO_PANTALLA/4);
-
-
     }
 
 
