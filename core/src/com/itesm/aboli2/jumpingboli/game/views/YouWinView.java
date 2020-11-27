@@ -1,6 +1,7 @@
 package com.itesm.aboli2.jumpingboli.game.views;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.itesm.aboli2.jumpingboli.GameText;
@@ -32,6 +33,7 @@ public class YouWinView extends Pantalla {
     gameText = new GameText("fuentes/exoFont.fnt");
     youWinStage.addActor(ButtonFactory.toLevelSelectView(game));
     Gdx.input.setInputProcessor(youWinStage);
+    guardarPreferencias();
 
   }
 
@@ -46,7 +48,12 @@ public class YouWinView extends Pantalla {
     youWinStage.draw();
   }
 
+  private void guardarPreferencias() {
+    Preferences prefs = Gdx.app.getPreferences("isLevelOneCompleted");
+    prefs.putBoolean("ISLevelOneCompleted", true);
 
+    prefs.flush();  // OBLIGATORIO
+  }
   @Override
   public void dispose() {
     batch.dispose();

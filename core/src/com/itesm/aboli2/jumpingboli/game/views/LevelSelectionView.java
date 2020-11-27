@@ -96,8 +96,12 @@ public class LevelSelectionView extends Pantalla {
                         super.clicked(event, x, y);
                         nivelEscogido = 1;
                         guardarPreferencias();
-                        if (isLevelOneCompleted())
+                        if (isLevelOneCompleted()){
+                            if (playMusic)
+                                clickedSound.play();
                             game.setScreen(new LoadingView(game, Pantallas.GAME));
+                        }
+
                     }
                 })
                 .build();
@@ -107,7 +111,7 @@ public class LevelSelectionView extends Pantalla {
 
     public boolean isLevelOneCompleted() {
         Preferences pref = Gdx.app.getPreferences("isLevelOneCompleted");
-        return pref.getBoolean("isLevelOneCompleted", false);
+        return pref.getBoolean("ISLevelOneCompleted", false);
     }
 
     @Override
