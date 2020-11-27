@@ -119,6 +119,7 @@ public class Boli extends GameObject {
     if(estado == EstadoBoli.QUIETO){
       DX = 0;
       sprite.rotate(-10);
+      sprite.setV(0);
     }
 
     super.render(batch);

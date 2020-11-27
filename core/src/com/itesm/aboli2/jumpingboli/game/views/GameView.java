@@ -299,7 +299,7 @@ public class GameView extends Pantalla {
               || (esMoneda(celdaDerecha) && boli.getEstado() != EstadoBoli.SALTANDO)
               || (esBuffEscudos(celdaAbajo) && boli.getEstado() != EstadoBoli.SALTANDO)
               || (esBuffEscudos(celdaDerecha) && boli.getEstado() != EstadoBoli.SALTANDO)){
-        if(boli.getEstado() != EstadoBoli.CAYENDO){
+        if(boli.getEstado() != EstadoBoli.CAYENDO && estado != EstadoJuego.REANUDANDO){
           boli.setyBase(boli.getY());
           boli.cayendo();
         }
@@ -410,6 +410,7 @@ public class GameView extends Pantalla {
       boli.sprite.setX(boli.getX());
       boli.sprite.setY(boli.getY());
       boli.setDX(0);
+      boli.setEstadoBoli(EstadoBoli.QUIETO);
       boli.sprite.rotate(30);
       batch.begin();
       //Gdx.app.log("TIEMPO", "Tiempo: " + (int)(timerReanudacion/60));
