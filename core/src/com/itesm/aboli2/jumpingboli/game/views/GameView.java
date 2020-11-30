@@ -514,9 +514,9 @@ public class GameView extends Pantalla {
   }
 
   private void dibujarPuntaje() {
-    int intPorcentaje = ((int)boli.getX()*100)/ totalNivel;
-    gameTextScore.mostrarMensaje(batch,  (int)puntos + "pts", ANCHO_PANTALLA * 0.15f, ALTO_PANTALLA * 0.915f);
-    gameTextScore.mostrarMensaje(batch,  intPorcentaje + "%", ANCHO_PANTALLA /2, ALTO_PANTALLA * 0.915f);
+    int intPorcentaje = ((int) boli.getX() * 100) / totalNivel;
+    gameTextScore.mostrarMensaje(batch, (int) puntos + "pts", ANCHO_PANTALLA * 0.14f, ALTO_PANTALLA * 0.915f);
+    gameTextScore.mostrarMensaje(batch, intPorcentaje + "%", ANCHO_PANTALLA / 2, ALTO_PANTALLA * 0.915f);
   }
 
   // LOS PUNTOS SE DETIENEN SI BOLI ESTÁ MUERTO
