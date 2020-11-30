@@ -23,25 +23,25 @@ public class MenuView extends Pantalla {
   private Stage menuStage;
 
   //Efectos de sonido
-  private Sound efectoInicio;
   private Sound efectoBoton;
   private Sound efectoPlay;
   private boolean playMusic;
 
-
   //Fondo
   private Texture texturaFondo;
+  private Texture texturaFondoMovible;
+  private float xFondo;
 
   public MenuView(GdXGame mainGame) {
     super(mainGame);
-
-//    game = mainGame;
   }
 
   @Override
   public void show() {
     menuStage = new Stage(super.viewport);
     texturaFondo = game.getManager().get("fondos/FondoPrincipal.png");
+    texturaFondoMovible = game.getManager().get("fondos/fondoEstrellasMovibles.png");
+    xFondo = 0;
     createMenu();
     cargarPreferencias();
     initAudio();
@@ -58,7 +58,6 @@ public class MenuView extends Pantalla {
   }
 
   private void crearEfectos() {
-    efectoInicio = game.getManager().get("efectosSonido/efectoInicio.wav");
     efectoBoton = game.getManager().get("efectosSonido/efectoBoton.wav");
     efectoPlay = game.getManager().get("efectosSonido/play.ogg");
   }
@@ -172,11 +171,22 @@ public class MenuView extends Pantalla {
   @Override
   public void render(float delta) {
     cleanScreen();
+    actualizarFondo();
+
     batch.setProjectionMatrix(camera.combined);
     batch.begin();
     batch.draw(texturaFondo, 0, 0);
+    batch.draw(texturaFondoMovible, xFondo, 0);
+    batch.draw(texturaFondoMovible, xFondo+texturaFondoMovible.getWidth(), 0);
     batch.end();
     menuStage.draw();
+  }
+
+  private void actualizarFondo() {
+    xFondo-=0.5f;
+    if(xFondo == -texturaFondoMovible.getWidth()){
+      xFondo=0;
+    }
   }
 
   @Override
@@ -193,6 +203,7 @@ public class MenuView extends Pantalla {
   public void dispose() {
     texturaFondo.dispose();
     game.getManager().unload("fondos/FondoPrincipal.png");
+    game.getManager().unload("fondos/fondoEstrellasMovibles.png");
     game.getManager().unload("buttons/btnAjustes.png");
     game.getManager().unload("buttons/btnComo.png");
     game.getManager().unload("buttons/btnComoPicado.png");

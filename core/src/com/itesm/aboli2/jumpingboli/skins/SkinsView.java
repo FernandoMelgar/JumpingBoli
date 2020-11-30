@@ -143,8 +143,8 @@ public class SkinsView extends Pantalla {
   }
 
   private void crearTexturas() {
-    texturaFondo = new Texture("fondos/fondoSkins.png");
-    texturaFondoMovible = new Texture("fondos/fondoEstrellasMovibles.png");
+    texturaFondo = game.getManager().get("fondos/fondoSkins.png");
+    texturaFondoMovible = game.getManager().get("fondos/fondoEstrellasMovibles.png");
   }
 
   private void createText() {
@@ -356,8 +356,8 @@ public class SkinsView extends Pantalla {
 
   @Override
   public void dispose() {
-    texturaFondo.dispose();
-    texturaFondoMovible.dispose();
+    game.getManager().unload("fondos/fondoSkins.png");
+    game.getManager().unload("fondos/fondoEstrellasMovibles.png");
     batch.dispose();
   }
 

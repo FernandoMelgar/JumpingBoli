@@ -374,8 +374,6 @@ public class GameView extends Pantalla {
     batch.begin();
     boliVivo();
 
-    //batch.draw(texturaIconoBuff,ANCHO_PANTALLA/6, ALTO_PANTALLA - 50);
-
     if(estado == EstadoJuego.JUGANDO){
       contadorFondo = contadorFondo - velocidadCamara;
       if(contadorFondo <= -texturaFondo.getWidth()){
@@ -452,8 +450,6 @@ public class GameView extends Pantalla {
       batch.end();
     }
 
-
-
     //Gdx.app.log("Boli X", String.valueOf(boli.getX()));
     if (alreadyWin()) {
       camera.position.x = ANCHO_PANTALLA;
@@ -470,7 +466,6 @@ public class GameView extends Pantalla {
           break;
       }
     }
-
 
     gameStage.draw();
     //HUD
@@ -561,10 +556,7 @@ public class GameView extends Pantalla {
           quitarEscudo--;
           boli.setEstadoBuff(EstadoBuff.BUFFINMORTAL);
         }
-
     }
-
-
   }
 
   private void dibujarEscudos() {

@@ -26,7 +26,6 @@ public class LoadingView extends Pantalla {
     private Sprite spriteCargando;
     public static final float TIEMPO_ENTRE_FRAMES = 0.05f;
     private float timerAnimacion = TIEMPO_ENTRE_FRAMES;
-    private Texture texturaCargando;
 
     //Asset Manager
     private AssetManager manager;
@@ -109,7 +108,6 @@ public class LoadingView extends Pantalla {
         manager.load("buttons/levelselection/btnLevel2_blocked_clicked.png", Texture.class);
         manager.load("efectosSonido/playLevel.ogg", Sound.class);
 
-
     }
 
     private void cargarRecursosHowTo() {
@@ -122,6 +120,8 @@ public class LoadingView extends Pantalla {
     }
 
     private void cargarRecursosSkins() {
+        manager.load("fondos/fondoSkins.png", Texture.class);
+        manager.load("fondos/fondoEstrellasMovibles.png", Texture.class);
         manager.load("characters/boli_morado.png", Texture.class);
         manager.load("characters/boliVerde.png", Texture.class);
         manager.load("characters/boliAzul.png", Texture.class);
@@ -170,6 +170,7 @@ public class LoadingView extends Pantalla {
     private void cargarRecursosMenu() {
         //Cargamos el fondo
         manager.load("fondos/FondoPrincipal.png", Texture.class);
+        manager.load("fondos/fondoEstrellasMovibles.png", Texture.class);
         //Cargamos los botones y escena.
         manager.load("buttons/btnAjustes.png", Texture.class);
         manager.load("buttons/btnComo.png", Texture.class);
@@ -231,7 +232,6 @@ public class LoadingView extends Pantalla {
                     game.setScreen(new MenuView(game));
                     break;
                 case GAME:
-                    //todo: Modificar al nuevo tipo de juego.
                     game.setScreen(new GameView(game));
                     break;
                 case ABOUT:
