@@ -1,6 +1,7 @@
 package com.itesm.aboli2.jumpingboli.game.views;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -89,7 +90,7 @@ public class GameView extends Pantalla {
   //manager
   private AssetManager manager;
   private Texture texturaIconoBuff;
-  private Texture texturaEscudoBoli = new Texture("characters/skinRec2.png");
+  private Texture texturaEscudoBoli = new Texture("characters/skinRecuperando.png");
   private Sprite spriteEscudoBoli = new Sprite(texturaEscudoBoli);
 
 
@@ -102,10 +103,12 @@ public class GameView extends Pantalla {
     manager = new AssetManager();
     cargarMonedas();
 
+    // Bloquea la tecla back en el celular
+    Gdx.input.setCatchKey(Input.Keys.BACK, true);
 
     if (estado == EstadoJuego.INICIANDO) {
       cargarSkin();
-      switch ((int)colorBoli){
+      switch ((int) colorBoli) {
         case 0:
           boli = new Boli((Texture) game.getManager().get("characters/boli_morado.png"), 200, 600);
           break;
