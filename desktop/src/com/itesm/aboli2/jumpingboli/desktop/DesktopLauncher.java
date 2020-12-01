@@ -2,7 +2,7 @@ package com.itesm.aboli2.jumpingboli.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.itesm.aboli2.jumpingboli.GdXGame;
+import mx.itesm.aboli2.jumpingboli.jumpingboli.GdXGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
