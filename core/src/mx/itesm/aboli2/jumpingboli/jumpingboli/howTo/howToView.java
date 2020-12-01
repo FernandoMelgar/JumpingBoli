@@ -1,6 +1,7 @@
 package mx.itesm.aboli2.jumpingboli.jumpingboli.howTo;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -22,6 +23,10 @@ public class howToView extends Pantalla {
 
     @Override
     public void show() {
+
+        // Bloquea la tecla back en el celular
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
+
         howToStage = new Stage(super.viewport);
         texturaFondo = new Texture("fondos/fondoHow.png");
         alturaFondo = -ALTO_PANTALLA;

@@ -1,6 +1,7 @@
 package mx.itesm.aboli2.jumpingboli.jumpingboli.game.views;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -31,6 +32,10 @@ public class DeathView extends Pantalla {
 
   @Override
   public void show() {
+
+    // Bloquea la tecla back en el celular
+    Gdx.input.setCatchKey(Input.Keys.BACK, true);
+
     deathStage = new Stage(super.viewport);
     texturaFondoMuerte = new Texture("fondos/fondoMuerte.png");
     gameText = new GameText("fuentes/exoFont.fnt");

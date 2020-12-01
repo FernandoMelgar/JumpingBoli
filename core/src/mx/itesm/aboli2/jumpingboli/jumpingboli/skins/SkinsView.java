@@ -1,6 +1,7 @@
 package mx.itesm.aboli2.jumpingboli.jumpingboli.skins;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,12 +12,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 
-import mx.itesm.aboli2.jumpingboli.jumpingboli.game.Boli;
-import mx.itesm.aboli2.jumpingboli.jumpingboli.game.EstadoBoli;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.GameText;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.GdXGame;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.Pantalla;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.button.GameButton;
+import mx.itesm.aboli2.jumpingboli.jumpingboli.game.Boli;
+import mx.itesm.aboli2.jumpingboli.jumpingboli.game.EstadoBoli;
 
 public class SkinsView extends Pantalla {
 
@@ -62,15 +63,19 @@ public class SkinsView extends Pantalla {
 
   @Override
   public void show() {
-   skinsStage = new Stage(super.viewport);
-   boliDesbloqueada = new Array<>(4);
-   xFondo=0;
-   efectoBoton = game.getManager().get("efectosSonido/efectoBoton.wav");
-   cargarPreferenciasMusica(); //Se cargan para poder ver si se reproducirán efectos de sonido o no.
-   cargarDesbloqueos();
-   revisarDesbloqueos();
-   cargarMonedas();
-   crearTexturas();
+
+    // Bloquea la tecla back en el celular
+    Gdx.input.setCatchKey(Input.Keys.BACK, true);
+
+    skinsStage = new Stage(super.viewport);
+    boliDesbloqueada = new Array<>(4);
+    xFondo = 0;
+    efectoBoton = game.getManager().get("efectosSonido/efectoBoton.wav");
+    cargarPreferenciasMusica(); //Se cargan para poder ver si se reproducirán efectos de sonido o no.
+    cargarDesbloqueos();
+    revisarDesbloqueos();
+    cargarMonedas();
+    crearTexturas();
    cargarSkin();
    crearBolis();
    cambiarEstadosBolis();

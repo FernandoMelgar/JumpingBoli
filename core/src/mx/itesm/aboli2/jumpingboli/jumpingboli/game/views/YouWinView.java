@@ -1,6 +1,7 @@
 package mx.itesm.aboli2.jumpingboli.jumpingboli.game.views;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -50,6 +51,10 @@ public class YouWinView extends Pantalla {
 
   @Override
   public void show() {
+
+    // Bloquea la tecla back en el celular
+    Gdx.input.setCatchKey(Input.Keys.BACK, true);
+
     cargarPuntos();
     youWinStage = new Stage(super.viewport);
     texturaFondoYouWin = new Texture("fondos/fondoYouWin.png");
