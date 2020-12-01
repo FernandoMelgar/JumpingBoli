@@ -89,7 +89,7 @@ public class GameView extends Pantalla {
   //manager
   private AssetManager manager;
   private Texture texturaIconoBuff;
-  private Texture texturaEscudoBoli = new Texture("characters/skinEscudo2.png");
+  private Texture texturaEscudoBoli = new Texture("characters/skinRec2.png");
   private Sprite spriteEscudoBoli = new Sprite(texturaEscudoBoli);
 
 
@@ -444,7 +444,7 @@ public class GameView extends Pantalla {
       batch.begin();
       //texturaEscudoBoli = new Texture("characters/skinEscudo2.png");
       //spriteEscudoBoli = new Sprite(texturaEscudoBoli);
-      spriteEscudoBoli.setPosition(boli.getX() - 10, boli.getY()-10);
+      spriteEscudoBoli.setPosition(boli.getX() - 15, boli.getY() - 10);
       spriteEscudoBoli.draw(batch);
       spriteEscudoBoli.rotate(-60); //NO ROTA
       batch.end();
