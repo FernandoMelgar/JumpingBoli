@@ -1,6 +1,7 @@
 package mx.itesm.aboli2.jumpingboli.jumpingboli.game.views;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+
 import mx.itesm.aboli2.jumpingboli.jumpingboli.GdXGame;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.Pantalla;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.Pantallas;
@@ -30,6 +32,10 @@ public class LevelSelectionView extends Pantalla {
 
     @Override
     public void show() {
+
+        // Bloquea la tecla back en el celular
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
+
         cargarNivel();
         loadAudioEfects();
 

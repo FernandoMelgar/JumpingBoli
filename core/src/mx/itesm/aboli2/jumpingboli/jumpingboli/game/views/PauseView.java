@@ -1,6 +1,7 @@
 package mx.itesm.aboli2.jumpingboli.jumpingboli.game.views;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -49,6 +50,10 @@ public class PauseView extends mx.itesm.aboli2.jumpingboli.jumpingboli.Pantalla 
 
     @Override
     public void show() {
+
+        // Bloquea la tecla back en el celular
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
+
         pauseStage = new Stage(super.viewport);
         texturaFondoPausa = new Texture("fondos/fondoPausa.png");
         createPause();

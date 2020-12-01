@@ -1,6 +1,7 @@
 package mx.itesm.aboli2.jumpingboli.jumpingboli.game.views;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,12 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import mx.itesm.aboli2.jumpingboli.jumpingboli.GameText;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.GdXGame;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.Pantalla;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.Pantallas;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.button.GameButton;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.loading.LoadingView;
-import mx.itesm.aboli2.jumpingboli.jumpingboli.GameText;
 
 public class EscapeView extends Pantalla {
 
@@ -67,6 +68,10 @@ public class EscapeView extends Pantalla {
 
     @Override
     public void show() {
+
+        // Bloquea la tecla back en el celular
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
+
         cargarPuntos();
         escapeStage = new Stage(super.viewport);
         texturaPlaneta = new Texture("iconosFondoEscape/FE_planeta.png");

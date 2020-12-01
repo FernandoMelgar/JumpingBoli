@@ -23,14 +23,14 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import mx.itesm.aboli2.jumpingboli.jumpingboli.game.Boli;
-import mx.itesm.aboli2.jumpingboli.jumpingboli.game.Escudo;
-import mx.itesm.aboli2.jumpingboli.jumpingboli.game.EstadoBoli;
-import mx.itesm.aboli2.jumpingboli.jumpingboli.game.EstadoBuff;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.GameText;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.GdXGame;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.Pantalla;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.button.GameButton;
+import mx.itesm.aboli2.jumpingboli.jumpingboli.game.Boli;
+import mx.itesm.aboli2.jumpingboli.jumpingboli.game.Escudo;
+import mx.itesm.aboli2.jumpingboli.jumpingboli.game.EstadoBoli;
+import mx.itesm.aboli2.jumpingboli.jumpingboli.game.EstadoBuff;
 
 public class GameView extends Pantalla {
 
@@ -139,6 +139,7 @@ public class GameView extends Pantalla {
     Gdx.input.setInputProcessor(escenaHUD);
 
   }
+
 
   private void initScore() {
     cargarNivel();

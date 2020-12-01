@@ -1,5 +1,7 @@
 package mx.itesm.aboli2.jumpingboli.jumpingboli.loading;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -8,17 +10,17 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
+import mx.itesm.aboli2.jumpingboli.jumpingboli.GameText;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.GdXGame;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.Pantalla;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.Pantallas;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.about.AboutView;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.configuration.ConfigurationView;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.game.views.GameView;
+import mx.itesm.aboli2.jumpingboli.jumpingboli.game.views.LevelSelectionView;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.howTo.howToView;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.menu.MenuView;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.skins.SkinsView;
-import mx.itesm.aboli2.jumpingboli.jumpingboli.GameText;
-import mx.itesm.aboli2.jumpingboli.jumpingboli.game.views.LevelSelectionView;
 
 public class LoadingView extends Pantalla {
 
@@ -54,14 +56,18 @@ public class LoadingView extends Pantalla {
 
     @Override
     public void show() {
+
+        // Bloquea la tecla back en el celular
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
+
         texturaCargandoEngranaje = new Texture("iconosCargando/engranaje.png");
         spriteCargandoEngranaje = new Sprite(texturaCargandoEngranaje);
-        spriteCargandoEngranaje.setPosition(ANCHO_PANTALLA/2 - spriteCargandoEngranaje.getWidth()/2,
-                ALTO_PANTALLA/2 - spriteCargandoEngranaje.getHeight()/2);
+        spriteCargandoEngranaje.setPosition(ANCHO_PANTALLA / 2 - spriteCargandoEngranaje.getWidth() / 2,
+                ALTO_PANTALLA / 2 - spriteCargandoEngranaje.getHeight() / 2);
         texturaCargandoBolita = new Texture("iconosCargando/bolita.png");
         spriteCargandoBolita = new Sprite(texturaCargandoBolita);
-        spriteCargandoBolita.setPosition(ANCHO_PANTALLA/2 - spriteCargandoBolita.getWidth()/2,
-                ALTO_PANTALLA/2 - spriteCargandoBolita.getHeight()/2);
+        spriteCargandoBolita.setPosition(ANCHO_PANTALLA / 2 - spriteCargandoBolita.getWidth() / 2,
+                ALTO_PANTALLA / 2 - spriteCargandoBolita.getHeight() / 2);
         texturaFondoCarga = new Texture("fondos/fondoCargando.png");
         texto = new GameText("fuentes/exoFont.fnt");
         cargarRecursos();

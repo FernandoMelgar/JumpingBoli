@@ -1,6 +1,7 @@
 package mx.itesm.aboli2.jumpingboli.jumpingboli.about;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -12,9 +13,9 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import mx.itesm.aboli2.jumpingboli.jumpingboli.GameText;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.GdXGame;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.Pantalla;
-import mx.itesm.aboli2.jumpingboli.jumpingboli.GameText;
 import mx.itesm.aboli2.jumpingboli.jumpingboli.button.GameButton;
 
 
@@ -43,9 +44,13 @@ public class AboutView extends Pantalla {
 
   @Override
   public void show() {
+
+    // Bloquea la tecla back en el celular
+    Gdx.input.setCatchKey(Input.Keys.BACK, true);
+
     aboutStage = new Stage(super.viewport);
     texturaFondo = new Texture("fondos/fondoAbout.png");
-    alturaFondo = -2*ALTO_PANTALLA;
+    alturaFondo = -2 * ALTO_PANTALLA;
     createText();
     crearButtonLayer();
     Gdx.input.setInputProcessor(escenaHUD);
