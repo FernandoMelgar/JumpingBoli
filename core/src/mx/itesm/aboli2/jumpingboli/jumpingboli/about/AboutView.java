@@ -23,7 +23,9 @@ public class AboutView extends Pantalla {
 
   //Fondo
   private Texture texturaFondo;
+  private Texture texturaEstrellas;
   private float alturaFondo;
+  private float xFondo;
 
   //Texto
   private mx.itesm.aboli2.jumpingboli.jumpingboli.GameText gameText;
@@ -49,8 +51,10 @@ public class AboutView extends Pantalla {
     Gdx.input.setCatchKey(Input.Keys.BACK, true);
 
     aboutStage = new Stage(super.viewport);
-    texturaFondo = new Texture("fondos/fondoAbout.png");
-    alturaFondo = -2 * ALTO_PANTALLA;
+    texturaFondo = game.getManager().get("fondos/fondoAbout.png");
+    texturaEstrellas = game.getManager().get("fondos/estrellasAbout.png");
+    xFondo = 0;
+    alturaFondo = -1952; //El alto de la imagen - 720 que es lo que se ve en la pantalla al entrar en About.
     createText();
     crearButtonLayer();
     Gdx.input.setInputProcessor(escenaHUD);
@@ -76,7 +80,7 @@ public class AboutView extends Pantalla {
     btnFlechaArriba.addListener(new ClickListener() {
       public void clicked(InputEvent event, float x, float y){
         super.clicked(event, x, y);
-        if(alturaFondo +1440 > 0){
+        if(alturaFondo +1952 > 0){
           alturaFondo -= 30;
         }
       }
@@ -106,14 +110,24 @@ public class AboutView extends Pantalla {
   @Override
   public void render(float delta) {
     cleanScreen();
+    actualizarFondo();
     batch.setProjectionMatrix(camera.combined);
 
     batch.begin();
     batch.draw(texturaFondo, 0, alturaFondo);
+    batch.draw(texturaEstrellas, xFondo, alturaFondo);
+    batch.draw(texturaEstrellas, xFondo+texturaEstrellas.getWidth(), alturaFondo);
     batch.end();
 
     aboutStage.draw();
     escenaHUD.draw();
+  }
+
+  private void actualizarFondo() {
+    xFondo-=1f;
+    if(xFondo == -texturaEstrellas.getWidth()){
+      xFondo=0;
+    }
   }
 
   @Override
@@ -130,6 +144,7 @@ public class AboutView extends Pantalla {
   public void dispose() {
     texturaFondo.dispose();
     game.getManager().unload("fondos/fondoAbout.png");
+    game.getManager().unload("fondos/estrellasAbout.png");
     game.getManager().unload("buttons/btnFlechaArriba.png");
     game.getManager().unload("buttons/btnFlechaArribaPicado.png");
     game.getManager().unload("buttons/btnFlecha.png");

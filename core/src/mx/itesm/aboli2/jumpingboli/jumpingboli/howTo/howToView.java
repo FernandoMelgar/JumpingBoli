@@ -17,6 +17,8 @@ public class howToView extends Pantalla {
     Stage howToStage;
     //Fondo
     private Texture texturaFondo;
+    private Texture texturaEstrellas;
+    private float xFondo;
     private float alturaFondo;
 
     public howToView(GdXGame game) { super(game);}
@@ -28,7 +30,8 @@ public class howToView extends Pantalla {
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
 
         howToStage = new Stage(super.viewport);
-        texturaFondo = new Texture("fondos/fondoHow.png");
+        texturaFondo = game.getManager().get("fondos/fondoHow.png");
+        texturaEstrellas = game.getManager().get("fondos/estrellasHow.png");
         alturaFondo = -ALTO_PANTALLA;
         createHowToView();
         Gdx.input.setInputProcessor(howToStage);
@@ -78,13 +81,23 @@ public class howToView extends Pantalla {
     @Override
     public void render(float delta) {
         cleanScreen();
+        actualizarFondo();
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
         batch.draw(texturaFondo, 0, alturaFondo);
+        batch.draw(texturaEstrellas, xFondo, alturaFondo);
+        batch.draw(texturaEstrellas, xFondo+texturaEstrellas.getWidth(), alturaFondo);
         batch.end();
 
         howToStage.draw();
+    }
+
+    private void actualizarFondo() {
+        xFondo-=1f;
+        if(xFondo == -texturaEstrellas.getWidth()){
+            xFondo=0;
+        }
     }
 
     @Override
@@ -99,7 +112,8 @@ public class howToView extends Pantalla {
 
     @Override
     public void dispose() {
-        texturaFondo.dispose();
+        game.getManager().unload("fondos/estrellasHow");
+        game.getManager().unload("fondos/fondoHow.png");
         batch.dispose();
     }
 }

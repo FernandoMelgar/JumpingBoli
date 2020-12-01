@@ -118,7 +118,8 @@ public class LoadingView extends Pantalla {
     }
 
     private void cargarRecursosHowTo() {
-
+        manager.load("fondos/fondoHow.png", Texture.class);
+        manager.load("fondos/estrellasHow.png", Texture.class);
     }
 
     private void cargarRecursosConfiguracion() {
@@ -144,6 +145,7 @@ public class LoadingView extends Pantalla {
     private void cargarRecursosAbout() {
         //Fondo
         manager.load("fondos/fondoAbout.png", Texture.class);
+        manager.load("fondos/estrellasAbout.png", Texture.class);
         //Botones
         manager.load("buttons/btnFlechaArriba.png", Texture.class);
         manager.load("buttons/btnFlechaArribaPicado.png", Texture.class);
