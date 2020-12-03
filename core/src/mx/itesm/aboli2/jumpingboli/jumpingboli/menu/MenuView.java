@@ -42,7 +42,7 @@ public class MenuView extends Pantalla {
   public void show() {
 
     // Bloquea la tecla back en el celular
-    Gdx.input.setCatchKey(Input.Keys.BACK, true);
+    Gdx.input.setCatchKey(Input.Keys.BACK, false);
 
     menuStage = new Stage(super.viewport);
     texturaFondo = game.getManager().get("fondos/FondoPrincipal.png");
